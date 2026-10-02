@@ -1,0 +1,70 @@
+{
+  "elevenlabs_server_vad": {
+    "description": "Server-side VAD options for ElevenLabs Scribe v2 realtime STT. Passed as server_vad={...} to livekit.plugins.elevenlabs.STT. When set, commit_strategy switches from manual to vad.",
+    "sources": {
+      "livekit_plugin": {
+        "name": "LiveKit ElevenLabs STT plugin (VADOptions TypedDict)",
+        "url": "https://github.com/livekit/agents/blob/main/livekit-plugins/livekit-plugins-elevenlabs/livekit/plugins/elevenlabs/stt.py",
+        "local_path": ".venv/lib/python3.12/site-packages/livekit/plugins/elevenlabs/stt.py"
+      },
+      "elevenlabs_api": {
+        "name": "ElevenLabs Realtime Speech-to-Text WebSocket API",
+        "url": "https://elevenlabs.io/docs/api-reference/speech-to-text/v-1-speech-to-text-realtime"
+      },
+      "livekit_docs": {
+        "name": "LiveKit Agents — ElevenLabs STT plugin",
+        "url": "https://docs.livekit.io/agents/models/stt/elevenlabs/"
+      }
+    },
+    "parameters": {
+      "vad_silence_threshold_secs": {
+        "type": "float | null",
+        "livekit": {
+          "definition": "Silence threshold in seconds for VAD. Default to 1.5",
+          "default": 1.5
+        },
+        "elevenlabs": {
+          "definition": "Silence threshold in seconds.",
+          "default": 1.5
+        }
+      },
+      "vad_threshold": {
+        "type": "float | null",
+        "livekit": {
+          "definition": "Threshold for voice activity detection. Default to 0.4",
+          "default": 0.4
+        },
+        "elevenlabs": {
+          "definition": "Threshold for voice activity detection.",
+          "default": 0.4
+        }
+      },
+      "min_speech_duration_ms": {
+        "type": "integer | null",
+        "livekit": {
+          "definition": "Minimum speech duration in milliseconds. Default to 250",
+          "default": 250
+        },
+        "elevenlabs": {
+          "definition": "Minimum speech duration in milliseconds.",
+          "default": 100
+        }
+      },
+      "min_silence_duration_ms": {
+        "type": "integer | null",
+        "livekit": {
+          "definition": "Minimum silence duration in milliseconds. Default to 2500",
+          "default": 2500
+        },
+        "elevenlabs": {
+          "definition": "Minimum silence duration in milliseconds.",
+          "default": 100
+        }
+      }
+    },
+    "notes": [
+      "LiveKit plugin defaults (in docstrings) differ from ElevenLabs API schema defaults for min_speech_duration_ms and min_silence_duration_ms. Values you pass explicitly in server_vad are sent as WebSocket query params.",
+      "Only supported when model_id is scribe_v2_realtime."
+    ]
+  }
+}
