@@ -1,0 +1,3272 @@
+{
+ "supermarket": [
+  {
+   "name": "Fodal Oriental Supermarket",
+   "lat": 51.492379,
+   "lon": -0.0247915
+  },
+  {
+   "name": "Deptford Supermarket",
+   "lat": 51.4773532,
+   "lon": -0.0260319
+  },
+  {
+   "name": "Dag Supermarket",
+   "lat": 51.475472,
+   "lon": -0.0198065
+  },
+  {
+   "name": "Ban Duo Duo Asian Supermarket",
+   "lat": 51.4976627,
+   "lon": -0.0191321
+  },
+  {
+   "name": "Asda",
+   "lat": 51.4939155,
+   "lon": -0.0130992
+  },
+  {
+   "name": "Asda",
+   "lat": 51.4888016,
+   "lon": 0.0222352
+  },
+  {
+   "name": "Tesco",
+   "lat": 51.5266659,
+   "lon": -0.0097477
+  },
+  {
+   "name": "Lidl",
+   "lat": 51.514321,
+   "lon": -0.0286518
+  },
+  {
+   "name": "Lidl",
+   "lat": 51.4897065,
+   "lon": -0.0438652
+  },
+  {
+   "name": "Co-op Food",
+   "lat": 51.5161176,
+   "lon": 0.0093097
+  },
+  {
+   "name": "Aldi",
+   "lat": 51.4792134,
+   "lon": -0.0109133
+  },
+  {
+   "name": "Bharat Food Store",
+   "lat": 51.538933,
+   "lon": 0.0334432
+  },
+  {
+   "name": "Soni Cash & Carry",
+   "lat": 51.5385643,
+   "lon": 0.0337173
+  },
+  {
+   "name": "Aladdins Mahal",
+   "lat": 51.5373608,
+   "lon": 0.0357775
+  },
+  {
+   "name": "Sainsbury's",
+   "lat": 51.5417035,
+   "lon": -0.0013384
+  },
+  {
+   "name": "Supermarket",
+   "lat": 51.5267411,
+   "lon": 0.0308128
+  },
+  {
+   "name": "Co-op Food",
+   "lat": 51.4917522,
+   "lon": 0.0164026
+  },
+  {
+   "name": "The Savanna",
+   "lat": 51.5033945,
+   "lon": -0.0188683
+  },
+  {
+   "name": "M&S Simply Food",
+   "lat": 51.4768107,
+   "lon": 0.0202227
+  },
+  {
+   "name": "Stroudley Walk Grocery",
+   "lat": 51.5277329,
+   "lon": -0.0177964
+  },
+  {
+   "name": "Co-op Food",
+   "lat": 51.4819898,
+   "lon": 0.037087
+  },
+  {
+   "name": "Nhung Anh",
+   "lat": 51.4819028,
+   "lon": 0.0368255
+  },
+  {
+   "name": "Sainsbury's",
+   "lat": 51.4887207,
+   "lon": 0.0262206
+  },
+  {
+   "name": "The Food Warehouse",
+   "lat": 51.4893971,
+   "lon": 0.0338108
+  },
+  {
+   "name": "Nest",
+   "lat": 51.5086392,
+   "lon": -0.0084965
+  },
+  {
+   "name": "YOHOME",
+   "lat": 51.4980126,
+   "lon": -0.0176148
+  },
+  {
+   "name": "Co-op Food - Isle of Dogs - Cassilis Road",
+   "lat": 51.4988097,
+   "lon": -0.0215572
+  },
+  {
+   "name": "Loon Fung",
+   "lat": 51.5416185,
+   "lon": -0.0012258
+  },
+  {
+   "name": "Co-op Food",
+   "lat": 51.4744151,
+   "lon": -0.0217418
+  },
+  {
+   "name": "Asda",
+   "lat": 51.4752446,
+   "lon": -0.0262071
+  },
+  {
+   "name": "Welcome",
+   "lat": 51.5392641,
+   "lon": -0.0240726
+  },
+  {
+   "name": "Lidl",
+   "lat": 51.5144206,
+   "lon": 0.0104808
+  },
+  {
+   "name": "Tian Tian Market",
+   "lat": 51.5144522,
+   "lon": 0.0097155
+  },
+  {
+   "name": "Waitrose",
+   "lat": 51.5046343,
+   "lon": -0.0167335
+  },
+  {
+   "name": "Off License - Mini-Market",
+   "lat": 51.5329423,
+   "lon": 0.0062367
+  },
+  {
+   "name": "Morrisons",
+   "lat": 51.5150826,
+   "lon": 0.01037
+  },
+  {
+   "name": "M&S Food",
+   "lat": 51.5060815,
+   "lon": -0.0173163
+  },
+  {
+   "name": "Co-op Food",
+   "lat": 51.4875368,
+   "lon": 0.0027163
+  },
+  {
+   "name": "Ha-Noi",
+   "lat": 51.4773579,
+   "lon": -0.0257789
+  },
+  {
+   "name": "Sainsbury's",
+   "lat": 51.4770762,
+   "lon": -0.0422339
+  },
+  {
+   "name": "China Ark Market",
+   "lat": 51.4897691,
+   "lon": -0.0397314
+  },
+  {
+   "name": "Local Express",
+   "lat": 51.5208436,
+   "lon": 0.0198598
+  },
+  {
+   "name": "Lina Food Centre",
+   "lat": 51.5328914,
+   "lon": 0.0059555
+  },
+  {
+   "name": "Lidl",
+   "lat": 51.536038,
+   "lon": 0.0349308
+  },
+  {
+   "name": "Divine",
+   "lat": 51.4758684,
+   "lon": -0.0260379
+  },
+  {
+   "name": "Bangla Bazar Cash & Carry",
+   "lat": 51.5133652,
+   "lon": -0.0332748
+  },
+  {
+   "name": "Food Inn",
+   "lat": 51.5168879,
+   "lon": 0.0102401
+  },
+  {
+   "name": "Lidl",
+   "lat": 51.4895852,
+   "lon": 0.024692
+  },
+  {
+   "name": "Jiamart",
+   "lat": 51.5016601,
+   "lon": 0.0308499
+  },
+  {
+   "name": "ALDI",
+   "lat": 51.4908886,
+   "lon": 0.0222533
+  },
+  {
+   "name": "Tesco",
+   "lat": 51.5264272,
+   "lon": -0.0085502
+  },
+  {
+   "name": "Tesco",
+   "lat": 51.5261644,
+   "lon": -0.010702
+  },
+  {
+   "name": "Tesco Delivery",
+   "lat": 51.5262436,
+   "lon": -0.010069
+  },
+  {
+   "name": "Sainsbury's",
+   "lat": 51.4752057,
+   "lon": -0.0411037
+  },
+  {
+   "name": "Sainsbury's",
+   "lat": 51.4750402,
+   "lon": -0.0411278
+  },
+  {
+   "name": "Sainsbury's",
+   "lat": 51.4879443,
+   "lon": 0.0165593
+  },
+  {
+   "name": "Sainsbury's",
+   "lat": 51.5005173,
+   "lon": 0.0064738
+  },
+  {
+   "name": "Sainsbury's",
+   "lat": 51.4750806,
+   "lon": -0.0349608
+  },
+  {
+   "name": "Sainsbury's",
+   "lat": 51.4881018,
+   "lon": 0.0165696
+  },
+  {
+   "name": "Waitrose",
+   "lat": 51.4823416,
+   "lon": -0.0155843
+  },
+  {
+   "name": "Lidl",
+   "lat": 51.5417094,
+   "lon": -0.0010622
+  },
+  {
+   "name": "Asda",
+   "lat": 51.4891651,
+   "lon": 0.0219407
+  },
+  {
+   "name": "Asda",
+   "lat": 51.4894855,
+   "lon": 0.0235933
+  },
+  {
+   "name": "Asda",
+   "lat": 51.4940621,
+   "lon": -0.0129421
+  },
+  {
+   "name": "Asda Opticians",
+   "lat": 51.4937488,
+   "lon": -0.0125635
+  },
+  {
+   "name": "Asda Café",
+   "lat": 51.4939021,
+   "lon": -0.012568
+  },
+  {
+   "name": "Asda",
+   "lat": 51.4889507,
+   "lon": 0.0223567
+  },
+  {
+   "name": "Asda",
+   "lat": 51.4948826,
+   "lon": -0.0135623
+  },
+  {
+   "name": "Sanford Housing Co-op",
+   "lat": 51.4821255,
+   "lon": -0.0423298
+  },
+  {
+   "name": "Co-op Food",
+   "lat": 51.4851698,
+   "lon": 0.0058512
+  },
+  {
+   "name": "Co-op Food",
+   "lat": 51.5250627,
+   "lon": -0.035492
+  },
+  {
+   "name": "Co-op Food",
+   "lat": 51.5310106,
+   "lon": 0.018548
+  },
+  {
+   "name": "Co-op Food",
+   "lat": 51.4988406,
+   "lon": -0.0216055
+  },
+  {
+   "name": "Co-op Food",
+   "lat": 51.4744819,
+   "lon": 0.035152
+  },
+  {
+   "name": "Co-op Food",
+   "lat": 51.506745,
+   "lon": -0.0416561
+  },
+  {
+   "name": "Co-op Food",
+   "lat": 51.4908758,
+   "lon": -0.039097
+  },
+  {
+   "name": "Piehouse Co-op",
+   "lat": 51.4807145,
+   "lon": -0.0314078
+  },
+  {
+   "name": "Co-op Food",
+   "lat": 51.4988153,
+   "lon": -0.0159541
+  },
+  {
+   "name": "Co-op Food",
+   "lat": 51.4970012,
+   "lon": 0.0117826
+  }
+ ],
+ "park": [
+  {
+   "name": "Victoria Park",
+   "lat": 51.5389557,
+   "lon": -0.0340641
+  },
+  {
+   "name": "Bartlett Park",
+   "lat": 51.515117,
+   "lon": -0.0226032
+  },
+  {
+   "name": "Plaistow Park",
+   "lat": 51.5268554,
+   "lon": 0.02576
+  },
+  {
+   "name": "Star Park",
+   "lat": 51.5194636,
+   "lon": 0.0079782
+  },
+  {
+   "name": "Stratford Park",
+   "lat": 51.5383006,
+   "lon": 0.0068917
+  },
+  {
+   "name": "Shandy Park",
+   "lat": 51.5204488,
+   "lon": -0.0400714
+  },
+  {
+   "name": "Jubilee Park",
+   "lat": 51.5033454,
+   "lon": -0.0188483
+  },
+  {
+   "name": "Lefevre Park",
+   "lat": 51.5346559,
+   "lon": -0.0257166
+  },
+  {
+   "name": "Twinkle Park",
+   "lat": 51.4844447,
+   "lon": -0.0245595
+  },
+  {
+   "name": "Kings Wharf Park",
+   "lat": 51.5113702,
+   "lon": -0.0317276
+  },
+  {
+   "name": "Ferrant Park",
+   "lat": 51.4795023,
+   "lon": -0.0208276
+  },
+  {
+   "name": "Tommy's Park",
+   "lat": 51.5014918,
+   "lon": -0.0368496
+  },
+  {
+   "name": "Tredegar Square",
+   "lat": 51.5271275,
+   "lon": -0.0321839
+  },
+  {
+   "name": "Channelsea Path",
+   "lat": 51.5341156,
+   "lon": -0.0009467
+  },
+  {
+   "name": "Park",
+   "lat": 51.4732514,
+   "lon": -0.0104959
+  },
+  {
+   "name": "Sandal Street Play Area",
+   "lat": 51.5356903,
+   "lon": 0.0041177
+  },
+  {
+   "name": "Jolly's Green",
+   "lat": 51.5149379,
+   "lon": -0.0094426
+  },
+  {
+   "name": "Essex Wharf",
+   "lat": 51.5142671,
+   "lon": 0.0045294
+  },
+  {
+   "name": "Compton Gardens",
+   "lat": 51.5024969,
+   "lon": -0.0146472
+  },
+  {
+   "name": "Park",
+   "lat": 51.4864568,
+   "lon": 0.0111163
+  },
+  {
+   "name": "Blackberry Meadow",
+   "lat": 51.5195583,
+   "lon": -0.0285997
+  },
+  {
+   "name": "Clara Grant Green",
+   "lat": 51.5213469,
+   "lon": -0.0208645
+  },
+  {
+   "name": "Royal Victoria Square",
+   "lat": 51.507721,
+   "lon": 0.0240953
+  },
+  {
+   "name": "Saint George's Square",
+   "lat": 51.4927452,
+   "lon": -0.0328864
+  },
+  {
+   "name": "Park",
+   "lat": 51.5142185,
+   "lon": -0.0187933
+  },
+  {
+   "name": "Reminder Gardens",
+   "lat": 51.4967902,
+   "lon": 0.0119961
+  },
+  {
+   "name": "The Flower Garden",
+   "lat": 51.4751754,
+   "lon": 0.0050856
+  },
+  {
+   "name": "Great British Garden",
+   "lat": 51.5404728,
+   "lon": -0.0181162
+  },
+  {
+   "name": "The Rose Garden",
+   "lat": 51.4735519,
+   "lon": -0.0010411
+  },
+  {
+   "name": "First Avenue Urban Wilderness Community Garden",
+   "lat": 51.5263308,
+   "lon": 0.0209305
+  },
+  {
+   "name": "Burdett Coutts Garden",
+   "lat": 51.5370274,
+   "lon": -0.039635
+  },
+  {
+   "name": "The Old Royal Observatory Garden",
+   "lat": 51.4773711,
+   "lon": -0.0013465
+  },
+  {
+   "name": "Crossrail Place Roof Garden",
+   "lat": 51.5061021,
+   "lon": -0.0176032
+  },
+  {
+   "name": "Old English Garden",
+   "lat": 51.5395925,
+   "lon": -0.0353895
+  },
+  {
+   "name": "Pond Garden",
+   "lat": 51.4799358,
+   "lon": 0.0374593
+  },
+  {
+   "name": "PNK Garden",
+   "lat": 51.4905092,
+   "lon": -0.042623
+  },
+  {
+   "name": "Dorset Road Community Garden",
+   "lat": 51.5385064,
+   "lon": 0.0350077
+  },
+  {
+   "name": "Amnesty International Peace Garden",
+   "lat": 51.4802584,
+   "lon": 0.0373727
+  },
+  {
+   "name": "Isle of Dogs Memorial Garden",
+   "lat": 51.496599,
+   "lon": -0.0254844
+  },
+  {
+   "name": "Iris Garden",
+   "lat": 51.5381532,
+   "lon": 0.0199594
+  },
+  {
+   "name": "Community Vegetable Garden",
+   "lat": 51.538596,
+   "lon": 0.0216524
+  },
+  {
+   "name": "Ornamental Garden",
+   "lat": 51.5163727,
+   "lon": 0.0262927
+  },
+  {
+   "name": "Ashpark House Nature Garden",
+   "lat": 51.5144612,
+   "lon": -0.0331586
+  },
+  {
+   "name": "Burney Street Garden",
+   "lat": 51.4782996,
+   "lon": -0.0102551
+  },
+  {
+   "name": "Leyland House Community Garden",
+   "lat": 51.5097508,
+   "lon": -0.0179287
+  },
+  {
+   "name": "Iveagh Close Wildlife Garden",
+   "lat": 51.5378896,
+   "lon": -0.0411096
+  },
+  {
+   "name": "Long Wall Ecology Garden",
+   "lat": 51.5303588,
+   "lon": 0.0002109
+  },
+  {
+   "name": "Royal Victoria Dock Floating Garden",
+   "lat": 51.5073661,
+   "lon": 0.0210491
+  },
+  {
+   "name": "COVID Memorial Garden",
+   "lat": 51.5262332,
+   "lon": 0.0251046
+  },
+  {
+   "name": "Kevtar Garden",
+   "lat": 51.5248292,
+   "lon": -0.0286733
+  },
+  {
+   "name": "Herb Garden",
+   "lat": 51.4790149,
+   "lon": -0.0072733
+  },
+  {
+   "name": "Royal Entomological Society Insect Garden",
+   "lat": 51.5421988,
+   "lon": -0.0105774
+  },
+  {
+   "name": "Carpenters' Community Garden",
+   "lat": 51.5386939,
+   "lon": -0.0044943
+  },
+  {
+   "name": "Mile End Community Garden",
+   "lat": 51.5260961,
+   "lon": -0.0358474
+  },
+  {
+   "name": "Lincoln Garden",
+   "lat": 51.5208624,
+   "lon": -0.0235399
+  },
+  {
+   "name": "Britannia Village Community Garden",
+   "lat": 51.5041883,
+   "lon": 0.0248653
+  },
+  {
+   "name": "Siyah Garden",
+   "lat": 51.525289,
+   "lon": -0.0288792
+  },
+  {
+   "name": "Wildlife Garden",
+   "lat": 51.4994111,
+   "lon": -0.0328323
+  },
+  {
+   "name": "Lloyd Rogers Garden",
+   "lat": 51.5247677,
+   "lon": 0.0072029
+  },
+  {
+   "name": "The Helen Kenney Garden",
+   "lat": 51.5094845,
+   "lon": -0.0326086
+  },
+  {
+   "name": "Herb Garden",
+   "lat": 51.500036,
+   "lon": -0.0328695
+  },
+  {
+   "name": "Sabina Nessa Memorial Garden",
+   "lat": 51.4814612,
+   "lon": -0.007784
+  },
+  {
+   "name": "Sensory garden",
+   "lat": 51.5185491,
+   "lon": -0.0028556
+  },
+  {
+   "name": "Desert Garden",
+   "lat": 51.5183611,
+   "lon": -0.002507
+  },
+  {
+   "name": "Green Mary Sensory Garden",
+   "lat": 51.5256945,
+   "lon": -0.0400231
+  },
+  {
+   "name": "Green Mary Medicinal Garden",
+   "lat": 51.525732,
+   "lon": -0.0399184
+  },
+  {
+   "name": "2012 Gardens",
+   "lat": 51.537165,
+   "lon": -0.010587
+  },
+  {
+   "name": "Charlton House Gardens",
+   "lat": 51.4805285,
+   "lon": 0.0383548
+  },
+  {
+   "name": "Ornamental Gardens",
+   "lat": 51.5377616,
+   "lon": 0.0210475
+  },
+  {
+   "name": "Green Dock",
+   "lat": 51.5009797,
+   "lon": 0.0334244
+  },
+  {
+   "name": "Mycenae Gardens",
+   "lat": 51.4802391,
+   "lon": 0.016271
+  },
+  {
+   "name": "Victoria Park Orchard",
+   "lat": 51.5397471,
+   "lon": -0.0343714
+  },
+  {
+   "name": "Diamond Gardens",
+   "lat": 51.518413,
+   "lon": -0.0271535
+  },
+  {
+   "name": "Abbey Gardens",
+   "lat": 51.5330467,
+   "lon": 0.0041125
+  },
+  {
+   "name": "The Queens Orchard",
+   "lat": 51.482075,
+   "lon": 0.0007764
+  },
+  {
+   "name": "Greenway Orchard Green Gym (Newham)",
+   "lat": 51.5233069,
+   "lon": 0.0382444
+  },
+  {
+   "name": "Victoria and Alexandra Playground",
+   "lat": 51.5355455,
+   "lon": -0.0432069
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5202001,
+   "lon": 0.0065737
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5411414,
+   "lon": -0.0151711
+  },
+  {
+   "name": "Playground",
+   "lat": 51.487211,
+   "lon": -0.0389426
+  },
+  {
+   "name": "Playground",
+   "lat": 51.4972978,
+   "lon": 0.0133512
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5390645,
+   "lon": 0.007024
+  },
+  {
+   "name": "Locksley Estate Children's Play Area",
+   "lat": 51.5149335,
+   "lon": -0.034222
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5295829,
+   "lon": 0.0192425
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5160764,
+   "lon": -0.0131488
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5295585,
+   "lon": 0.0200777
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5306674,
+   "lon": 0.024574
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5332651,
+   "lon": -0.0059946
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5318092,
+   "lon": -0.0420215
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5096486,
+   "lon": -0.0322502
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5340872,
+   "lon": 0.0110048
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5096118,
+   "lon": 0.0057193
+  },
+  {
+   "name": "Playground",
+   "lat": 51.4792477,
+   "lon": 0.0316234
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5136314,
+   "lon": 0.0210196
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5144489,
+   "lon": 0.0205981
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5142354,
+   "lon": 0.0212159
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5102907,
+   "lon": 0.0305094
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5299439,
+   "lon": 0.0191911
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5156701,
+   "lon": -0.0398228
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5088549,
+   "lon": 0.0085262
+  },
+  {
+   "name": "Playground",
+   "lat": 51.4805686,
+   "lon": 0.0335688
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5316872,
+   "lon": 0.0208654
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5140418,
+   "lon": 0.021788
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5148743,
+   "lon": -0.0095262
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5143416,
+   "lon": -0.0063334
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5133329,
+   "lon": -0.0108615
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5211511,
+   "lon": -0.0232099
+  },
+  {
+   "name": "Playground",
+   "lat": 51.50415,
+   "lon": 0.0261855
+  },
+  {
+   "name": "Playground",
+   "lat": 51.4833898,
+   "lon": -0.0337387
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5204159,
+   "lon": -0.0396415
+  },
+  {
+   "name": "Playground",
+   "lat": 51.4827955,
+   "lon": -0.032586
+  },
+  {
+   "name": "Playground",
+   "lat": 51.4795495,
+   "lon": -0.0206163
+  },
+  {
+   "name": "Playground",
+   "lat": 51.4828111,
+   "lon": -0.0274403
+  },
+  {
+   "name": "Playground",
+   "lat": 51.4884824,
+   "lon": 0.0023745
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5091209,
+   "lon": -0.0116389
+  },
+  {
+   "name": "Playground",
+   "lat": 51.515438,
+   "lon": -0.0146
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5180178,
+   "lon": 0.0170098
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5123137,
+   "lon": -0.0151328
+  },
+  {
+   "name": "Playground",
+   "lat": 51.4758495,
+   "lon": -0.0202374
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5004977,
+   "lon": 0.0088437
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5083463,
+   "lon": -0.0139787
+  },
+  {
+   "name": "Playground",
+   "lat": 51.509772,
+   "lon": -0.0281627
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5019315,
+   "lon": -0.0143466
+  },
+  {
+   "name": "Playground",
+   "lat": 51.518653,
+   "lon": 0.0111977
+  },
+  {
+   "name": "Playground",
+   "lat": 51.4814542,
+   "lon": -0.0352245
+  },
+  {
+   "name": "Playground",
+   "lat": 51.5360597,
+   "lon": 0.0236882
+  }
+ ],
+ "station": [
+  {
+   "name": "Stratford",
+   "lat": 51.541289,
+   "lon": -0.0035472
+  },
+  {
+   "name": "West Ham",
+   "lat": 51.5280966,
+   "lon": 0.0045685
+  },
+  {
+   "name": "Mile End",
+   "lat": 51.5253378,
+   "lon": -0.033435
+  },
+  {
+   "name": "Canary Wharf",
+   "lat": 51.5035036,
+   "lon": -0.0186272
+  },
+  {
+   "name": "Bow Road",
+   "lat": 51.5268535,
+   "lon": -0.024789
+  },
+  {
+   "name": "Upton Park",
+   "lat": 51.5351062,
+   "lon": 0.0339842
+  },
+  {
+   "name": "Bromley-by-Bow",
+   "lat": 51.5246287,
+   "lon": -0.0123189
+  },
+  {
+   "name": "Plaistow",
+   "lat": 51.5311544,
+   "lon": 0.0166833
+  },
+  {
+   "name": "Canning Town",
+   "lat": 51.5139887,
+   "lon": 0.0082987
+  },
+  {
+   "name": "New Cross Gate",
+   "lat": 51.4752983,
+   "lon": -0.0404289
+  },
+  {
+   "name": "New Cross",
+   "lat": 51.4763706,
+   "lon": -0.0326237
+  },
+  {
+   "name": "North Greenwich",
+   "lat": 51.500574,
+   "lon": 0.0043201
+  },
+  {
+   "name": "Custom House",
+   "lat": 51.5098025,
+   "lon": 0.0272279
+  },
+  {
+   "name": "Custom House",
+   "lat": 51.5096341,
+   "lon": 0.0259614
+  },
+  {
+   "name": "Bow Church",
+   "lat": 51.5274411,
+   "lon": -0.0206424
+  },
+  {
+   "name": "Limehouse",
+   "lat": 51.5128705,
+   "lon": -0.0390456
+  },
+  {
+   "name": "Limehouse",
+   "lat": 51.5123504,
+   "lon": -0.0394662
+  },
+  {
+   "name": "Greenwich",
+   "lat": 51.4781086,
+   "lon": -0.0154152
+  },
+  {
+   "name": "South Quay",
+   "lat": 51.5000357,
+   "lon": -0.0162525
+  },
+  {
+   "name": "Heron Quays",
+   "lat": 51.5029301,
+   "lon": -0.0215033
+  },
+  {
+   "name": "West India Quay",
+   "lat": 51.5067417,
+   "lon": -0.0204833
+  },
+  {
+   "name": "Poplar",
+   "lat": 51.5077131,
+   "lon": -0.0172859
+  },
+  {
+   "name": "All Saints",
+   "lat": 51.5108398,
+   "lon": -0.0130551
+  },
+  {
+   "name": "Westferry",
+   "lat": 51.5094025,
+   "lon": -0.026644
+  },
+  {
+   "name": "Crossharbour",
+   "lat": 51.4959022,
+   "lon": -0.0144418
+  },
+  {
+   "name": "Pudding Mill Lane",
+   "lat": 51.5338301,
+   "lon": -0.0135365
+  },
+  {
+   "name": "Deptford Bridge",
+   "lat": 51.4741638,
+   "lon": -0.0223933
+  },
+  {
+   "name": "Island Gardens",
+   "lat": 51.4880683,
+   "lon": -0.0105052
+  },
+  {
+   "name": "Prince Regent",
+   "lat": 51.5094778,
+   "lon": 0.0331521
+  },
+  {
+   "name": "Royal Victoria",
+   "lat": 51.5091168,
+   "lon": 0.0175913
+  },
+  {
+   "name": "Cutty Sark for Maritime Greenwich",
+   "lat": 51.4817267,
+   "lon": -0.0107517
+  },
+  {
+   "name": "West Silvertown",
+   "lat": 51.5028811,
+   "lon": 0.0223323
+  },
+  {
+   "name": "Blackwall",
+   "lat": 51.5079378,
+   "lon": -0.0071843
+  },
+  {
+   "name": "East India",
+   "lat": 51.5093835,
+   "lon": -0.0021873
+  },
+  {
+   "name": "Mudchute",
+   "lat": 51.4915188,
+   "lon": -0.0149135
+  },
+  {
+   "name": "Devons Road",
+   "lat": 51.5222078,
+   "lon": -0.0172729
+  },
+  {
+   "name": "Pontoon Dock",
+   "lat": 51.5022501,
+   "lon": 0.0332232
+  },
+  {
+   "name": "Abbey Road",
+   "lat": 51.5325414,
+   "lon": 0.0036092
+  },
+  {
+   "name": "Canary Wharf",
+   "lat": 51.5051073,
+   "lon": -0.0209849
+  },
+  {
+   "name": "Stratford High Street",
+   "lat": 51.5376469,
+   "lon": -0.0001288
+  },
+  {
+   "name": "Canary Wharf",
+   "lat": 51.5061102,
+   "lon": -0.0176241
+  },
+  {
+   "name": "Star Lane",
+   "lat": 51.5205083,
+   "lon": 0.0043357
+  },
+  {
+   "name": "Langdon Park",
+   "lat": 51.5152051,
+   "lon": -0.0141164
+  },
+  {
+   "name": "Westcombe Park",
+   "lat": 51.4842403,
+   "lon": 0.0186204
+  },
+  {
+   "name": "Deptford",
+   "lat": 51.4789824,
+   "lon": -0.0266353
+  },
+  {
+   "name": "Maze Hill",
+   "lat": 51.4826479,
+   "lon": 0.00375
+  },
+  {
+   "name": "Charlton",
+   "lat": 51.4867602,
+   "lon": 0.030809
+  },
+  {
+   "name": "Future Thames Wharf DLR station",
+   "lat": 51.5072341,
+   "lon": 0.0122688
+  },
+  {
+   "name": "Abbey Road DLR station",
+   "lat": 51.5325181,
+   "lon": 0.0037702
+  },
+  {
+   "name": "Limehouse DLR and National Rail Station, Bekesbourne Street entrance 1",
+   "lat": 51.5124503,
+   "lon": -0.0398601
+  },
+  {
+   "name": "Stratford High Street DLR Station Southbound Lift",
+   "lat": 51.5379876,
+   "lon": -0.0006163
+  },
+  {
+   "name": "All Saints DLR Station",
+   "lat": 51.5110199,
+   "lon": -0.0130339
+  },
+  {
+   "name": "East India DLR Station",
+   "lat": 51.5093279,
+   "lon": -0.0024821
+  },
+  {
+   "name": "Nisa Local",
+   "lat": 51.5279086,
+   "lon": 0.0049336
+  },
+  {
+   "name": "Costa",
+   "lat": 51.51462,
+   "lon": 0.0075168
+  },
+  {
+   "name": "Greggs",
+   "lat": 51.5037056,
+   "lon": -0.0190889
+  },
+  {
+   "name": "Blow Dry Express",
+   "lat": 51.5037707,
+   "lon": -0.0194157
+  },
+  {
+   "name": "Bagel Factory",
+   "lat": 51.5036809,
+   "lon": -0.0187792
+  },
+  {
+   "name": "Knot",
+   "lat": 51.5033863,
+   "lon": -0.0187629
+  },
+  {
+   "name": "The Savanna",
+   "lat": 51.5033945,
+   "lon": -0.0188683
+  },
+  {
+   "name": "Adam",
+   "lat": 51.5037578,
+   "lon": -0.0192977
+  },
+  {
+   "name": "Notes",
+   "lat": 51.5036735,
+   "lon": -0.0186671
+  },
+  {
+   "name": "Mobile Lab",
+   "lat": 51.5033904,
+   "lon": -0.018819
+  }
+ ],
+ "school": [
+  {
+   "name": "St Bonaventure's RC School",
+   "lat": 51.5390221,
+   "lon": 0.0242951
+  },
+  {
+   "name": "Stratford School Academy",
+   "lat": 51.5424874,
+   "lon": 0.0301887
+  },
+  {
+   "name": "Langdon Park Community School",
+   "lat": 51.5147165,
+   "lon": -0.0120911
+  },
+  {
+   "name": "Central Foundation Girls' School",
+   "lat": 51.5274373,
+   "lon": -0.0281843
+  },
+  {
+   "name": "Stepney All Saints Church of England Secondary School",
+   "lat": 51.5161687,
+   "lon": -0.044154
+  },
+  {
+   "name": "Eastlea Community School",
+   "lat": 51.5221203,
+   "lon": 0.0057633
+  },
+  {
+   "name": "Mayflower Primary School",
+   "lat": 51.5117507,
+   "lon": -0.0199269
+  },
+  {
+   "name": "Mulberry UTC",
+   "lat": 51.5340351,
+   "lon": -0.0260751
+  },
+  {
+   "name": "Harris Science Academy East London",
+   "lat": 51.5271725,
+   "lon": -0.0072311
+  },
+  {
+   "name": "Mossbourne Victoria Park Academy",
+   "lat": 51.5391407,
+   "lon": -0.0421639
+  },
+  {
+   "name": "Azhar Academy Girls School",
+   "lat": 51.5393792,
+   "lon": 0.0084603
+  },
+  {
+   "name": "St Mary Magdalene C of E School",
+   "lat": 51.4945562,
+   "lon": 0.0100326
+  },
+  {
+   "name": "Bonner Primary School",
+   "lat": 51.5222338,
+   "lon": -0.0312878
+  },
+  {
+   "name": "Upton Cross Primary School",
+   "lat": 51.5324882,
+   "lon": 0.0335244
+  },
+  {
+   "name": "Cumberland Community School",
+   "lat": 51.5214881,
+   "lon": 0.0355328
+  },
+  {
+   "name": "Cyril Jackson Primary School",
+   "lat": 51.5102986,
+   "lon": -0.0296814
+  },
+  {
+   "name": "Ravenscroft Primary School",
+   "lat": 51.5205112,
+   "lon": 0.0223716
+  },
+  {
+   "name": "Alfred Salter Primary School",
+   "lat": 51.4995115,
+   "lon": -0.043385
+  },
+  {
+   "name": "James Wolfe Primary School and Centre for the Deaf",
+   "lat": 51.4789629,
+   "lon": -0.0132928
+  },
+  {
+   "name": "Southern Road Primary School",
+   "lat": 51.5307249,
+   "lon": 0.0300543
+  },
+  {
+   "name": "Malmesbury Primary School",
+   "lat": 51.5278964,
+   "lon": -0.0291863
+  },
+  {
+   "name": "Charlton Manor Primary School",
+   "lat": 51.4776662,
+   "lon": 0.0368037
+  },
+  {
+   "name": "Redriff Primary School",
+   "lat": 51.5018743,
+   "lon": -0.0369219
+  },
+  {
+   "name": "Christ Church Church of England Primary School",
+   "lat": 51.4879713,
+   "lon": 0.0067256
+  },
+  {
+   "name": "Stebon Primary School",
+   "lat": 51.5165903,
+   "lon": -0.0265007
+  },
+  {
+   "name": "Tunmarsh School",
+   "lat": 51.5252517,
+   "lon": 0.0318764
+  },
+  {
+   "name": "Plaistow Primary School",
+   "lat": 51.5315804,
+   "lon": 0.0292321
+  },
+  {
+   "name": "Grange Primary School",
+   "lat": 51.5242745,
+   "lon": 0.016304
+  },
+  {
+   "name": "Marner Primary School",
+   "lat": 51.5227448,
+   "lon": -0.0127073
+  },
+  {
+   "name": "Stratford Manor Primary School & Nursery",
+   "lat": 51.5315095,
+   "lon": 0.0055634
+  },
+  {
+   "name": "Cayley Primary School",
+   "lat": 51.5153044,
+   "lon": -0.0381177
+  },
+  {
+   "name": "Peter Hills with St Mary's and St Paul's CofE Primary School",
+   "lat": 51.5058976,
+   "lon": -0.0423781
+  },
+  {
+   "name": "St Saviour's Church of England Primary School",
+   "lat": 51.5162691,
+   "lon": -0.0170824
+  },
+  {
+   "name": "Keir Hardie Primary School",
+   "lat": 51.5163046,
+   "lon": 0.0196744
+  },
+  {
+   "name": "Arnhem Wharf Primary School",
+   "lat": 51.4952144,
+   "lon": -0.0264155
+  },
+  {
+   "name": "Tollgate Primary School",
+   "lat": 51.5198638,
+   "lon": 0.0346959
+  },
+  {
+   "name": "Kaizen Primary School",
+   "lat": 51.5211707,
+   "lon": 0.0271555
+  },
+  {
+   "name": "Our Lady and St Joseph Catholic Primary School",
+   "lat": 51.5097226,
+   "lon": -0.0197519
+  },
+  {
+   "name": "Stepney Greencoat Church of England Primary School",
+   "lat": 51.5139137,
+   "lon": -0.032423
+  },
+  {
+   "name": "Grinling Gibbons Primary School",
+   "lat": 51.4816522,
+   "lon": -0.0294781
+  },
+  {
+   "name": "St John's Roman Catholic Primary School",
+   "lat": 51.5004302,
+   "lon": -0.0412791
+  },
+  {
+   "name": "Harbinger Primary School",
+   "lat": 51.4893199,
+   "lon": -0.0200395
+  },
+  {
+   "name": "St Joseph's Catholic Primary School",
+   "lat": 51.4867444,
+   "lon": 0.0065473
+  },
+  {
+   "name": "The Clara Grant Primary School",
+   "lat": 51.5215787,
+   "lon": -0.0200575
+  },
+  {
+   "name": "Halley Primary School",
+   "lat": 51.5180347,
+   "lon": -0.0373277
+  },
+  {
+   "name": "James Wolfe Primary School and Centre for the Deaf (Royal Hill Campus)",
+   "lat": 51.4768589,
+   "lon": -0.0088262
+  },
+  {
+   "name": "Stephen Hawking School",
+   "lat": 51.5132523,
+   "lon": -0.0370658
+  },
+  {
+   "name": "St Alfege with St Peter's Church of England Primary School",
+   "lat": 51.4816253,
+   "lon": -0.0124892
+  },
+  {
+   "name": "Chisenhale Primary School",
+   "lat": 51.5328868,
+   "lon": -0.0389254
+  },
+  {
+   "name": "Ian Mikardo High School",
+   "lat": 51.5248093,
+   "lon": -0.0133256
+  },
+  {
+   "name": "Lansbury Lawrence Primary School",
+   "lat": 51.5132161,
+   "lon": -0.0171831
+  },
+  {
+   "name": "Hallsville Primary School",
+   "lat": 51.5124474,
+   "lon": 0.0183758
+  },
+  {
+   "name": "Deptford Park Primary School",
+   "lat": 51.4884386,
+   "lon": -0.0377146
+  },
+  {
+   "name": "St Helen's Catholic Primary School",
+   "lat": 51.5230626,
+   "lon": 0.0172836
+  },
+  {
+   "name": "Carpenters Primary School",
+   "lat": 51.5365623,
+   "lon": -0.0056293
+  },
+  {
+   "name": "Elmhurst Primary School",
+   "lat": 51.5400516,
+   "lon": 0.0291604
+  },
+  {
+   "name": "Curwen Primary School",
+   "lat": 51.5296268,
+   "lon": 0.020059
+  },
+  {
+   "name": "Rosetta Primary School",
+   "lat": 51.5155068,
+   "lon": 0.0276651
+  },
+  {
+   "name": "St Stephen's Primary School",
+   "lat": 51.5381327,
+   "lon": 0.0387493
+  },
+  {
+   "name": "Millennium Primary School",
+   "lat": 51.4932922,
+   "lon": 0.0111373
+  },
+  {
+   "name": "Ben Jonson Primary School",
+   "lat": 51.5208825,
+   "lon": -0.0377638
+  },
+  {
+   "name": "Selwyn Primary School",
+   "lat": 51.5361882,
+   "lon": 0.0242449
+  },
+  {
+   "name": "Gainsborough Primary School",
+   "lat": 51.5252072,
+   "lon": 0.0064963
+  },
+  {
+   "name": "Star Primary School",
+   "lat": 51.5209658,
+   "lon": 0.0061444
+  },
+  {
+   "name": "St Luke's Primary School",
+   "lat": 51.5132232,
+   "lon": 0.014039
+  },
+  {
+   "name": "Invicta Primary School",
+   "lat": 51.4792322,
+   "lon": 0.020673
+  },
+  {
+   "name": "St Agnes RC Primary School",
+   "lat": 51.5274015,
+   "lon": -0.0187026
+  },
+  {
+   "name": "Olga Primary School",
+   "lat": 51.5307319,
+   "lon": -0.0366643
+  },
+  {
+   "name": "St Joachim's Catholic Primary School",
+   "lat": 51.5113494,
+   "lon": 0.0306311
+  },
+  {
+   "name": "St James's Hatcham Church of England Primary School",
+   "lat": 51.4740927,
+   "lon": -0.0387382
+  },
+  {
+   "name": "St Antony's Catholic Primary School",
+   "lat": 51.5408369,
+   "lon": 0.0250579
+  },
+  {
+   "name": "St Paul with St Luke CofE Primary School",
+   "lat": 51.5180126,
+   "lon": -0.0283989
+  },
+  {
+   "name": "Sir William Burrough Primary School",
+   "lat": 51.5137421,
+   "lon": -0.0345941
+  },
+  {
+   "name": "Childeric Primary School",
+   "lat": 51.476483,
+   "lon": -0.0382551
+  },
+  {
+   "name": "Deptford Park Primary School",
+   "lat": 51.4884465,
+   "lon": -0.0376025
+  },
+  {
+   "name": "Twin Oaks Primary School",
+   "lat": 51.4854846,
+   "lon": -0.0418793
+  },
+  {
+   "name": "Park Primary School",
+   "lat": 51.5415895,
+   "lon": 0.0151058
+  },
+  {
+   "name": "Bygrove Primary School",
+   "lat": 51.5125068,
+   "lon": -0.0188385
+  },
+  {
+   "name": "Royal Wharf Primary School",
+   "lat": 51.5007525,
+   "lon": 0.0271769
+  },
+  {
+   "name": "Upton Cross Primary School (Churston Avenue)",
+   "lat": 51.5351716,
+   "lon": 0.0306757
+  },
+  {
+   "name": "Mulberry Wood Wharf Primary School",
+   "lat": 51.5025915,
+   "lon": -0.0092937
+  },
+  {
+   "name": "Old Church Nursery School",
+   "lat": 51.5157359,
+   "lon": -0.0449731
+  },
+  {
+   "name": "Rachel McMillan Nursery School",
+   "lat": 51.4814977,
+   "lon": -0.0228747
+  },
+  {
+   "name": "Wetherell Nursery",
+   "lat": 51.5381483,
+   "lon": -0.0409261
+  },
+  {
+   "name": "Rebecca Cheetham Nursery and Children's Centre",
+   "lat": 51.535517,
+   "lon": 0.0093576
+  },
+  {
+   "name": "Alphabet House Nursery School",
+   "lat": 51.5353964,
+   "lon": 0.0342052
+  },
+  {
+   "name": "Busy Bees Day Nursery",
+   "lat": 51.5082935,
+   "lon": 0.0231488
+  },
+  {
+   "name": "Smarty Pants Day Nursery",
+   "lat": 51.5371307,
+   "lon": 0.0227825
+  },
+  {
+   "name": "Sahan Pre-School and Day Nursery",
+   "lat": 51.5393905,
+   "lon": 0.0292206
+  },
+  {
+   "name": "Barkantine Community Nursery",
+   "lat": 51.496763,
+   "lon": -0.0229872
+  },
+  {
+   "name": "Little Rainbow Nursery",
+   "lat": 51.5389697,
+   "lon": -0.0004492
+  },
+  {
+   "name": "Heron Quays Day Nursery",
+   "lat": 51.5017037,
+   "lon": -0.0250665
+  },
+  {
+   "name": "Columbus Courtyard Day Nursery",
+   "lat": 51.5064959,
+   "lon": -0.0259333
+  },
+  {
+   "name": "Westferry Circus Day Nursery",
+   "lat": 51.5064199,
+   "lon": -0.0264987
+  },
+  {
+   "name": "Bright Horizons East Greenwich Day Nursery and Preschool",
+   "lat": 51.4855487,
+   "lon": 0.0125689
+  },
+  {
+   "name": "East India Dock Day Nursery",
+   "lat": 51.508916,
+   "lon": -0.001861
+  },
+  {
+   "name": "Bank Street Day Nursery",
+   "lat": 51.5022585,
+   "lon": -0.017967
+  },
+  {
+   "name": "Canada Square Day Nursery",
+   "lat": 51.5036252,
+   "lon": -0.0162231
+  },
+  {
+   "name": "The Clara Grant Nursery",
+   "lat": 51.5215962,
+   "lon": -0.0203384
+  },
+  {
+   "name": "Bright Horizons Day Nursery And Preschool",
+   "lat": 51.4774419,
+   "lon": -0.0163931
+  },
+  {
+   "name": "Kids & Co Nursery",
+   "lat": 51.479944,
+   "lon": 0.0090852
+  },
+  {
+   "name": "Little Butterfly Daycare Nursery",
+   "lat": 51.4816082,
+   "lon": -0.0273364
+  },
+  {
+   "name": "Early Start Abbey Lane",
+   "lat": 51.5332933,
+   "lon": -0.0062549
+  },
+  {
+   "name": "Clyde Early Childhood Centre",
+   "lat": 51.484302,
+   "lon": -0.0340115
+  },
+  {
+   "name": "Meath Gardens Children's Centre",
+   "lat": 51.5286378,
+   "lon": -0.0442306
+  },
+  {
+   "name": "Kids' World @ St. Antony's",
+   "lat": 51.5399818,
+   "lon": 0.0245613
+  },
+  {
+   "name": "Overland Children's Centre",
+   "lat": 51.5336389,
+   "lon": -0.0259627
+  },
+  {
+   "name": "Tate House Playgroup",
+   "lat": 51.5299567,
+   "lon": -0.0444566
+  },
+  {
+   "name": "Wonder Years Preschool, Afterschool And Holiday Club",
+   "lat": 51.5352843,
+   "lon": 0.006983
+  },
+  {
+   "name": "Zeeba Chantrelle",
+   "lat": 51.4907424,
+   "lon": -0.0392315
+  },
+  {
+   "name": "Nursery",
+   "lat": 51.4815767,
+   "lon": -0.0286842
+  },
+  {
+   "name": "East India Dock Preschool",
+   "lat": 51.5097335,
+   "lon": -0.0017032
+  },
+  {
+   "name": "TREGS Day Care and Educational Centre",
+   "lat": 51.5245138,
+   "lon": 0.0190242
+  },
+  {
+   "name": "Little St Matthias Pre School",
+   "lat": 51.5096159,
+   "lon": -0.0158771
+  },
+  {
+   "name": "Aberfeldy Sure Start Children's Centre",
+   "lat": 51.5140007,
+   "lon": -0.006067
+  },
+  {
+   "name": "Sure Start",
+   "lat": 51.4903003,
+   "lon": -0.0348962
+  },
+  {
+   "name": "Nursery",
+   "lat": 51.530982,
+   "lon": 0.0310541
+  },
+  {
+   "name": "Galaxy Explorers",
+   "lat": 51.4988365,
+   "lon": -0.0424158
+  },
+  {
+   "name": "Wood Wharf Kindergarten",
+   "lat": 51.5021601,
+   "lon": -0.0140373
+  }
+ ],
+ "gym": [
+  {
+   "name": "Greenway Orchard Green Gym (Newham)",
+   "lat": 51.5233069,
+   "lon": 0.0382444
+  },
+  {
+   "name": "The Gym Group",
+   "lat": 51.4813001,
+   "lon": -0.0125943
+  },
+  {
+   "name": "Peacock Gym",
+   "lat": 51.5097306,
+   "lon": 0.0135065
+  },
+  {
+   "name": "Steel Warriors Langdon Park Outdoor Gym",
+   "lat": 51.5158669,
+   "lon": -0.0135832
+  },
+  {
+   "name": "Steel Warriors Stratford Outdoor Gym",
+   "lat": 51.5392298,
+   "lon": -0.004571
+  },
+  {
+   "name": "Short Breaks Urban Gym",
+   "lat": 51.5200774,
+   "lon": -0.0338113
+  },
+  {
+   "name": "Gym Spot",
+   "lat": 51.5379075,
+   "lon": 0.0317009
+  },
+  {
+   "name": "Victoria Park Outdoor Gym",
+   "lat": 51.5402595,
+   "lon": -0.0329723
+  },
+  {
+   "name": "Meath Gardens Outdoor Gym",
+   "lat": 51.5287682,
+   "lon": -0.0432861
+  },
+  {
+   "name": "Resident's Gym",
+   "lat": 51.5080603,
+   "lon": 0.0064998
+  },
+  {
+   "name": "The Gym",
+   "lat": 51.5152565,
+   "lon": 0.0092916
+  },
+  {
+   "name": "Resident's Gym",
+   "lat": 51.5085392,
+   "lon": 0.0187645
+  },
+  {
+   "name": "Novo Gym",
+   "lat": 51.4860486,
+   "lon": 0.00842
+  },
+  {
+   "name": "London City Island Gym",
+   "lat": 51.5123758,
+   "lon": 0.0056216
+  },
+  {
+   "name": "Gym 1971",
+   "lat": 51.5385718,
+   "lon": -0.0065037
+  },
+  {
+   "name": "Team UCL Gym",
+   "lat": 51.5380775,
+   "lon": -0.0099515
+  },
+  {
+   "name": "Connaught Heights Gym",
+   "lat": 51.5023408,
+   "lon": 0.0385973
+  },
+  {
+   "name": "Oxbow Gym",
+   "lat": 51.5134435,
+   "lon": -0.0002247
+  },
+  {
+   "name": "The Gym",
+   "lat": 51.5309828,
+   "lon": 0.0190049
+  },
+  {
+   "name": "The Gym",
+   "lat": 51.5254483,
+   "lon": -0.0097845
+  },
+  {
+   "name": "Odyssey Gym",
+   "lat": 51.491812,
+   "lon": -0.0259487
+  },
+  {
+   "name": "QMotion Sport & Fitness Centre",
+   "lat": 51.5232056,
+   "lon": -0.0430848
+  },
+  {
+   "name": "Surrey Docks Fitness & Water Sports Centre",
+   "lat": 51.4937094,
+   "lon": -0.0394529
+  },
+  {
+   "name": "Newham Leisure Centre",
+   "lat": 51.5192375,
+   "lon": 0.0365077
+  },
+  {
+   "name": "Mile End Park Leisure Centre",
+   "lat": 51.5192824,
+   "lon": -0.0322228
+  },
+  {
+   "name": "Arches Leisure Centre",
+   "lat": 51.4834403,
+   "lon": 0.0005498
+  },
+  {
+   "name": "Balaam Leisure Centre",
+   "lat": 51.52328,
+   "lon": 0.0231933
+  },
+  {
+   "name": "Tiller Leisure Centre",
+   "lat": 51.4961241,
+   "lon": -0.0218694
+  },
+  {
+   "name": "Wavelengths Leisure Centre",
+   "lat": 51.4778584,
+   "lon": -0.023152
+  },
+  {
+   "name": "Bow Quarter Leisure Centre",
+   "lat": 51.5317984,
+   "lon": -0.0208927
+  },
+  {
+   "name": "Mile End Park Leisure Centre",
+   "lat": 51.5205482,
+   "lon": -0.0325125
+  },
+  {
+   "name": "Mile End Park Leisure Centre",
+   "lat": 51.519313,
+   "lon": -0.0307666
+  },
+  {
+   "name": "Newham Leisure Centre",
+   "lat": 51.5175479,
+   "lon": 0.0335837
+  },
+  {
+   "name": "Newham Leisure Centre",
+   "lat": 51.5184464,
+   "lon": 0.0322534
+  }
+ ],
+ "pharmacy": [
+  {
+   "name": "Munro Pharmacy",
+   "lat": 51.5371561,
+   "lon": 0.0350945
+  },
+  {
+   "name": "Parnell Pharmacy & Perfumery",
+   "lat": 51.5341594,
+   "lon": -0.0273376
+  },
+  {
+   "name": "Britannia Pharmacy",
+   "lat": 51.5357703,
+   "lon": 0.0079119
+  },
+  {
+   "name": "Lansbury Pharmacy",
+   "lat": 51.5140688,
+   "lon": -0.0147696
+  },
+  {
+   "name": "Sinclairs Pharmacy",
+   "lat": 51.5331606,
+   "lon": -0.0298704
+  },
+  {
+   "name": "Green Light Pharmacy",
+   "lat": 51.5182917,
+   "lon": -0.0381942
+  },
+  {
+   "name": "Clockwork Pharmacy",
+   "lat": 51.5304155,
+   "lon": 0.0372874
+  },
+  {
+   "name": "Station Pharmacy",
+   "lat": 51.4760153,
+   "lon": -0.0319148
+  },
+  {
+   "name": "Chrischem Pharmacy",
+   "lat": 51.5251276,
+   "lon": -0.0334917
+  },
+  {
+   "name": "Medspoint Pharmacy",
+   "lat": 51.5252894,
+   "lon": 0.0144297
+  },
+  {
+   "name": "Kevin's Charlton Pharmacy",
+   "lat": 51.4798762,
+   "lon": 0.0320379
+  },
+  {
+   "name": "Medina Pharmacy",
+   "lat": 51.5333908,
+   "lon": 0.0134187
+  },
+  {
+   "name": "Newmans Pharmacy",
+   "lat": 51.5220614,
+   "lon": 0.0222317
+  },
+  {
+   "name": "Britannia Pharmacy",
+   "lat": 51.5089138,
+   "lon": -0.0097939
+  },
+  {
+   "name": "Pepys Pharmacy",
+   "lat": 51.4895778,
+   "lon": -0.0350075
+  },
+  {
+   "name": "Berg's Pharmacy",
+   "lat": 51.5163713,
+   "lon": 0.010648
+  },
+  {
+   "name": "Daystar Pharmacy",
+   "lat": 51.529532,
+   "lon": 0.0246169
+  },
+  {
+   "name": "Masters Pharmacy",
+   "lat": 51.4746342,
+   "lon": 0.0341627
+  },
+  {
+   "name": "Rose Pharmacy",
+   "lat": 51.4808338,
+   "lon": -0.0208154
+  },
+  {
+   "name": "Duncan's Pharmacy",
+   "lat": 51.4780063,
+   "lon": -0.0124564
+  },
+  {
+   "name": "Docklands Pharmacy",
+   "lat": 51.4910991,
+   "lon": -0.0211206
+  },
+  {
+   "name": "Green Light Pharmacy",
+   "lat": 51.5238436,
+   "lon": -0.0149529
+  },
+  {
+   "name": "Cubitt Town Pharmacy",
+   "lat": 51.4887603,
+   "lon": -0.0074982
+  },
+  {
+   "name": "Vicarage Pharmacy",
+   "lat": 51.5416928,
+   "lon": 0.0099023
+  },
+  {
+   "name": "Day Lewis Pharmacy",
+   "lat": 51.5107245,
+   "lon": 0.0256409
+  },
+  {
+   "name": "Britannia Pharmacy",
+   "lat": 51.5128653,
+   "lon": -0.0054167
+  },
+  {
+   "name": "Blackheath Standard Pharmacy",
+   "lat": 51.4776525,
+   "lon": 0.0190191
+  },
+  {
+   "name": "Lockyer Pharmacy",
+   "lat": 51.483581,
+   "lon": -0.0316377
+  },
+  {
+   "name": "Mangal Pharmacy",
+   "lat": 51.5006617,
+   "lon": 0.0059396
+  },
+  {
+   "name": "Barkantine Pharmacy",
+   "lat": 51.4984115,
+   "lon": -0.0256863
+  },
+  {
+   "name": "Pyramid Pharmacy",
+   "lat": 51.4861556,
+   "lon": 0.0076643
+  },
+  {
+   "name": "P.E. Logan Pharmacy",
+   "lat": 51.4858603,
+   "lon": 0.0069123
+  },
+  {
+   "name": "Pyramid Pharmacy",
+   "lat": 51.4766792,
+   "lon": 0.0214441
+  },
+  {
+   "name": "Village Pharmacy",
+   "lat": 51.4818246,
+   "lon": 0.0364789
+  },
+  {
+   "name": "Allen's Pharmacy",
+   "lat": 51.4983172,
+   "lon": -0.0107737
+  },
+  {
+   "name": "New Cross Pharmacy",
+   "lat": 51.4770789,
+   "lon": -0.0318955
+  },
+  {
+   "name": "Newmans Pharmacy",
+   "lat": 51.5253626,
+   "lon": 0.0286565
+  },
+  {
+   "name": "Rowlands Pharmacy",
+   "lat": 51.5231861,
+   "lon": 0.0347682
+  },
+  {
+   "name": "Britannia Pharmacy",
+   "lat": 51.5253103,
+   "lon": 0.0295393
+  },
+  {
+   "name": "Royal Docks Pharmacy and Travel Clinic",
+   "lat": 51.5012636,
+   "lon": 0.0298718
+  },
+  {
+   "name": "Amal Pharmacy",
+   "lat": 51.4948815,
+   "lon": 0.0134073
+  },
+  {
+   "name": "Rohpharm Pharmacy",
+   "lat": 51.5311903,
+   "lon": 0.0189605
+  },
+  {
+   "name": "Lincoln Pharmacy",
+   "lat": 51.5182342,
+   "lon": -0.0248071
+  },
+  {
+   "name": "Superdrug",
+   "lat": 51.5366707,
+   "lon": 0.0353369
+  },
+  {
+   "name": "Boots",
+   "lat": 51.5357906,
+   "lon": 0.0348074
+  },
+  {
+   "name": "Kalhan Chemist",
+   "lat": 51.5374697,
+   "lon": 0.0263213
+  },
+  {
+   "name": "Weston Ltd Chemist",
+   "lat": 51.5380146,
+   "lon": 0.0341745
+  },
+  {
+   "name": "Pharmaram Chemist",
+   "lat": 51.5326863,
+   "lon": 0.0223432
+  },
+  {
+   "name": "Boots",
+   "lat": 51.5416185,
+   "lon": -0.0009642
+  },
+  {
+   "name": "Boots",
+   "lat": 51.504789,
+   "lon": -0.0173893
+  },
+  {
+   "name": "Boots",
+   "lat": 51.5120145,
+   "lon": -0.0143036
+  },
+  {
+   "name": "Boots Opticians",
+   "lat": 51.5406997,
+   "lon": 0.0008243
+  },
+  {
+   "name": "Boots Opticians",
+   "lat": 51.5029749,
+   "lon": -0.0176763
+  },
+  {
+   "name": "Boots",
+   "lat": 51.5029335,
+   "lon": -0.0176838
+  },
+  {
+   "name": "Boots",
+   "lat": 51.4888881,
+   "lon": 0.0247042
+  },
+  {
+   "name": "Boots",
+   "lat": 51.4819248,
+   "lon": -0.0102472
+  }
+ ],
+ "cafe": [
+  {
+   "name": "Plaistow Cafe",
+   "lat": 51.5333136,
+   "lon": 0.0134289
+  },
+  {
+   "name": "Bana Cafe",
+   "lat": 51.5421468,
+   "lon": 0.0010606
+  },
+  {
+   "name": "Cafe Seek",
+   "lat": 51.5021753,
+   "lon": -0.010729
+  },
+  {
+   "name": "One Cafe",
+   "lat": 51.4843476,
+   "lon": 0.0017146
+  },
+  {
+   "name": "Little Hudson Cafe",
+   "lat": 51.5015167,
+   "lon": 0.0306129
+  },
+  {
+   "name": "Baguette Cafe",
+   "lat": 51.4813992,
+   "lon": 0.036282
+  },
+  {
+   "name": "Aydil Cafe",
+   "lat": 51.5165001,
+   "lon": 0.0046382
+  },
+  {
+   "name": "Venezia Cafe",
+   "lat": 51.4841326,
+   "lon": 0.0185624
+  },
+  {
+   "name": "S.O.S. Cafe",
+   "lat": 51.4758113,
+   "lon": -0.0360374
+  },
+  {
+   "name": "Rose's Cafe",
+   "lat": 51.5180457,
+   "lon": 0.0128055
+  },
+  {
+   "name": "Trafalgar Cafe",
+   "lat": 51.4840248,
+   "lon": 0.001518
+  },
+  {
+   "name": "University Café",
+   "lat": 51.4834286,
+   "lon": -0.0044405
+  },
+  {
+   "name": "Signorelli",
+   "lat": 51.542069,
+   "lon": -0.009217
+  },
+  {
+   "name": "Mama Pho",
+   "lat": 51.488909,
+   "lon": -0.0406997
+  },
+  {
+   "name": "Boba Blast Bubble Tea",
+   "lat": 51.5370593,
+   "lon": 0.035868
+  },
+  {
+   "name": "Mae + Harvey",
+   "lat": 51.531755,
+   "lon": -0.0351102
+  },
+  {
+   "name": "Taverna in the Park",
+   "lat": 51.5417688,
+   "lon": -0.015575
+  },
+  {
+   "name": "Zealand Road Coffee Shop",
+   "lat": 51.5315255,
+   "lon": -0.0375829
+  },
+  {
+   "name": "Jerky's Spot",
+   "lat": 51.5337684,
+   "lon": 0.0120701
+  },
+  {
+   "name": "Boba Lab",
+   "lat": 51.5115882,
+   "lon": 0.012368
+  },
+  {
+   "name": "Sodexo Ltd",
+   "lat": 51.5354424,
+   "lon": -0.0005084
+  },
+  {
+   "name": "Saffi",
+   "lat": 51.5192931,
+   "lon": -0.0168397
+  },
+  {
+   "name": "Bistro Corner",
+   "lat": 51.5126306,
+   "lon": -0.0049416
+  },
+  {
+   "name": "Draughts",
+   "lat": 51.5408494,
+   "lon": -0.0124476
+  },
+  {
+   "name": "Black Sheep Coffee",
+   "lat": 51.5046758,
+   "lon": -0.0217818
+  },
+  {
+   "name": "The Coffee Room",
+   "lat": 51.5256411,
+   "lon": -0.0348012
+  },
+  {
+   "name": "Supsershakes",
+   "lat": 51.5025424,
+   "lon": -0.0108399
+  },
+  {
+   "name": "The Coffee Corner",
+   "lat": 51.5126686,
+   "lon": -0.0141171
+  },
+  {
+   "name": "Kavilla",
+   "lat": 51.5004166,
+   "lon": 0.0287133
+  },
+  {
+   "name": "Wallbrook Gardens",
+   "lat": 51.5100655,
+   "lon": 0.0121837
+  },
+  {
+   "name": "Cafe",
+   "lat": 51.5365388,
+   "lon": 0.0360363
+  },
+  {
+   "name": "Huddy's",
+   "lat": 51.5024058,
+   "lon": 0.028553
+  },
+  {
+   "name": "Café East",
+   "lat": 51.5319007,
+   "lon": -0.0346801
+  },
+  {
+   "name": "Donalds Hackney Wick",
+   "lat": 51.5346216,
+   "lon": -0.0197781
+  },
+  {
+   "name": "So Nice Restaurant",
+   "lat": 51.5234089,
+   "lon": 0.0225142
+  },
+  {
+   "name": "Chill#08",
+   "lat": 51.5146102,
+   "lon": 0.0094885
+  },
+  {
+   "name": "Palooza",
+   "lat": 51.5163732,
+   "lon": 0.0109416
+  },
+  {
+   "name": "Delice de france",
+   "lat": 51.5082706,
+   "lon": 0.0264848
+  },
+  {
+   "name": "Rial",
+   "lat": 51.5276491,
+   "lon": 0.0052431
+  },
+  {
+   "name": "BJ's Pie & Mash",
+   "lat": 51.5212823,
+   "lon": 0.0207039
+  },
+  {
+   "name": "Juice and Slice",
+   "lat": 51.5405473,
+   "lon": 0.0330241
+  },
+  {
+   "name": "Mooboo",
+   "lat": 51.4855782,
+   "lon": 0.0069033
+  },
+  {
+   "name": "Perky Blenders x Goodvibes",
+   "lat": 51.5061252,
+   "lon": 0.0160973
+  },
+  {
+   "name": "Pool Street Café",
+   "lat": 51.5385788,
+   "lon": -0.0097337
+  },
+  {
+   "name": "The International Comrades",
+   "lat": 51.524389,
+   "lon": -0.034313
+  },
+  {
+   "name": "Chaiiwala",
+   "lat": 51.5170589,
+   "lon": 0.0113429
+  },
+  {
+   "name": "Café Pura",
+   "lat": 51.4944423,
+   "lon": 0.0133966
+  },
+  {
+   "name": "Steam & Stir",
+   "lat": 51.5144714,
+   "lon": 0.0084568
+  },
+  {
+   "name": "Westland Coffee",
+   "lat": 51.5100542,
+   "lon": -0.0045806
+  },
+  {
+   "name": "Costa",
+   "lat": 51.51462,
+   "lon": 0.0075168
+  }
+ ],
+ "restaurant": [
+  {
+   "name": "Imaan Restaurant",
+   "lat": 51.5373062,
+   "lon": 0.0366617
+  },
+  {
+   "name": "Papi's Grill Restaurant & Bar",
+   "lat": 51.4756537,
+   "lon": -0.0348663
+  },
+  {
+   "name": "Handi Restaurant",
+   "lat": 51.5338844,
+   "lon": -0.0272282
+  },
+  {
+   "name": "CPG Restaurant",
+   "lat": 51.519789,
+   "lon": 0.0167222
+  },
+  {
+   "name": "New Beijing Chinese Restaurant",
+   "lat": 51.5115909,
+   "lon": -0.0275326
+  },
+  {
+   "name": "River Side East",
+   "lat": 51.538538,
+   "lon": -0.0121927
+  },
+  {
+   "name": "Gaucho",
+   "lat": 51.5022762,
+   "lon": 0.004526
+  },
+  {
+   "name": "Gaucho",
+   "lat": 51.5053433,
+   "lon": -0.0279451
+  },
+  {
+   "name": "Island Vibez Kitchen",
+   "lat": 51.5424676,
+   "lon": 0.0006928
+  },
+  {
+   "name": "Nando's",
+   "lat": 51.5245047,
+   "lon": -0.0356115
+  },
+  {
+   "name": "Mona Foods Chaat House",
+   "lat": 51.5402962,
+   "lon": 0.0327191
+  },
+  {
+   "name": "Indiana",
+   "lat": 51.5135918,
+   "lon": -0.0329234
+  },
+  {
+   "name": "Oodles Chinese",
+   "lat": 51.5362936,
+   "lon": 0.0353241
+  },
+  {
+   "name": "Ace Pizza",
+   "lat": 51.537096,
+   "lon": -0.0448953
+  },
+  {
+   "name": "Mums Pizza & Cuisine",
+   "lat": 51.5358454,
+   "lon": 0.0079927
+  },
+  {
+   "name": "M (outdoor Seating)",
+   "lat": 51.5046014,
+   "lon": -0.0249172
+  },
+  {
+   "name": "Piffz",
+   "lat": 51.5373445,
+   "lon": 0.0360225
+  },
+  {
+   "name": "Nawabi Dine",
+   "lat": 51.5371237,
+   "lon": 0.0357588
+  },
+  {
+   "name": "Aladdins Mahal",
+   "lat": 51.5373608,
+   "lon": 0.0357775
+  },
+  {
+   "name": "Calabash",
+   "lat": 51.5414931,
+   "lon": 0.0100133
+  },
+  {
+   "name": "Roman Tandoori",
+   "lat": 51.5318592,
+   "lon": -0.0345642
+  },
+  {
+   "name": "Slice Pizza Peri Peri",
+   "lat": 51.5421405,
+   "lon": 0.0259918
+  },
+  {
+   "name": "R D Dabeli",
+   "lat": 51.5377574,
+   "lon": 0.033168
+  },
+  {
+   "name": "Adda Bari",
+   "lat": 51.5384112,
+   "lon": 0.0329129
+  },
+  {
+   "name": "Kisses From Nonna",
+   "lat": 51.53146,
+   "lon": -0.0378845
+  },
+  {
+   "name": "Rajboy",
+   "lat": 51.5126464,
+   "lon": -0.0406462
+  },
+  {
+   "name": "Shish Fusion",
+   "lat": 51.5233348,
+   "lon": -0.0340426
+  },
+  {
+   "name": "Crunchys",
+   "lat": 51.5422391,
+   "lon": 0.0260645
+  },
+  {
+   "name": "Brunch American Inspired",
+   "lat": 51.5370464,
+   "lon": 0.012626
+  },
+  {
+   "name": "The Refractory",
+   "lat": 51.4741683,
+   "lon": -0.0355259
+  },
+  {
+   "name": "Alhaji Suya",
+   "lat": 51.48602,
+   "lon": 0.0128754
+  },
+  {
+   "name": "55 Square",
+   "lat": 51.5172646,
+   "lon": 0.0118507
+  },
+  {
+   "name": "Wahaca",
+   "lat": 51.5423776,
+   "lon": -0.0078003
+  },
+  {
+   "name": "Sultan Sofrasi",
+   "lat": 51.4760575,
+   "lon": -0.0187175
+  },
+  {
+   "name": "Pho City",
+   "lat": 51.477523,
+   "lon": -0.0120825
+  },
+  {
+   "name": "Ton G",
+   "lat": 51.5364876,
+   "lon": 0.0357931
+  },
+  {
+   "name": "Restaurant",
+   "lat": 51.5365144,
+   "lon": 0.0358966
+  },
+  {
+   "name": "German Doner Kebab",
+   "lat": 51.5393166,
+   "lon": 0.030876
+  },
+  {
+   "name": "Fortune",
+   "lat": 51.497194,
+   "lon": -0.0351585
+  },
+  {
+   "name": "Restaurant",
+   "lat": 51.4807574,
+   "lon": -0.0264363
+  },
+  {
+   "name": "Suya & Lobster",
+   "lat": 51.4749502,
+   "lon": -0.025534
+  },
+  {
+   "name": "Yun Hai",
+   "lat": 51.5064131,
+   "lon": -0.0433992
+  },
+  {
+   "name": "Mogul",
+   "lat": 51.50633,
+   "lon": -0.0437139
+  },
+  {
+   "name": "Spice Merchants",
+   "lat": 51.5092197,
+   "lon": -0.0270485
+  },
+  {
+   "name": "Orange Room",
+   "lat": 51.5222456,
+   "lon": -0.0337378
+  },
+  {
+   "name": "Mr. Wong's Wok & Box",
+   "lat": 51.5222849,
+   "lon": -0.0446563
+  },
+  {
+   "name": "Green Pepper",
+   "lat": 51.5222932,
+   "lon": -0.0445803
+  },
+  {
+   "name": "Greedy Cow",
+   "lat": 51.5254233,
+   "lon": -0.0346162
+  },
+  {
+   "name": "Charcoal Meze House",
+   "lat": 51.4754015,
+   "lon": -0.0355165
+  },
+  {
+   "name": "Restaurant",
+   "lat": 51.5075016,
+   "lon": -0.0258157
+  }
+ ],
+ "pub": [
+  {
+   "name": "Greenwich Tavern",
+   "lat": 51.4798001,
+   "lon": -0.0071684
+  },
+  {
+   "name": "The Black Lion",
+   "lat": 51.5302494,
+   "lon": 0.0228873
+  },
+  {
+   "name": "Vagabond Wines Canary Wharf",
+   "lat": 51.5025996,
+   "lon": -0.0139977
+  },
+  {
+   "name": "The Observatory",
+   "lat": 51.5041191,
+   "lon": 0.0033645
+  },
+  {
+   "name": "All Bar One",
+   "lat": 51.5019132,
+   "lon": 0.0039885
+  },
+  {
+   "name": "Enderby House",
+   "lat": 51.490683,
+   "lon": 0.0029011
+  },
+  {
+   "name": "The Wolf's Tavern",
+   "lat": 51.4856708,
+   "lon": -0.0341091
+  },
+  {
+   "name": "The Gate Clock",
+   "lat": 51.4815625,
+   "lon": -0.0111912
+  },
+  {
+   "name": "The Lord Stanley",
+   "lat": 51.5314702,
+   "lon": 0.0267976
+  },
+  {
+   "name": "Ye Olde Black Bull",
+   "lat": 51.5401834,
+   "lon": 0.0009529
+  },
+  {
+   "name": "Green Goose",
+   "lat": 51.5321484,
+   "lon": -0.0281111
+  },
+  {
+   "name": "Oiler Bar",
+   "lat": 51.5064596,
+   "lon": 0.0174058
+  },
+  {
+   "name": "O2 Blueroom",
+   "lat": 51.5026653,
+   "lon": 0.0039562
+  },
+  {
+   "name": "Eadn London",
+   "lat": 51.5167397,
+   "lon": 0.0052527
+  },
+  {
+   "name": "The Princess Alexandra",
+   "lat": 51.5195117,
+   "lon": 0.0160313
+  },
+  {
+   "name": "Pepper Street Tavern",
+   "lat": 51.496134,
+   "lon": -0.0178252
+  },
+  {
+   "name": "The Tooke Arms",
+   "lat": 51.4981244,
+   "lon": -0.0255262
+  },
+  {
+   "name": "The Lauriston",
+   "lat": 51.5378669,
+   "lon": -0.0451705
+  },
+  {
+   "name": "The Queens",
+   "lat": 51.5344846,
+   "lon": 0.0355228
+  },
+  {
+   "name": "Lord Nelson",
+   "lat": 51.4873655,
+   "lon": -0.0131205
+  },
+  {
+   "name": "Eleanor Arms",
+   "lat": 51.535019,
+   "lon": -0.0330543
+  },
+  {
+   "name": "The Beehive",
+   "lat": 51.5222339,
+   "lon": -0.0141819
+  },
+  {
+   "name": "Streeties",
+   "lat": 51.5129341,
+   "lon": 0.0123307
+  },
+  {
+   "name": "The Dog & Bell",
+   "lat": 51.4832625,
+   "lon": -0.0257342
+  },
+  {
+   "name": "Tropical London",
+   "lat": 51.4739677,
+   "lon": -0.0341953
+  },
+  {
+   "name": "Marquis of Granby",
+   "lat": 51.4755875,
+   "lon": -0.0359293
+  },
+  {
+   "name": "Fairgame",
+   "lat": 51.5060321,
+   "lon": -0.0212959
+  },
+  {
+   "name": "Nicolas Wine Bar",
+   "lat": 51.5047402,
+   "lon": -0.0193629
+  },
+  {
+   "name": "Pergola",
+   "lat": 51.5059441,
+   "lon": -0.0158705
+  },
+  {
+   "name": "Humble Grape",
+   "lat": 51.5045694,
+   "lon": -0.022824
+  },
+  {
+   "name": "Quadrato Bar & Lounge",
+   "lat": 51.5067811,
+   "lon": -0.028268
+  },
+  {
+   "name": "Salt Deptford",
+   "lat": 51.4780491,
+   "lon": -0.0265975
+  },
+  {
+   "name": "The Abbey Tap",
+   "lat": 51.5402372,
+   "lon": 0.0002018
+  },
+  {
+   "name": "The Admiral Hardy",
+   "lat": 51.4819384,
+   "lon": -0.0091343
+  },
+  {
+   "name": "Rica's Bar & Kitchen",
+   "lat": 51.4818605,
+   "lon": -0.009053
+  },
+  {
+   "name": "The Little Driver",
+   "lat": 51.5278226,
+   "lon": -0.0225001
+  },
+  {
+   "name": "The Dial",
+   "lat": 51.5004875,
+   "lon": 0.0053629
+  },
+  {
+   "name": "Arch 1",
+   "lat": 51.5222727,
+   "lon": 0.0045956
+  },
+  {
+   "name": "The Pirate's Hub",
+   "lat": 51.5398576,
+   "lon": -0.0213188
+  },
+  {
+   "name": "The Crown",
+   "lat": 51.4850474,
+   "lon": 0.0047255
+  },
+  {
+   "name": "Charlie's Bar",
+   "lat": 51.519921,
+   "lon": 0.0170248
+  },
+  {
+   "name": "Lockdown",
+   "lat": 51.5030671,
+   "lon": -0.011191
+  },
+  {
+   "name": "The Vanbrugh",
+   "lat": 51.4833904,
+   "lon": 0.0079174
+  },
+  {
+   "name": "The Prince Of Greenwich",
+   "lat": 51.4761817,
+   "lon": -0.0098595
+  },
+  {
+   "name": "Angle 90",
+   "lat": 51.4849179,
+   "lon": 0.0042019
+  },
+  {
+   "name": "Electric Shuffle",
+   "lat": 51.505611,
+   "lon": -0.0217278
+  },
+  {
+   "name": "The Lockdown Room",
+   "lat": 51.5133837,
+   "lon": 0.0066164
+  },
+  {
+   "name": "The Shirker's Rest",
+   "lat": 51.4754216,
+   "lon": -0.0355847
+  },
+  {
+   "name": "C.R.A Bar and Cafe",
+   "lat": 51.4747137,
+   "lon": -0.0253724
+  },
+  {
+   "name": "The George & Dragon",
+   "lat": 51.472899,
+   "lon": -0.0151598
+  }
+ ],
+ "hospital": [
+  {
+   "name": "Mile End Hospital",
+   "lat": 51.5250541,
+   "lon": -0.0422145
+  },
+  {
+   "name": "Newham Centre for Mental Health",
+   "lat": 51.520285,
+   "lon": 0.0384311
+  },
+  {
+   "name": "Coborn Centre for Adolescent Mental Health",
+   "lat": 51.5196748,
+   "lon": 0.0383811
+  },
+  {
+   "name": "A&E Department",
+   "lat": 51.5229803,
+   "lon": 0.0343603
+  },
+  {
+   "name": "Rainbow Ward",
+   "lat": 51.5233041,
+   "lon": 0.0350684
+  },
+  {
+   "name": "Neonatal Unit, L1 Z2",
+   "lat": 51.5229852,
+   "lon": 0.0367652
+  },
+  {
+   "name": "Grove Medical Centre",
+   "lat": 51.4902419,
+   "lon": -0.0352883
+  },
+  {
+   "name": "Island Medical Centre",
+   "lat": 51.4981279,
+   "lon": -0.0100215
+  },
+  {
+   "name": "Docklands Medical Centre",
+   "lat": 51.4911494,
+   "lon": -0.0211539
+  },
+  {
+   "name": "Cumberland Medical Centre",
+   "lat": 51.5185754,
+   "lon": 0.0257478
+  },
+  {
+   "name": "Glen Road Medical Centre",
+   "lat": 51.5224092,
+   "lon": 0.0318678
+  },
+  {
+   "name": "Kingfisher Medical Centre",
+   "lat": 51.4818805,
+   "lon": -0.0305016
+  },
+  {
+   "name": "East End Medical Centre",
+   "lat": 51.5373659,
+   "lon": 0.0256728
+  },
+  {
+   "name": "Plashet Medical Centre",
+   "lat": 51.5374333,
+   "lon": 0.0323469
+  },
+  {
+   "name": "St Mary’s Medical Centre",
+   "lat": 51.5351889,
+   "lon": -0.0051608
+  },
+  {
+   "name": "Greengate Medical Centre",
+   "lat": 51.5253767,
+   "lon": 0.0280771
+  },
+  {
+   "name": "South Street Medical Centre",
+   "lat": 51.4760404,
+   "lon": -0.0124467
+  },
+  {
+   "name": "St Lukes' Medical Centre",
+   "lat": 51.5120323,
+   "lon": 0.0135444
+  },
+  {
+   "name": "St Paul's Way Medical Centre",
+   "lat": 51.5181513,
+   "lon": -0.024764
+  },
+  {
+   "name": "The Baltic Medical Centre",
+   "lat": 51.500462,
+   "lon": -0.0130982
+  },
+  {
+   "name": "Star Lane Medical Centre",
+   "lat": 51.5198249,
+   "lon": 0.0107065
+  },
+  {
+   "name": "Harley Grove Medical Centre",
+   "lat": 51.5275585,
+   "lon": -0.0276301
+  },
+  {
+   "name": "Plumbridge Medical Centre",
+   "lat": 51.473225,
+   "lon": -0.0139409
+  }
+ ]
+}

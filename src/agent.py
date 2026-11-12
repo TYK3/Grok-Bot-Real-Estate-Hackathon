@@ -1,3 +1,4 @@
+import asyncio
 import json
 import logging
 import os
@@ -26,7 +27,7 @@ from livekit.agents import (
 from livekit.agents.llm import ImageContent
 from livekit.agents.metrics import EOUMetrics, LLMMetrics, STTMetrics, TTSMetrics
 from livekit.agents.stt import SpeechEventType
-from livekit.plugins import noise_cancellation, silero, xai
+from livekit.plugins import noise_cancellation, openai, silero, xai
 from livekit.agents import AgentSession, TurnHandlingOptions, EndpointingOptions
 from livekit.plugins import ai_coustics
 import session_store
@@ -37,6 +38,7 @@ from properties import (
     get_property_images,
 )
 from web_search import perplexity_search
+from amenities import describe_ranking, rank_properties
 from datetime import datetime
 todays_date = datetime.now().strftime("%Y-%m-%d")
 
@@ -76,7 +78,19 @@ def build_instructions(prop: dict[str, Any] | None) -> str:
     base = open("src/prompts/v2.md", "r").read() + "# Context - Today's Date is: " + todays_date
 
     if prop:
-        base += "=== PROPERTY DETAILS ===\n" + format_property_details(prop) 
+        base += "=== PROPERTY DETAILS ===\n" + format_property_details(prop)
+    else:
+        base += (
+            "\n\n=== GENERAL SEARCH MODE ===\n"
+            "Sam has not picked a property yet. Help them find one across all "
+            "our listings. When they care about what is nearby (supermarkets, "
+            "parks, stations, schools, gyms, pharmacies, cafes, pubs, doctors), "
+            "call find_properties_near with that amenity and any budget or "
+            "bedroom limit they mention. Read back the top two or three "
+            "results with the walking time, then ask which one they'd like to "
+            "hear more about. Distances are straight-line estimates; say "
+            "'roughly' or 'about'.\n"
+        )
 
     return base
 
@@ -125,6 +139,37 @@ class PropertyAgent(Agent):
         #context.session.say("Let me look that up for you.")
 
         return await perplexity_search(query=query, pincode=pincode)
+
+    @function_tool()
+    async def find_properties_near(
+        self,
+        context: RunContext,
+        amenity: str,
+        max_price: float | None = None,
+        min_bedrooms: int | None = None,
+        limit: int = 5,
+    ) -> str:
+        """Rank our listings by how close they are to an amenity, using map data.
+
+        Use this when the caller wants to be near something, e.g. "which flats
+        are closest to a supermarket?", "something near a park under 2,500 a
+        month", "close to the DLR with two bedrooms".
+
+        Args:
+            amenity: What they want nearby, e.g. supermarket, park, station,
+                school, gym, pharmacy, cafe, restaurant, pub, hospital.
+            max_price: Optional maximum monthly rent (or price) in pounds.
+            min_bedrooms: Optional minimum number of bedrooms.
+            limit: How many listings to return (default 5).
+        """
+        rows = await asyncio.to_thread(
+            rank_properties,
+            amenity,
+            max_price=max_price,
+            min_bedrooms=min_bedrooms,
+            limit=max(1, min(limit, 10)),
+        )
+        return describe_ranking(amenity, rows)
 
     async def stt_node(self, audio, model_settings):
         """Capture the user's audio per turn and save a WAV snippet the moment
@@ -289,7 +334,9 @@ async def property_agent(ctx: agents.JobContext) -> None:
         # xAI for all three stages; each reads XAI_API_KEY from the environment.
         vad=vad,
         stt=xai.STT(language="en"),
-        llm=xai.responses.LLM(
+        # xAI chat-completions endpoint. xai.responses.LLM currently crashes
+        # parsing xAI's usage block (cache_write_tokens is null).
+        llm=openai.LLM.with_x_ai(
             model=os.getenv("XAI_TEXT_MODEL") or "grok-4.20-0309-non-reasoning"
         ),
         tts=xai.TTS(

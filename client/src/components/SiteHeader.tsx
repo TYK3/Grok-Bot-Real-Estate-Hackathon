@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { MapPin } from "lucide-react";
 
 export function SiteHeader({ children }: { children?: ReactNode }) {
   return (
@@ -17,11 +18,16 @@ export function SiteHeader({ children }: { children?: ReactNode }) {
             </h1>
           </div>
         </Link>
-        {children ? (
-          <div className="flex items-center gap-3 text-[#697586]">
-            {children}
-          </div>
-        ) : null}
+        <div className="flex flex-wrap items-center gap-3 text-[#697586]">
+          {children}
+          <Link
+            href="/call/general"
+            className="inline-flex h-9 items-center gap-1.5 rounded-md bg-[#e95650] px-3 text-sm font-semibold text-white transition-colors hover:bg-[#d94c46]"
+          >
+            <MapPin className="size-3.5" />
+            Find homes near…
+          </Link>
+        </div>
       </div>
     </header>
   );
