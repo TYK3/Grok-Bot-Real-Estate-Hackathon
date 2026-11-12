@@ -1,206 +1,340 @@
-# Property Lettings Voice Agent — LiveKit
+<h1 align="center">🏠 Verified Fact Record: <em>every property fact, with its receipt</em></h1>
 
-A property lettings demo built on [LiveKit Agents](https://github.com/livekit/agents). Browse Hamptons rental listings, open a property, and talk to an AI lettings agent (bottom-right call button) that is scoped to that single property, can "see" its floor plan and photos, answers questions, and books viewings.
+<p align="center">
+  <b>Drop in the brochures. Get one verified record per home, a listing that never shows a disputed number, and a Grok voice agent that cites the page.</b><br>
+  <sub>Grok Bot Real Estate Hackathon · London · Track 2: Documents · built 12 November 2026</sub>
+</p>
 
-- **Backend** (`src/`): a Python LiveKit agent using the **xAI plugin** for STT, LLM (Grok) and TTS, and **Silero** (VAD). Each call is scoped to one property via job metadata, with the floor plan/photos loaded into the model's context. Customer details, bookings, and transcripts are saved per session.
-- **Frontend** (`client/`): a Next.js app (Tailwind v4 + shadcn/ui + lucide) with a listings grid, per-property detail page, and an in-call view that shows the property panel alongside a live transcript. It also mints LiveKit tokens (with agent dispatch metadata) and serves the captured session data back to the UI.
+<p align="center">
+  <img alt="Voice" src="https://img.shields.io/badge/voice-xAI%20Grok%20·%20STT%20·%20TTS-111111?style=flat-square">
+  <img alt="LLM" src="https://img.shields.io/badge/LLM-grok--4.20%20non--reasoning-111111?style=flat-square">
+  <img alt="Realtime" src="https://img.shields.io/badge/realtime-LiveKit%20Agents%201.8-1f6feb?style=flat-square">
+  <img alt="Frontend" src="https://img.shields.io/badge/Next.js-15-000000?style=flat-square&logo=nextdotjs">
+  <img alt="Python" src="https://img.shields.io/badge/Python-3.12-3776ab?style=flat-square&logo=python&logoColor=white">
+  <img alt="Database" src="https://img.shields.io/badge/Supabase-fact%20store-3ecf8e?style=flat-square&logo=supabase&logoColor=white">
+  <img alt="Map data" src="https://img.shields.io/badge/map-OpenStreetMap-7ebc6f?style=flat-square&logo=openstreetmap&logoColor=white">
+</p>
 
-## What changed (12 Nov 2026)
+| 📄 Reads the documents | ⚖️ Catches the contradictions | 🎙️ Speaks only what is verified |
+|---|---|---|
+| Brochures, surveys and price instructions become facts, each with document, page, verbatim quote, date and issuer | Price changes, area errors, scope and basis differences and official-record mismatches are flagged and sent to a human, never silently picked | The site and the Grok voice agent publish verified facts only, cite the source when asked, and use safe wording for anything still disputed |
 
-### 1. Voice agent runs on xAI
+> **One-paragraph description.** Property facts disagree. The April brochure for Kelso Villa says £700,000 and prints 185 sq m as 2,700 sq ft; the October brochure says £600,000; the measured survey says the net area is 1,912 sq ft and that bay six is a bin store, not a parking space. Portals and chatbots repeat whichever number they saw first. **Verified Fact Record** extracts every fact with its receipt, classifies each disagreement, lets a reviewer confirm or hold it in a workbench, and publishes one versioned record per unit to Supabase. A buyer-facing site shows only verified values ("Pending verification" otherwise), and a voice agent built on xAI Grok answers from the same record, cites the document and page, books viewings, reserves units, and helps callers find homes near supermarkets, parks and stations on a live map.
 
-ElevenLabs and OpenAI are no longer used, and their keys are no longer needed.
+<details open>
+<summary><b>📑 Contents</b> (click to collapse)</summary>
 
-| Area | Before | Now |
-|------|--------|-----|
-| Speech-to-text | ElevenLabs `scribe_v2_realtime` | xAI STT (`xai.STT`, English) |
-| LLM | OpenAI `gpt-4o-mini` | xAI Grok `grok-4.20-0309-non-reasoning` via xAI's chat-completions endpoint (`openai.LLM.with_x_ai`) |
-| Text-to-speech | ElevenLabs default voice | xAI TTS, voice `ara`, text normalisation on so prices and numbers are read naturally |
-| End-of-turn detection | ElevenLabs STT signals (`turn_detection="stt"`) | Silero VAD (`turn_detection="vad"`), passed into the session |
-| Dependencies | `livekit-agents[elevenlabs,openai,silero]~=1.4` | `livekit-agents[silero,xai]~=1.8` (`uv.lock` regenerated) |
-| Env vars | `ELEVEN_API_KEY`, `OPENAI_API_KEY` | `XAI_API_KEY`, plus optional `XAI_TEXT_MODEL` and `XAI_VOICE` |
+| | |
+|---|---|
+| 🚀 [The MVP](#-the-mvp) · 🤯 [Wow factors](#-wow-factors) | 🏗️ [Architecture](#️-architecture) |
+| 🧭 [Judges: a 2-minute tour](#-judges-a-2-minute-tour) | 📊 [Measured results](#-measured-results) |
+| 🎯 [The problem](#-the-problem) | 🏆 [How it meets the judging criteria](#-how-it-meets-the-judging-criteria) |
+| 📚 [The demo documents and contradictions](#-the-demo-documents-and-contradictions) | 🙏 [Team, credits and data](#-team-credits-and-data) |
+| ⚙️ [How it works](#️-how-it-works) | 🛠️ [Run it yourself](#️-run-it-yourself) |
+| 🎙️ [The voice agent](#️-the-voice-agent) | 🚧 [Known limits](#-known-limits) |
 
-`xai.responses.LLM` is not used: in livekit-agents 1.8.11 it fails on every reply while parsing xAI's usage block (`cache_write_tokens` is null), so the agent uses the chat-completions endpoint with the same key and model.
+</details>
 
-### 2. Verified facts from `fact_record` on the site and in the voice agent
+---
 
-- **Listings site** reads `fact_record/contracts/05_listing.json` (override with `FACT_LISTING_PATH`). Verified listings (Kelso Villa, 59 St Huberts Close) appear first with a "Verified facts" badge. Their property page has a panel where each field shows its value and source (issuer, document, date, page, quote), "Pending verification" with the open contradiction id, or "Not stated". A price that isn't verified is never shown.
-- **Voice agent** reads `fact_record/contracts/04_voice_agent.json` (override with `FACT_VOICE_PATH`). For a verified listing it gets only verified statements, each with a `[source]` note, plus a DO NOT STATE block with the contract's safe phrasing. Statements for any field that is in `do_not_state` are dropped, so a disputed value (for example Kelso parking, D01) is never spoken. Hamptons listings work as before.
+## 🚀 The MVP
 
-### 3. General search agent with a map
+One loop, working end to end on real and synthetic documents:
 
-- **Start it** from the landing page's "Start a call" button or at `/call/general`. The screen shows the agent on the left and a map plus info panel on the right.
-- **`find_properties_near`** ranks listings by straight-line distance to the nearest supermarket, park, station, school, gym, pharmacy, cafe, restaurant, pub or doctor, with optional budget and bedroom filters and an approximate walking time.
-- **Map data** comes from OpenStreetMap (Nominatim), snapshotted to `work/amenities.json` by `uv run python scripts/fetch_amenities.py`, so calls never wait on a live map API. Unknown categories fall back to a live search.
-- **`show_property`** opens the listing the agent is talking about in the caller's info panel and on the map. The agent writes the shortlist and focus to `data/sessions/<room>/search.json`, which the call screen polls through `/api/sessions/<room>`.
+| Step | What happens | Where |
+|:---:|---|---|
+| **1. Upload** | Drop one or more PDFs, JSON, ZIP, CSV or text files. Scanned brochures are read with OCR in the browser or by the extraction service | Review workbench (`/review`) |
+| **2. Extract** | Every fact carries document, page, verbatim quote, date, issuer and authority tier | `fact_record/extraction` |
+| **3. Reconcile** | Disagreements are classified (supersession, true conflict, document error, scope, basis, official record) with a recommended winner and a reason | Review workbench |
+| **4. Review** | A human confirms, chooses another source, or keeps both scoped. Nothing material is auto-published | Review workbench |
+| **5. Publish** | One versioned record per unit in Supabase (append-only evidence and audit), mirrored as JSON contracts 04 (voice) and 05 (listing) | `supabase/`, `fact_record/contracts` |
+| **6. Use** | The listing site shows verified values with citations; the voice agent speaks only verified statements and books or reserves | `client/`, `src/` |
 
-### 4. Booking and reserving
+---
 
-- `book_viewing` works for the property being discussed, or for any listing by id in general search mode.
-- New `reserve_unit` records a holding reservation (name, phone or email, move-in date). The lettings team confirms it, and the agent never asks for payment details. The reservation shows in the call screen's booking pop-up and in `data/sessions/<room>/booking.json`.
+## 🤯 Wow factors
 
-### 5. Fixes
+| | |
+|---|---|
+| 🛑 **It refuses to say a disputed number** | Ask the Kelso Villa agent *"How many parking spaces?"* and it says *"The parking allocation is being confirmed"*, because the brochures say six and the survey says five. Even when a stray parking statement slipped into the published contract, the agent drops it. |
+| 🧾 **It shows its receipt** | Ask *"What's the asking price and where does that come from?"* and it answers *"£600,000, per the Carter Jonas particulars dated 16 October 2026, page 2."* The property page shows the same quote. |
+| 🔎 **It catches the brochure's own mistake** | The April brochure prints 185 sq m beside 2,700 sq ft. 185 sq m is 1,991 sq ft, so the row is flagged as a document error, not treated as two areas. |
+| 🗺️ **It finds homes by what is nearby** | Say *"Which flats are closest to a supermarket?"* The agent ranks every listing against 79 supermarkets, 126 parks, 63 stations and more from OpenStreetMap, pins the shortlist on a live map, and opens the home it is talking about on your screen. |
+| 📅 **It closes the loop** | It books viewings and records holding reservations by voice, without ever asking for payment details. Bookings appear on the market dashboard. |
+| 🔊 **It sounds like a person** | xAI speech-to-text, Grok and the xAI `ara` voice, with text normalisation so "£2,500 pcm" is read the way an agent would say it. |
 
-- `web_search` (Perplexity) no longer crashes the turn when `PERPLEXITY_API_KEY` is not set. The agent falls back to `find_properties_near` or says it will check.
-- The transcript and call summary are now saved when a call ends (`format_transcript` referenced a missing attribute).
+---
 
-### Known issues
+## 🧭 Judges: a 2-minute tour
 
-- `fact_record` data: contract 04 includes parking statements even though parking is in its own `do_not_state` (the agent filters them). Kelso Villa has two "verified" net areas (1,991 sq ft from the particulars, 1,912 sq ft from the survey), and the lower ground "Rent £9,400 per annum" is verified while sale or let is still open (D02).
-- The budget filter compares numbers only, so a weekly rent ("£550 pw") passes a monthly limit.
-- Distances are straight-line, not walking routes.
+| Step | Do this | You'll see |
+|:---:|---|---|
+| **1** | Open **http://localhost:3000** (see [Run it yourself](#️-run-it-yourself)) | The landing page, featured homes, and three ways in: explore, ask the AI agent, book a viewing |
+| **2** | Open **Kelso Villa** | A **Verified facts** panel: price, tenure, areas and EPC each with issuer, document, date, page and quote; parking and sale-or-let show **Pending verification** with their contradiction id |
+| **3** | Click **Talk to 24/7 Live Agent** and ask about parking, then the price and its source | The safe wording for parking, and the price with its citation |
+| **4** | Go back and press **Start a call** under *Ask the AI agent* | The agent on the left, a map and info panel on the right |
+| **5** | Say *"Which flats are closest to a supermarket?"*, then *"Tell me more about the first one"* | Results pinned on the map; the chosen home opens in the panel with its walking time |
+| **6** | Say *"I'd like to reserve it"* and give a name and phone number | A reservation confirmation on screen and in `data/sessions/<room>/booking.json` |
+| **7** | Open **/review** | The review workbench with the nine demo comparisons: compare two source quotes, then confirm or hold |
 
-Notes:
-- **Changing the voice:** set `XAI_VOICE` in `.env` and restart the agent. Other voices include `eve`, `sal`, `rex`, `leo` and about 20 more (see the xAI docs).
-- **No Podman on Windows?** Download `livekit-server.exe` from the [LiveKit releases](https://github.com/livekit/livekit/releases) and run `livekit-server --dev --bind 127.0.0.1` in place of `podman compose up`.
-- **Cloning on Windows:** the file `requirements.md ` (trailing space in the name) can't be checked out on Windows. After the clone reports "checkout failed", run this from Git Bash in the repo to restore everything else:
+---
 
-  ```bash
-  git -c core.protectNTFS=false read-tree HEAD
-  git -c core.protectNTFS=false update-index --skip-worktree -- "requirements.md "
-  git -c core.protectNTFS=false ls-files -z | grep -zv '^requirements.md $' | xargs -0 git checkout HEAD --
-  ```
-- **On a local LiveKit server**, the agent log shows that LiveKit Cloud's adaptive interruption and audio filter are disabled. That's expected, and the agent falls back to Silero VAD.
+## 🎯 The problem
 
-## Architecture
+### The same home has several "facts", and the listing only shows one
 
+A property is described by a brochure, then a newer brochure, a measured survey, a vendor's price instruction, a developer's schedule of finishes and the official EPC register. They disagree, often for good reasons: a price was cut, a brochure measured gross instead of net, a development-wide spec does not apply to every plot. Today a person reconciles them by eye, or nobody does, and the portal or the chatbot repeats whichever number it saw first.
+
+### Who it is for
+
+- 🏢 **Sales and lettings agencies** who need one defensible record per unit before it goes live.
+- 📞 **Buyers and renters** who want a straight answer at any hour, and a source they can check.
+- ⚖️ **Compliance teams**: material information (price, tenure, area, parking, EPC) must not mislead.
+
+### What people do today
+
+| Option | Good at | Falls short |
+|---|---|---|
+| Copy the latest brochure to the portal | Fast | Inherits its mistakes; older claims stay live elsewhere |
+| A negotiator checks by eye | Judgement | Slow, no audit trail, not repeatable |
+| A generic AI chatbot on the listing | Always on | Picks one number, cannot say which document it came from, invents when unsure |
+| **Verified Fact Record** | **Every fact with a receipt, conflicts held for a human, a voice agent that cites** | See [Known limits](#-known-limits) |
+
+---
+
+## 📚 The demo documents and contradictions
+
+Five documents across two developments (`fact_record/sample_data`): the real Carter Jonas and Strutt & Parker brochures, plus synthetic documents marked `synthetic: true` with a "Demo document" footer.
+
+| Development | Documents | What disagrees |
+|---|---|---|
+| **Kelso Villa** | April 2026 To Let particulars, October 2026 For Sale particulars (both scanned), measured survey (Sept 2026) | Price £700k → £600k; 185 sq m printed as 2,700 sq ft; net area 1,990 vs 1,912 sq ft; gross 2,700 vs 2,672 sq ft; parking 6 vs 5; EPC B in marketing vs C on the register |
+| **59 St Huberts Close** | Strutt & Parker brochure, vendor price instruction (Nov 2026), developer schedule of finishes | Guide £1,458,000 → £1,395,000; "all en-suites have walk-in showers" (development) vs a principal en-suite bathroom (No. 59); type D plot facts must not merge into No. 59 (type E) |
+
+The answer key (`contradictions.json`) holds **11 contradictions covering 6 of 7 types**: version supersession, true conflict, unit or measurement mismatch, scope difference, plot or type variation, and official record mismatch. Each has the evidence (document, page, value, verbatim quote), the expected resolution, and what the voice agent should say.
+
+---
+
+## ⚙️ How it works
+
+### 1. Extract every fact with its receipt
+
+The extractor (`python -m extraction run`) reads text layers, OCRs scanned pages, decodes text that was shifted in the PDF, and emits facts with document, page, quote, date, issuer and authority tier. The workbench can also extract in the browser (pdf.js text layer plus tesseract.js OCR) when the service is not running.
+
+### 2. Classify the disagreement, recommend, never decide alone
+
+Source tier beats recency; date breaks ties within a tier. A later formal price instruction can replace a brochure. Safe scope and basis differences are kept side by side automatically. True conflicts, document errors and price changes always go to a human.
+
+### 3. Publish one record, two shapes
+
+Reviewed facts go to Supabase in one transaction: append-only evidence and audit events, versioned accepted facts (`current_property_facts`), scoped claims and open exceptions. The same record is exported as contract **05** (listing: each field verified, pending or not stated, with citation) and contract **04** (voice: statements the agent may say, plus `do_not_state` with safe phrasing).
+
+### 4. Show and speak only what is verified
+
+The site reads contract 05 (and Supabase when configured). The voice agent reads contract 04 (and Supabase when configured), drops any statement whose field is still disputed, and is told to quote only verified facts and cite them when asked.
+
+---
+
+## 🎙️ The voice agent
+
+Built on **LiveKit Agents** with **xAI** for all three stages: xAI speech-to-text, **Grok** (`grok-4.20-0309-non-reasoning` through xAI's chat-completions endpoint) and xAI text-to-speech (voice `ara`). Silero detects the end of each turn.
+
+| Mode | Started from | It can |
+|---|---|---|
+| 🏠 **One property** | *Talk* on any listing | Answer from that listing (verified facts only for verified listings), describe the floor plan and photos, book a viewing, reserve the unit, capture contact details, save a call summary |
+| 🗺️ **General search** | *Start a call* on the landing page, or `/call/general` | Rank all listings by distance to a supermarket, park, station, school, gym, pharmacy, café, restaurant, pub or doctor, filter by budget and bedrooms, open a home on the map, then book or reserve it |
+
+| Tool | What it does |
+|---|---|
+| `find_properties_near` | Ranks listings by straight-line distance to the nearest amenity, with an approximate walking time |
+| `show_property` | Opens a listing on the caller's map and info panel, and loads its details |
+| `book_viewing` | Books a viewing for the current listing, or any listing by id |
+| `reserve_unit` | Records a holding reservation (name, contact, move-in date); the lettings team confirms |
+| `capture_customer_details`, `save_call_details` | Save contact details, summary and transcript to `data/sessions/<room>/` |
+| `web_search` | Local-area search through Perplexity when `PERPLEXITY_API_KEY` is set |
+
+Map data comes from OpenStreetMap through Nominatim, saved once to `work/amenities.json` by `scripts/fetch_amenities.py`, so a call never waits on a map service.
+
+---
+
+## 🏗️ Architecture
+
+```mermaid
+flowchart LR
+  PDF[Brochures, surveys,<br/>price instructions] --> X[Extractor<br/>fact_record/extraction]
+  X -->|facts + contradictions| W[Review workbench<br/>/review]
+  W -->|confirm, choose, keep scoped| DB[(Supabase<br/>versioned fact record)]
+  DB --> C05[Contract 05<br/>listing]
+  DB --> C04[Contract 04<br/>voice]
+  C05 --> SITE[Next.js site<br/>listings, verified facts panel]
+  C04 --> AG[Voice agent<br/>LiveKit + xAI Grok]
+  OSM[OpenStreetMap<br/>amenities.json] --> AG
+  AG -->|search.json, booking.json| SITE
 ```
-Browser (client/, Next.js)                     Agent worker (src/agent.py)
-  grid  ─▶ /property/[id] ─▶ /call/[id]           AgentSession
-                │                                   ├─ STT  → xAI
-     GET /api/token?property_id ──┐                 ├─ LLM  → xAI Grok (grok-4.20-0309-non-reasoning)
-                │                 │                 ├─ TTS  → xAI (voice "ara")
-                ▼                 ▼                 └─ VAD  → Silero (local)
-        LiveKit room  ◀── RoomAgentDispatch(metadata={property_id})
-                │                                   reads ctx.job.metadata → one property
-                │                                   floor plan + photos → ChatContext (vision)
-                ▼                                   tools: book_viewing, reserve_unit, web_search,
-   /api/sessions/[room] ◀── data/sessions/<room>/  capture_customer_details, save_call_details,
-        (booking.json, search.json, ...)          find_properties_near, show_property
+
+| Part | Tech | Folder |
+|---|---|---|
+| Extraction pipeline and service | Python, OCR | `fact_record/extraction`, `fact_record/extraction_service` |
+| Review workbench | Dependency-free browser app, served by the Next app at `/review` | `conflict-resolution-ui/` |
+| Fact store | Supabase (Postgres), migrations and a `published_fact_state` function | `supabase/migrations` |
+| Listing site | Next.js 15, Tailwind, LiveKit client | `client/` |
+| Voice agent | LiveKit Agents 1.8, xAI STT, Grok, xAI TTS, Silero | `src/` |
+
+---
+
+## 📊 Measured results
+
+What was measured on 12 November 2026, on the running system:
+
+| Check | Result |
+|---|---|
+| Voice agent asked *"How many parking spaces does Kelso Villa have?"* | Gave the safe wording, no number ✅ |
+| Voice agent asked for the price and its source | *"£600,000, per the Carter Jonas particulars dated 2026-10-16, page 2"* ✅ |
+| General agent: *"closest to a supermarket"*, *"tell me more about the first one"*, *"reserve it"* | Called `find_properties_near`, then `show_property`, then `reserve_unit`; reservation saved ✅ |
+| General agent: *"near a park under £2,500 with two bedrooms"* | Called `find_properties_near` with park, £2,500 and 2 bedrooms ✅ |
+| Amenity ranking across all listings | 2–6 ms per query |
+| Perceived reply time in a live call (end of speech to first audio) | 1.7–3.5 s |
+| Amenity snapshot | 79 supermarkets, 126 parks, 63 stations, 119 schools, 34 gyms, 56 pharmacies, 50 cafés, 50 restaurants, 50 pubs, 23 doctors or hospitals |
+
+The extraction answer key is in `fact_record/sample_data/contradictions.json`. Score an extraction run against it with:
+
+```bash
+cd fact_record
+python -m extraction all
 ```
 
-## Prerequisites
+---
 
-- [uv](https://docs.astral.sh/uv/) and Python 3.12+ (backend)
-- [Node.js](https://nodejs.org/) 20+ and npm (frontend)
-- [Podman](https://podman.io/) (local LiveKit server)
-- [xAI API key](https://console.x.ai) (`XAI_API_KEY`)
+## 🏆 How it meets the judging criteria
 
-## Setup
+<table>
+<tr><th width="22%">Criterion</th><th>Our case</th></tr>
+<tr><td>🎯 <b>Relevance</b></td><td>Track 2 asks for accurate parsing, a citation for every field, and something useful built on top. Every fact carries its document, page and quote, and two products are built on the record: a listing site and a voice agent.</td></tr>
+<tr><td>⚙️ <b>Execution</b></td><td>The whole loop runs: extract → reconcile → review → Supabase → site and voice. Real scanned brochures, a typed answer key of 11 contradictions, and a live voice agent with seven tools.</td></tr>
+<tr><td>🤖 <b>Effective use of Grok Bot and Cursor</b></td><td>The agent runs on xAI end to end: speech-to-text, Grok for reasoning and tool calls, and the xAI voice. Cursor agents built parts of the review workbench and the extraction upload on their own branches, merged through pull requests (visible in the commit history).</td></tr>
+<tr><td>🧾 <b>Traceable data</b></td><td>Document, page, verbatim quote, date, issuer and authority tier on every fact; append-only evidence and audit events in Supabase; the voice agent cites the source on request.</td></tr>
+<tr><td>🌍 <b>Practical usefulness</b></td><td>An agency gets one defensible record per unit; a buyer gets a straight, sourced answer at any hour, finds homes by what is nearby, and can book or reserve on the same call.</td></tr>
+</table>
 
-1. Backend dependencies:
+---
+
+## 🙏 Team, credits and data
+
+- **Team:** Abhinav Chhabra, Jigar, Siya Ahuja and Anthony Tan (TYK3).
+- **AI and platforms:** xAI (Grok, speech-to-text, text-to-speech), LiveKit Agents, Supabase, Perplexity (optional search), and Cursor for building.
+- **Documents:** Carter Jonas (Kelso Villa particulars) and Strutt & Parker (59 St Huberts Close particulars). The measured survey, price instruction and schedule of finishes are synthetic and labelled as such.
+- **Listings:** Hamptons E14 lettings data in `work/`.
+- **Map data:** © OpenStreetMap contributors, available under the Open Database Licence, retrieved through Nominatim.
+
+---
+
+## 🛠️ Run it yourself
+
+**You need:** [uv](https://docs.astral.sh/uv/) with Python 3.12+, [Node.js](https://nodejs.org/) 20+, a LiveKit server (Podman, or the `livekit-server` binary), and an [xAI API key](https://console.x.ai).
+
+**1. Install and configure**
 
 ```bash
 uv sync
-```
-
-2. Backend env file:
-
-```bash
 cp .env.example .env
-```
-
-Fill in `XAI_API_KEY`. The LiveKit vars are pre-filled for the local Podman server.
-
-3. Download the Silero VAD model (one-time):
-
-```bash
 uv run python src/agent.py download-files
+cd client && npm install && cp .env.example .env && cd ..
 ```
 
-4. Frontend dependencies and env:
+Put your key in `.env` as `XAI_API_KEY=`. The LiveKit values are pre-filled for a local dev server.
 
-```bash
-cd client
-npm install
-cp .env.example .env
-```
-
-The client `.env` reuses the same `LIVEKIT_URL` / `LIVEKIT_API_KEY` / `LIVEKIT_API_SECRET` as the agent, plus `AGENT_NAME=property-agent` and `SESSIONS_DIR=../data/sessions`.
-
-## Run locally
-
-**Terminal 1** — LiveKit media server:
+**2. Start three terminals**
 
 ```bash
 podman compose up
 ```
 
-The `--dev` flag in `compose.yml` uses built-in dev credentials (`devkey` / `secret`).
-
-**Terminal 2** — agent worker:
+On Windows without Podman, download `livekit-server` from the [LiveKit releases](https://github.com/livekit/livekit/releases) and run `livekit-server --dev --bind 127.0.0.1` instead.
 
 ```bash
 uv run python src/agent.py dev
 ```
 
-You should see `registered worker` when it connects to `ws://localhost:7880`.
-
-**Terminal 3** — web client:
-
 ```bash
-cd client
-npm run dev
+cd client && npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000), pick a property, and click **Ask about this property** (bottom-right). The client mints a token that dispatches the `property-agent` into a room named for that property; the agent joins scoped to that listing.
+Open **http://localhost:3000**. The agent log shows `registered worker` when it is ready.
 
-## How a call is scoped to one property
-
-- The client requests `GET /api/token?property_id=<id>` ([client/src/app/api/token/route.ts](client/src/app/api/token/route.ts)), which mints a LiveKit token with `RoomAgentDispatch(agent_name="property-agent", metadata={ property_id })`.
-- The agent reads `ctx.job.metadata` in [src/agent.py](src/agent.py), loads just that property from [work/hamptons_e14_2dr_lettings.json](work/hamptons_e14_2dr_lettings.json), builds property-specific instructions, and preloads the floor plan + photos into the `ChatContext` as images.
-- Session output is written to `data/sessions/<room>/` (`session.json`, `booking.json`, `customer.json`, `call_summary.txt`, `transcript.txt`) and surfaced live in the UI via `GET /api/sessions/<room>`.
-
-## Environment variables
-
-| Variable | Where | Purpose |
-|----------|-------|---------|
-| `LIVEKIT_URL` | agent + client | WebSocket URL (`ws://localhost:7880` locally) |
-| `LIVEKIT_API_KEY` | agent + client | API key (`devkey` for local Podman) |
-| `LIVEKIT_API_SECRET` | agent + client | API secret (`secret` for local Podman) |
-| `XAI_API_KEY` | agent | xAI STT, Grok LLM and TTS |
-| `XAI_TEXT_MODEL` | agent | Optional Grok model (default `grok-4.20-0309-non-reasoning`) |
-| `XAI_VOICE` | agent | Optional TTS voice (default `ara`) |
-| `PERPLEXITY_API_KEY` | agent | Optional. Enables the `web_search` tool; without it the agent uses map data or says it will check |
-| `FACT_LISTING_PATH` | agent + client | Optional path to contract 05 (default `fact_record/contracts/05_listing.json`) |
-| `FACT_VOICE_PATH` | agent | Optional path to contract 04 (default `fact_record/contracts/04_voice_agent.json`) |
-| `AGENT_NAME` | client | Dispatch name (`property-agent`) |
-| `SESSIONS_DIR` | client | Path to the agent's session output (`../data/sessions`) |
-
-## Development
+**3. Optional: the extraction service and Supabase**
 
 ```bash
-uv run ruff check .
-uv run ruff format .
-cd client && npm run build
+pip install -r fact_record/requirements.txt
+python fact_record/extraction_service/server.py
 ```
 
-## Project structure
+Apply `supabase/migrations/` to a Supabase project and set the `SUPABASE_*` values below. Without them, the site and agent read the JSON contracts.
+
+**4. Optional: refresh the map data**
+
+```bash
+uv run python scripts/fetch_amenities.py
+```
+
+<details>
+<summary><b>⚙️ Environment variables</b></summary>
+
+| Variable | Used by | Purpose |
+|---|---|---|
+| `XAI_API_KEY` | agent | xAI speech-to-text, Grok and text-to-speech |
+| `XAI_TEXT_MODEL` | agent | Grok model (default `grok-4.20-0309-non-reasoning`) |
+| `XAI_VOICE` | agent | Voice (default `ara`; others include `eve`, `sal`, `rex`, `leo`) |
+| `LIVEKIT_URL`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET` | agent and site | LiveKit connection (`ws://localhost:7880`, `devkey`, `secret` locally) |
+| `AGENT_NAME`, `SESSIONS_DIR` | site | Agent dispatch name (`property-agent`) and session folder (`../data/sessions`) |
+| `SUPABASE_URL`, `SUPABASE_ANON_KEY` | agent and site | Read the published fact record |
+| `SUPABASE_SERVICE_ROLE_KEY` | extraction service | Write extractions and reviews |
+| `SUPABASE_ALLOW_EXAMPLE` | extraction service | Allow the bundled sample datasets to be saved |
+| `FACT_LISTING_PATH`, `FACT_VOICE_PATH` | agent and site | Override the paths to contracts 05 and 04 |
+| `PERPLEXITY_API_KEY` | agent | Enables `web_search` |
+| `PROPERTY_SHOW_FLOORPLAN`, `PROPERTY_SHOW_EPC` | site | Show floor plan and EPC images on property pages |
+
+</details>
+
+<details>
+<summary><b>🗺️ Repo map</b></summary>
 
 ```
 .
-├── src/
-│   ├── agent.py            # Voice agent: per-property or general search; tools below
-│   ├── properties.py       # Catalogue loader (Hamptons + verified listings) + formatting
-│   ├── amenities.py        # Map proximity ranking (find_properties_near)
-│   └── session_store.py    # Per-session persistence (booking/customer/search/summary/transcript)
-├── client/                 # Next.js frontend (grid, detail, in-call view, API routes)
-│   └── src/app/
-│       ├── page.tsx                    # Listings grid
-│       ├── property/[id]/page.tsx      # Property detail + verified facts panel + call button
-│       ├── call/[id]/page.tsx          # In-call view (/call/general = search agent + map)
-│       └── api/token, api/sessions     # Token minting + live session data
-├── fact_record/            # Extraction pipeline + contracts 04 (voice) and 05 (listing)
-├── scripts/fetch_amenities.py  # Snapshot OpenStreetMap amenities to work/amenities.json
-├── work/                   # Hamptons dataset, amenities.json (+ scraped source pages)
-├── data/sessions/          # Per-call output written by the agent
-├── compose.yml             # Local LiveKit server
-└── pyproject.toml
+├── src/                    # Voice agent (LiveKit + xAI): tools, verified-fact loader, map ranking
+├── client/                 # Next.js site: landing, explore, property pages, calls, market, fact checks
+├── conflict-resolution-ui/ # Review workbench (served at /review)
+├── fact_record/
+│   ├── extraction/         # Extractor, contradiction detection, evaluation
+│   ├── extraction_service/ # Local HTTP extraction service, Supabase sink
+│   ├── contracts/          # 01 extracted → 02 review actions → 03 resolved → 04 voice, 05 listing
+│   └── sample_data/        # Demo documents, manifest and the contradictions answer key
+├── supabase/migrations/    # Fact record schema and published_fact_state
+├── scripts/                # fetch_amenities.py and data helpers
+├── work/                   # Hamptons listings and amenities.json
+└── data/sessions/          # Per-call bookings, reservations, transcripts (git-ignored)
 ```
 
-## Docs
+</details>
 
-- [Agent dispatch (job metadata)](https://docs.livekit.io/agents/server/agent-dispatch/)
-- [Images & vision](https://docs.livekit.io/agents/multimodality/vision/images/)
-- [React voice frontend](https://docs.livekit.io/frontends/start/react-quickstart/)
+<details>
+<summary><b>🪟 Cloning on Windows</b></summary>
+
+The file `requirements.md ` has a trailing space in its name, which Windows cannot create. After the clone reports "checkout failed", run this in Git Bash inside the repo:
+
+```bash
+git -c core.protectNTFS=false read-tree HEAD
+git -c core.protectNTFS=false update-index --skip-worktree -- "requirements.md "
+git -c core.protectNTFS=false ls-files -z | grep -zv '^requirements.md $' | xargs -0 git checkout HEAD --
 ```
+
+</details>
+
+---
+
+## 🚧 Known limits
+
+- **Synthetic documents.** Three of the five demo documents are synthetic, and the review workbench's default dataset is a worked scenario. Real uploads replace it.
+- **Reviewer identity.** Names and times in the workbench are stored in the browser and are not authenticated.
+- **Distances.** Map distances are straight lines, not walking routes, and the budget filter compares numbers only, so a weekly rent passes a monthly limit.
+- **EPC.** The official register is not queried directly; the EPC mismatch rests on the survey quoting the register.
+- **Local only.** The demo runs on a local LiveKit server; LiveKit Cloud's noise filter and adaptive interruption are switched off there, and Silero handles turn-taking.
