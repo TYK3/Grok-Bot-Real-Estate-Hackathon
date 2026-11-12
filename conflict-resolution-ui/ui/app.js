@@ -536,7 +536,7 @@ const SAMPLE_EXTRACTION_URL='./data/extracted/sample_extraction.json';
 async function extractPdfFacts(prepared,ingested){
   const pdfs=prepared.map((p,i)=>({p,doc:ingested.documents.find(d=>d.kind==='pdf'&&(d.base_name===p.name||d.name===p.name))})).filter(x=>x.p.objectUrl&&x.doc);
   if(!pdfs.length)return {facts:[],warnings:[]};
-  const banner=$('ingest-banner');banner.hidden=false;banner.textContent=`Extracting facts from ${pdfs.length} PDF${pdfs.length===1?'':'s'}…`;
+  const banner=$('ingest-banner');const progress=(t)=>{banner.hidden=false;banner.textContent=t;if(state.parsing)setParseStatus(true,t);};progress(`Extracting facts from ${pdfs.length} PDF${pdfs.length===1?'':'s'}…`);
   const uploads=await Promise.all(pdfs.map(async x=>({name:x.p.name,doc_id:x.doc.doc_id,sha256:await sha256Hex(x.p.bytes)})));
   let payload=null,via='';
   try{
@@ -545,7 +545,7 @@ async function extractPdfFacts(prepared,ingested){
     // Short timeout only for reachability; extraction itself may take a while.
     const health=await fetch(EXTRACTOR_URL.replace('/extract','/health'),{signal:ctl.signal});clearTimeout(t);
     if(health.ok){
-      banner.textContent=`Extracting facts from ${pdfs.length} PDF${pdfs.length===1?'':'s'} (live extractor, OCR may take a minute)…`;
+      progress(`Extracting facts from ${pdfs.length} PDF${pdfs.length===1?'':'s'} (live extractor, OCR may take a minute)…`);
       const r=await fetch(EXTRACTOR_URL,{method:'POST',body:form});
       if(r.ok){payload=await r.json();via='live extractor';}
     }
@@ -560,7 +560,7 @@ async function extractPdfFacts(prepared,ingested){
     via=(payload?'live extractor + ':'')+'in-browser extraction';
     for(const x of browserPdfs){
       try{
-        const r=await extractPdfInBrowser(x.p.bytes,{name:x.p.name,doc_id:x.doc.doc_id},msg=>{banner.textContent=`Extracting facts… ${msg}`;});
+        const r=await extractPdfInBrowser(x.p.bytes,{name:x.p.name,doc_id:x.doc.doc_id},msg=>progress(`Extracting facts… ${msg}`));
         facts.push(...r.facts);matched.push(x.p.name);ocr+=r.ocrPages;
         x.doc.doc_type=r.doc_type;if(r.published_date)x.doc.published_date=r.published_date;
         if(!x.doc.property_ids.includes(r.property_id))x.doc.property_ids.push(r.property_id);
