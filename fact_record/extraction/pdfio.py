@@ -257,7 +257,10 @@ def load_document(path: str, cache_dir: str = ".cache", ocr: bool = True) -> Doc
         rows = _rows_from_words(pdf_words, "pdf_text") if status in ("good", "partial_garbled") else []
 
         ocr_text = ""
-        if ocr:
+        ocr_words = []
+        # Skip OCR when the page already has a healthy text layer (fast, no tesseract needed).
+        has_text = status == "good" and len(re.findall(r"[A-Za-z0-9]", raw)) >= 200
+        if ocr and not has_text:
             cache = os.path.join(ocr_dir, f"{sha[:16]}_p{n}_{OCR_VERSION}.json")
             if os.path.exists(cache):
                 with open(cache) as f:
@@ -266,9 +269,14 @@ def load_document(path: str, cache_dir: str = ".cache", ocr: bool = True) -> Doc
             else:
                 scale = OCR_DPI / 72
                 rgb = Image.open(io.BytesIO(p.get_pixmap(dpi=OCR_DPI).tobytes("png"))).convert("RGB")
-                ocr_text, ocr_words = _ocr(rgb, scale)
-                with open(cache, "w") as f:
-                    json.dump({"text": ocr_text, "words": [w.__dict__ for w in ocr_words]}, f)
+                try:
+                    ocr_text, ocr_words = _ocr(rgb, scale)
+                    with open(cache, "w") as f:
+                        json.dump({"text": ocr_text, "words": [w.__dict__ for w in ocr_words]}, f)
+                except Exception as e:  # tesseract missing/broken: degrade to text layer only
+                    import sys
+                    print(f"[pdfio] OCR unavailable for {os.path.basename(path)} p{n}: {type(e).__name__}", file=sys.stderr)
+                    ocr_text, ocr_words = "", []
             pdf_alnum = len(re.findall(r"[A-Za-z0-9]", raw))
             if status == "good" and pdf_alnum < 0.25 * len(re.findall(r"[A-Za-z0-9]", ocr_text)):
                 status = "sparse"
