@@ -208,6 +208,9 @@ const FIELD_ALIASES = {
   parking_total: 'parking_total',
   en_suite_bathroom: 'en_suite_bathroom',
   ensuites: 'en_suite_bathroom',
+  bathroom_fixture: 'en_suite_bathroom',
+  en_suite_fittings: 'en_suite_bathroom',
+  ensuite_fittings: 'en_suite_bathroom',
 };
 
 const OFFICIAL_DOC_TYPES = new Set([
@@ -227,7 +230,15 @@ const OFFICIAL_DOC_TYPES = new Set([
 const BROCHURE_DOC_TYPES = new Set(['brochure', 'particulars', 'sale_particulars']);
 const LISTING_DOC_TYPES = new Set(['listing', 'portal', 'web_listing', 'advert', 'crm', 'verbal']);
 const CONTRACT_DOC_TYPES = new Set(['contract', 'signed_legal', 'lease', 'sale_contract', 'reservation', 'reservation_agreement', 'title', 'current_title']);
-const SPEC_DOC_TYPES = new Set(['specification', 'measured_survey', 'design_spec', 'survey', 'signed_specification']);
+const SPEC_DOC_TYPES = new Set([
+  'specification',
+  'measured_survey',
+  'design_spec',
+  'survey',
+  'signed_specification',
+  'schedule_of_finishes',
+  'finishes_schedule',
+]);
 const PRICE_LIST_DOC_TYPES = new Set(['price_list', 'signed_price_list', 'developer_instruction']);
 
 const AREA_FIELDS = new Set(['net_floor_area', 'gross_floor_area', 'floor_area', 'lower_ground_floor_area']);
