@@ -1,0 +1,733 @@
+12/11/2026, 20:47Verified fact record — product spec
+Page 1 of 15https://verified-fact-record-product-spec-p3t2.pages.grok.bot/
+Verified fact record — product spec
+One verified, versioned set of facts per property unit, so a voice agent can answer
+buyers and renters from current, cited information only. Written for Jigar at the Grok
+Bot Real Estate Hackathon, London, 12 November 2026. Code freeze is 23:00
+Europe/London.
+Contents
+Product and customer
+Stakeholder and data-source map
+Ingestion pipeline
+Core features
+Contradiction handling
+Fact catalogue
+Voice agent contract
+Evidence from tonight
+Demo, roadmap, risks and next test
+How to read this page
+Evidence is from tonight's hackathon material (live listings, 185 sale brochures, Land
+Registry Price Paid matching, and Dwelly's synthetic cases) or from a document we
+opened. Assumptions are labelled as such. No market-size, frequency, or willingness-
+to-pay figures are invented. Wrong or stale material facts in marketing can breach UK
+consumer-protection rules and the National Trading Standards Estate and Letting
+Agency Team (NTSELAT) material information guidance that estate and letting agents
+are expected to follow. That duty is mentioned only in general terms. This page is not
+legal advice and does not cite clause numbers.
+Product and customer
+Property facts start in many places — the developer, the architect, the sales agency,
+the letting agent, the conveyancer, the managing agent, and official registers such as
+Land Registry and the EPC register — and they change as a development moves
+from planning to sale to management. The same figure is copied from document to
+document, often by a different team, and the copies disagree: one brochure says
+showers, another says baths; one set of particulars says £700,000, a later one says
+
+===== PAGE =====
+
+12/11/2026, 20:47Verified fact record — product spec
+Page 2 of 15https://verified-fact-record-product-spec-p3t2.pages.grok.bot/
+showers, another says baths; one set of particulars says £700,000, a later one says
+£600,000. This product ingests every available source for a development and for
+each unit, extracts structured facts with their provenance (document, page, quoted
+text, date, and author or owner), detects contradictions, applies resolution rules, and
+requires a human agent to verify anything the rules cannot settle. The result is one
+versioned fact record per unit. A voice agent — the customer interface for buyers
+and renters — answers only from that current verified record, cites the source and
+date, flags anything unverified or still in conflict, and escalates rather than guessing,
+so a caller is not left acting on the wrong information.
+Paying customer
+Assumed to be the sales or
+letting agency, or the
+developer that instructs
+them. They own the
+documents, they are
+responsible for material
+facts in marketing, and they
+take the enquiry. We have
+not tested who would buy
+this or what they would pay.
+That is an assumption, not a
+finding from tonight's data.
+End user
+The buyer or renter who
+calls. They never see the
+workbench. They hear only
+verified current facts, or a
+clear refusal and an
+escalation to a human
+agent, with their details
+taken as a lead.
+The product is not a general property-search wrapper, and it is not a chatbot over
+raw PDFs. The voice layer is deliberately thin. Its job is to speak from a checked
+record, not to invent a search experience the judges will have already seen.
+Stakeholder and data-source map
+In a real sales and lettings process, facts pass through several teams and document
+types, not just brochures. Tonight's bulk Drive folder is sales brochures, so the other
+document types below are the product's intended sources — and the roadmap — not
+what we can demo from that folder. The lifecycle runs: land and planning, design and
+specification, pre-launch pricing, marketing, enquiry and viewing, reservation and
+offer, conveyancing, completion and handover, then letting and management.
+
+===== PAGE =====
+
+12/11/2026, 20:47Verified fact record — product spec
+Page 3 of 15https://verified-fact-record-product-spec-p3t2.pages.grok.bot/
+Update frequency and raw trust are typical values (assumption), except where tonight's data
+gives a concrete example. Raw trust is how much an unverified document from this source
+should be believed before resolution.
+Ingestion pipeline
+Every source, from every stakeholder above, enters the same pipeline and lands in
+the same fact record. A fact is not visible to the voice agent until it is verified, or until
+a resolution rule has settled it and a human has not been required to intervene.
+Stakeholder Documents and data they produce
+Developer / property owner Specifications, floor plans, schedules of accommodation, price
+lists, unit allocations, marketing briefs, handover packs
+Architects and planning consultants Planning application, drawings, Design and Access Statement,
+specifications, planning conditions, as-built drawings
+Sales and marketing agency Sales brochures, formal particulars, CGIs, websites, price cards
+Letting and sales agents (front line) Portal listings, CRM notes, availability, viewing feedback, tenancy
+marketing
+Conveyancers and solicitors Draft contracts, title packs, searches, formal enquiries, leases,
+report on title
+Managing agents Service-charge budgets, residents' handbooks, invoices,
+maintenance quotes
+Land Registry Title register and plan, tenure, proprietorship, Price Paid
+EPC register Energy rating, certificate floor area, heating fuel, certificate date
+Warranty and building-safety assessorsNHBC or equivalent warranty, EWS1 or successor assessment,
+fire-risk and building-safety documents
+Buyer or renter Enquiries only — they consume facts, they do not produce them
+Ingest
+
+===== PAGE =====
+
+12/11/2026, 20:47Verified fact record — product spec
+Page 4 of 15https://verified-fact-record-product-spec-p3t2.pages.grok.bot/
+Classify
+Doc type, stakeholder,
+development
+Extract
+Facts plus provenance: doc, page,
+quote, date, owner
+Normalise
+sq ft / sq m, NIA / GIA, unit IDs,
+tenure terms
+Entity resolution
+Development, block, unit, plot —
+refuse if unsure
+Conflict?
+R Resolution Rules, then human sign-off
+Verified fact store
+Versioned fact record per unit
+Clear / auto-rule
+Conflict
+Signed off
+
+===== PAGE =====
+
+12/11/2026, 20:47Verified fact record — product spec
+Page 5 of 15https://verified-fact-record-product-spec-p3t2.pages.grok.bot/
+Entity resolution is the step that makes every later comparison trustworthy. A join is
+when the system links a listing or a document to an official record, or two documents
+to each other, because they look like the same property. A bad join compares the
+wrong properties and raises a false conflict. Tonight's evidence: organiser pre-joins in
+the sample were often wrong (Flat 53 Coachman Court was matched to Flat 21), and
+a first pass of tenure mismatches was mostly bad joins, not real errors. The rule is
+strict: require a postcode and a house number or building name; do not merge on
+postcode alone; reject an agent's office address used in place of the property; do
+not use organiser pre-joins as ground truth; if the match is not confident, refuse and
+hold the item unmatched. Do not invent a conflict from an uncertain join.
+Normalisation is what stops measurement artefacts looking like disputes. Store both
+square metres and square feet, and always label the basis (NIA, GIA, or another
+stated standard). Keep unit, plot and type identifiers as extracted, and map them
+only after resolution. Treat freehold, leasehold and share of freehold as a controlled
+vocabulary, not free text.
+Change propagation
+1 A new or revised source arrives
+It is ingested through the same pipeline, whether it is a new brochure, a listing edit, or an
+official-record refresh.
+2 It is attached to the right unit, or held
+If entity resolution is not confident, the source is unmatched and no live fact changes.
+3 New values are compared with the current fact record
+Each field is classified: identical, supersession, measurement or scope difference, or true
+conflict.
+4 Supersession updates the record
+A later document of the same type from the same issuer can replace the value. The
+previous value stays in history, with who published it and when.
+5 A conflict takes the fact off the voice channel
+Versioned fact record per unit
+Voice agent
+ Notifications
+Agents, listings, open enquiries
+On change
+
+===== PAGE =====
+
+12/11/2026, 20:47Verified fact record — product spec
+Page 6 of 15https://verified-fact-record-product-spec-p3t2.pages.grok.bot/
+A conflict takes the fact off the voice channel
+The field becomes pending or conflicting. The voice agent stops quoting it. The human
+agent is notified to sign it off.
+6 After sign-off, the new verified value is published
+Listings that still show the old value are flagged. Open enquiries that were told a previous
+value are queued for a correction — a later feature, not tonight's demo.
+Core features
+MVP is what the first usable product, and tonight's demo, must do. Later is the roadmap once
+the core loop works.
+MVP Multi-source ingest · MVP
+Take in PDF particulars, listing rows, and Land Registry Price Paid
+records where a match is confident. Without more than one source,
+there is nothing to reconcile.
+Build tonight
+MVP Classification · MVP
+Identify document type, stakeholder, development and date, so later
+rules know what they are comparing.
+Build tonight
+MVP Extraction with full provenance · MVP
+Every structured fact carries the document, page, quoted text, date, and
+author or owner. Traceable data is scored on every hackathon track, and
+the voice agent cannot cite a source it does not have.
+Build tonight
+MVP Normalisation · MVP
+Currency, area in both sq m and sq ft, NIA vs GIA labelled, tenure
+vocabulary, and unit identifiers. This is what revealed the Kelso Villa
+floor-area error as a conversion and basis mistake, not two different
+buildings.
+Build tonight
+MVP Strict entity resolution · MVP
+Match development, block, unit and plot with a refuse-to-guess rule.
+This is the real engineering. A sloppy matcher cries wolf, and a judge
+who clicks one false flag stops trusting the rest.
+Build tonight
+MVP Conflict detection and taxonomy · MVP
+Classify each disagreement (true conflict, supersession, measurement,
+scope, plot or type, stale listing, official-record mismatch) so the right
+rule, and the right voice script, can run.
+Build tonight
+MVP Resolution workbench · MVP
+Suggest a rule-based outcome, then let the human agent accept or
+override it. Record who chose, when, and a short reason. Without this,
+there is no verified record and no audit trail.
+Build tonight
+
+===== PAGE =====
+
+12/11/2026, 20:47Verified fact record — product spec
+Page 7 of 15https://verified-fact-record-product-spec-p3t2.pages.grok.bot/
+there is no verified record and no audit trail.
+MVP Versioned fact record per unit · MVP
+One current value per field, with full history. This is the object the voice
+agent reads. It is also what makes a later correction explainable.
+Build tonight
+MVP Official-record check · MVP
+Where a Land Registry match is confident, compare tenure and property
+type and flag mismatches as 'check this', not as automatic errors.
+Complements brochure-to-brochure reconciliation and is stronger on
+provenance.
+Build tonight
+MVP Voice agent, thin and strict · MVP
+The customer interface. Answers only from verified current
+facts, cites source and date, uses the four confidence states,
+and escalates with lead capture rather than guessing. One
+working query is enough for tonight; polish is the first thing to
+cut if time runs short.
+Build tonight, keep thin
+Later Stakeholder-system connectors · Later
+Developer document rooms, agent CRMs, portal feeds, managing-agent
+systems. The business only works if facts can be read where they already
+live. Access to those systems is a stated kill risk, not a solved problem.
+Roadmap
+Later EPC register and live title · Later
+Energy rating and certificate floor area, and current title rather than Price
+Paid at last sale. The EPC register needs a GOV.UK sign-in and is not in the
+event Drive, so it is out of tonight's demo.
+Roadmap
+Later The rest of the document types · Later
+Leases, contracts, specifications, price lists, planning documents. Tonight's
+bulk folder is sales brochures. These types belong in the product; they are
+not what we can load for the demo.
+Roadmap
+Later One development, start to finish · Later
+A single scheme followed from planning through management. Tonight's
+worked examples are separate properties, and should be presented as
+such.
+Roadmap
+Later Notifications and listing updates · Later
+Tell the agent, and eventually the portal row, when a verified fact changes,
+and correct callers who were given a previous value.
+Roadmap
+Later Compliance pack · Later
+An export of current verified facts, sources, and sign-offs, for material-
+information due diligence. Mentioned generally; not designed as a legal
+product tonight.
+Roadmap
+Later Richer voice · Later
+
+===== PAGE =====
+
+12/11/2026, 20:47Verified fact record — product spec
+Page 8 of 15https://verified-fact-record-product-spec-p3t2.pages.grok.bot/
+Later Richer voice · Later
+Qualification, viewing booking, and multi-unit comparison — still verified-
+only. Do not build this until the fact record is solid.
+Roadmap
+Contradiction handling
+Not every disagreement is a true conflict. The product classifies first, then applies a
+rule, then asks a human where the rule is not enough. The voice agent does not
+quote a field that is conflicting or pending.
+Source-authority hierarchy
+Default order, highest first. Recency applies within the same tier. A newer brochure
+does not beat a contract. A human must sign off true conflicts, official-record
+mismatches, and any override of a higher-authority source. The hierarchy is a
+product rule (assumption about what should win), informed by how these documents
+are used, not a finding from tonight's data.
+1.Signed legal instrument: current title, lease, sale contract, reservation agreement.
+Per field: tenure, lease length, ground rent, covenants, pets and subletting, and
+the contracted price sit here once signed.
+2.Current official register extract: Land Registry title, EPC certificate — always with
+the register's date.
+Caveat: a Price Paid tenure is as at the sale date and may lag a later private
+transaction (Lumley House). An EPC floor area has its own measurement basis.
+3.Latest signed specification or measured survey, with the basis stated (NIA, GIA, or
+other).
+Floor areas, dimensions, specification, finishes, bathrooms, accessibility,
+heating and solar as designed or as built.
+4.Latest signed price list or formal developer instruction.
+Asking price and incentives, before a contract exists.
+5.Latest marketing brochure or formal particulars.
+Kelso Villa: the October 2026 Carter Jonas particulars sit above the April 2026
+particulars for the same issuer and document type.
+6.Portal listing, CRM note, or verbal remark.
+Lowest tier. Useful as a prompt to check, not as a value to quote. Kelso listings
+still at £700,000 are stale against the October brochure.
+
+===== PAGE =====
+
+12/11/2026, 20:47Verified fact record — product spec
+Page 9 of 15https://verified-fact-record-product-spec-p3t2.pages.grok.bot/
+still at £700,000 are stale against the October brochure.
+Not a contradiction: a bad join
+If entity resolution is not confident, do not raise a conflict. Flat 53 Coachman
+Court matched to Flat 21 is a matching failure, not a dispute about Flat 53.
+Treating it as a fact conflict would train both agents and judges to distrust
+the product.
+Fact catalogue
+Category Typical authoritative
+source
+Why it drifts Risk if wrong
+Price and
+incentives
+Latest signed price
+list or developer
+Price cuts and
+incentives are issued
+A buyer acts on the
+wrong price. Asking
+Type What it is
+True conflict Same unit, same field, same measurement basis, values that
+cannot both be right
+Version supersession A later document from the same issuer replaces an earlier one
+Unit or measurement mismatch The same quantity expressed in different units or on a different
+basis; both may be right, or the conversion may be wrong
+Scope difference A development-wide claim versus a per-unit fact
+Plot or type variation Different plots or house types have different specifications
+Stale listing versus latest documentA portal or CRM row was not updated after a new brochure or
+price list
+Official-record mismatch Marketing or a listing disagrees with Land Registry or the EPC
+register
+
+===== PAGE =====
+
+12/11/2026, 20:47Verified fact record — product spec
+Page 10 of 15https://verified-fact-record-product-spec-p3t2.pages.grok.bot/
+incentives list or developer
+instruction;
+reservation
+agreement once a
+unit is under offer
+incentives are issued
+in a new list or
+brochure and not
+pushed to the portal.
+Evidence: Kelso Villa
+April £700,000 vs
+October £600,000;
+listings still at
+£700,000
+wrong price. Asking
+price is material
+information in
+marketing
+Tenure, lease
+length, ground
+rent, service
+charge
+Current Land
+Registry title and the
+lease; service charge
+from the lease and
+management
+accounts
+Marketing
+shorthand; stale
+Price Paid tenure
+after a later
+transaction; listing
+rows that disagree
+with each other.
+Evidence: Kelso
+tenure rows; Lumley
+House listing vs
+2016 Price Paid
+Wrong tenure or
+charges are serious
+material-information
+failures and a
+common source of
+complaint
+Floor areas
+and
+dimensions
+Measured survey
+with the basis stated
+(NIA, GIA, or other);
+EPC floor area is
+official but on its
+own basis
+Square-metre to
+square-foot
+conversion errors;
+NIA stated as GIA.
+Evidence: Kelso April
+brochure printed 185
+sq m as 2,700 sq ft
+The buyer
+overestimates
+space; pounds-per-
+square-foot and
+comparables are
+wrong. Area is
+material information
+Specification,
+finishes,
+bathrooms
+Latest signed
+specification or
+schedule of finishes,
+at unit or plot level
+Brochure versions,
+show-home versus
+actual unit, plot-type
+variation.
+Teammate's shower
+vs bath is one
+person's account,
+not tonight's
+documents
+Expectation gap,
+wasted viewings,
+complaints after
+reservation
+Energy: EPC,
+heating, solar
+Official EPC register
+for the rating and
+certificate date;
+specification or as-
+built pack for
+heating and solar
+Predicted versus as-
+built ratings;
+marketing claims
+ahead of a
+certificate. EPC is
+not in tonight's
+demo (GOV.UK sign-
+in)
+Energy running-cost
+expectations and
+material information
+on the rating
+
+===== PAGE =====
+
+12/11/2026, 20:47Verified fact record — product spec
+Page 11 of 15https://verified-fact-record-product-spec-p3t2.pages.grok.bot/
+in)
+Parking and EV
+charging
+Lease, title or deed
+of grant, and the
+allocation schedule
+Spaces reallocated;
+'parking available'
+versus a named
+space; EV charging
+promised then
+delayed
+(assumption, typical)
+A frequent deal-
+breaker. Wrong
+allocation is a
+complaint and may
+be material
+Completion
+dates and
+build stage
+The sale contract
+once exchanged;
+before that, the
+developer's current
+programme, not a
+marketing 'ready by'
+Marketing dates slip;
+listings are not
+updated
+(assumption, typical)
+Chains break,
+bridging costs arise,
+a move for school or
+work is missed
+Warranties
+(NHBC or
+equivalent)
+Warranty-provider
+documentation and
+the build certificate
+Cover is assumed as
+standard, or quoted
+before it is in place,
+especially on
+conversions
+(assumption, typical)
+The buyer believes
+they are protected
+when they are not
+Building safety,
+cladding,
+EWS1
+EWS1 or successor
+assessment,
+building-safety case,
+landlord or
+managing-agent
+disclosure
+Assessments are
+updated or buildings
+remediated;
+marketing stays
+silent (assumption,
+typical). Not in
+tonight's data
+Mortgageability,
+safety, and material
+information. Do not
+let a voice agent
+guess here
+Broadband A provider or
+Openreach
+confirmation, or a
+clearly labelled
+prediction
+A development-wide
+'full fibre' claim
+versus the unit's
+actual connection
+(assumption, typical)
+Smaller than tenure
+or price, but a
+common enquiry. A
+wrong answer
+wastes a viewing
+Restrictions
+and covenants
+Title register, lease,
+and planning
+conditions
+Omitted from
+marketing; a general
+development claim
+versus a unit-
+specific restriction
+(assumption, typical)
+The buyer cannot
+use the property as
+intended. This is
+material information
+Pets and
+subletting
+The lease and any
+landlord or
+management policy
+Verbal assurances
+from an agent versus
+the lease wording
+A renter or buyer
+cannot keep a pet or
+sublet. A common
+
+===== PAGE =====
+
+12/11/2026, 20:47Verified fact record — product spec
+Page 12 of 15https://verified-fact-record-product-spec-p3t2.pages.grok.bot/
+(assumption, typical) post-move
+complaint
+Availability and
+status
+The live reservations
+system or the
+agent's current stock
+list
+Portal lag; reserved
+units still advertised
+(assumption, typical)
+Wasted enquiry, a
+poor experience, and
+missed genuine
+leads
+Accessibility Measured drawings,
+access statement,
+as-built survey
+CGI and brochure
+claims versus actual
+step-free access, lift
+provision, or door
+widths (assumption,
+typical)
+Material for disabled
+buyers and renters;
+wasted viewings;
+discrimination risk
+Management
+company
+The lease, the
+handover pack, and
+Companies House
+for the company
+itself
+Name changes;
+interim developer
+management versus
+the long-term agent
+(assumption, typical)
+The buyer does not
+know who to pay or
+which standards
+apply
+Technical facts that are prone to drift as they are copied along the modern sales flow: planning
+into specification, into the price list, into the brochure, into the portal listing, into what is said on
+the phone. Each handoff is a copy, often by a different team, often without the measurement
+basis or the date.
+Voice agent contract
+The voice agent is the customer interface, not the product's centre of gravity. It may
+only speak from the verified fact record. These rules are the contract between the
+fact store and the caller.
+1.Answer only from the verified current fact record for a confidently matched unit.
+2.Cite the source and its date on every factual answer.
+3.State the confidence: verified, pending, conflicting, or unknown.
+4.If the state is pending, conflicting, or unknown: do not quote a number or a yes-
+or-no as fact; explain briefly; escalate to a human agent; capture the caller's name
+and number as a lead.
+5.If the unit is not confidently matched, treat the question as unknown. Never
+answer from a neighbouring unit.
+6.If a listing disagrees with the verified record, quote the verified record and, if it
+helps the caller, say the listing looks out of date.
+
+===== PAGE =====
+
+12/11/2026, 20:47Verified fact record — product spec
+Page 13 of 15https://verified-fact-record-product-spec-p3t2.pages.grok.bot/
+7.Do not fill gaps from general knowledge, from other developments, or from the
+model's own priors.
+8.After a fact is updated, later answers use the new version. Proactive correction of
+earlier callers is a later feature.
+Confidence Meaning What the caller hears
+Verified A current value has been
+signed off, or a rule has
+settled it and human review
+was not required
+The fact, the source, and the
+date. Older superseded
+figures only if useful, and
+clearly labelled as older
+Pending A value has been extracted
+but not yet verified, and there
+is no active conflict
+A figure is in the file but has
+not been verified, so it will
+not be quoted. Offer to have
+the agent confirm and take a
+lead
+Conflicting Two or more sources
+disagree and a human has
+not signed off
+Do not quote either value as
+fact. Say that sources
+disagree, that an agent will
+confirm, and take a lead
+Unknown No source, or no confident
+unit match
+We do not have a verified
+answer and will not guess.
+Offer to ask the agent and
+take a lead
+Example: verified price, Kelso Villa
+Example: conflicting price, not yet signed off
+What's the asking price for Kelso Villa?
+Buyer
+The current asking price is £600,000, on a freehold-offers basis, from Carter
+Jonas's October 2026 particulars. That figure was verified by the agent on [date].
+An earlier April 2026 brochure said £700,000, and the portal listings we have still
+show £700,000. Those are out of date against the October particulars.
+Voice agent, verified
+What's the asking price for Kelso Villa?
+
+===== PAGE =====
+
+12/11/2026, 20:47Verified fact record — product spec
+Page 14 of 15https://verified-fact-record-product-spec-p3t2.pages.grok.bot/
+Example: floor area, after verification
+Example: official-record mismatch, Lumley House
+Example: unknown
+What's the asking price for Kelso Villa?
+Buyer
+I can't give you a verified price yet. Two sets of particulars disagree: April 2026
+said £700,000 and October 2026 said £600,000. I won't guess. I'll pass this to the
+agent to confirm and come back to you. Can I take your name and a number?
+Voice agent, conflicting
+How big is it?
+Buyer
+The net internal area is 185 square metres, about 1,990 square feet, from the
+October 2026 particulars, verified on [date]. The gross internal area is 2,700
+square feet. An April brochure printed 185 square metres as 2,700 square feet,
+which is a conversion error — 2,700 is the gross figure. I can send both figures
+with the basis labelled.
+Voice agent, verified
+Is Lumley House freehold?
+Buyer
+I can't confirm tenure yet. The listing says freehold, but the Land Registry Price
+Paid record for the 2016 sale is leasehold. That official record may be out of date if
+the freehold was bought later, so this needs a check, not a yes or no from me. I'll
+ask the agent to confirm against the current title and call you back. Can I take a
+name and number?
+Voice agent, conflicting
+What's the EPC rating?
+Buyer
+I don't have a verified energy rating for this property, and I won't guess. I can ask
+the agent to look it up and get back to you. Can I take your name and a number?
+Voice agent, unknown
+
+===== PAGE =====
+
+12/11/2026, 20:47Verified fact record — product spec
+Page 15 of 15https://verified-fact-record-product-spec-p3t2.pages.grok.bot/
+Voice agent, unknown

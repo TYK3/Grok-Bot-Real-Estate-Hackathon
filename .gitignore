@@ -44,6 +44,7 @@ KMS/
 .DS_Store
 .idea/
 .vscode/
+*.zip
 .cursor/
 .cursor/chat/
 .cursor/rules/*.local.mdc

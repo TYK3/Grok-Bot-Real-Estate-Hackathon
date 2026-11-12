@@ -1,0 +1,154 @@
+{
+  "$comment": "Per-field rules, source-authority hierarchy, and status policy. Recency applies only within the same tier: a newer brochure never beats a higher-tier source (contract, official register, signed spec, signed price list). The engine ships with matching defaults.",
+  "staleness_days": 90,
+  "unit_tolerance": 0.02,
+  "sqft_per_sqm": 10.76391041671,
+  "entity_match_threshold": 0.7,
+  "as_of": null,
+  "source_tiers": [
+    {
+      "tier": 1,
+      "name": "signed_legal",
+      "types": [
+        "contract",
+        "signed_legal",
+        "lease",
+        "sale_contract",
+        "reservation",
+        "reservation_agreement",
+        "title",
+        "current_title"
+      ],
+      "notes": "Signed legal instrument: current title, lease, sale contract, reservation agreement."
+    },
+    {
+      "tier": 2,
+      "name": "official_register",
+      "types": [
+        "official_record",
+        "land_registry",
+        "hmlr",
+        "epc_register",
+        "voa",
+        "price_paid"
+      ],
+      "notes": "Current official register extract, always with the register's date. Price Paid tenure is as at the sale date and may lag a later private transaction — mark 'check this', do not auto-correct."
+    },
+    {
+      "tier": 3,
+      "name": "signed_spec",
+      "types": [
+        "specification",
+        "measured_survey",
+        "design_spec",
+        "survey",
+        "signed_specification"
+      ],
+      "notes": "Latest signed specification or measured survey, with the basis stated (NIA, GIA, or other)."
+    },
+    {
+      "tier": 4,
+      "name": "price_list",
+      "types": [
+        "price_list",
+        "signed_price_list",
+        "developer_instruction"
+      ],
+      "notes": "Latest signed price list or formal developer instruction."
+    },
+    {
+      "tier": 5,
+      "name": "brochure",
+      "types": [
+        "brochure",
+        "particulars",
+        "sale_particulars"
+      ],
+      "notes": "Latest marketing brochure or formal particulars. Recency applies within this tier (Kelso October 2026 sits above April 2026, same issuer)."
+    },
+    {
+      "tier": 6,
+      "name": "listing",
+      "types": [
+        "listing",
+        "portal",
+        "web_listing",
+        "advert",
+        "crm",
+        "verbal"
+      ],
+      "notes": "Lowest tier. Useful as a prompt to check, not as a value to quote."
+    }
+  ],
+  "material_fields": [
+    "price",
+    "tenure",
+    "net_floor_area",
+    "gross_floor_area",
+    "floor_area",
+    "lower_ground_floor_area",
+    "parking_total",
+    "en_suite_bathroom"
+  ],
+  "fields": {
+    "price": {
+      "label": "Price",
+      "material": true,
+      "winner": "highest_tier_then_most_recent",
+      "official_is_historical": true,
+      "notes": "Most recent brochure or price list in-tier wins as the candidate. Price is material, so status stays pending until a human signs it off. Official last-sold (Price Paid) is historical: SUPERSEDED by time, not a current asking price. A listing at an old figure is STALE_LISTING and is flagged for update."
+    },
+    "tenure": {
+      "label": "Tenure",
+      "material": true,
+      "precedence_tier_notes": "Current title (tier 1) and official register (tier 2). Do not auto-correct an official-record mismatch — mark 'check this' and require human sign-off. Peer listings that disagree are a true conflict.",
+      "notes": "A newer brochure never beats a current title or official register."
+    },
+    "net_floor_area": {
+      "label": "Net floor area (NIA)",
+      "material": true,
+      "area_basis": "net",
+      "notes": "Keep NIA and GIA as separate resolved facts. Prefer the source that states both figures consistently. A wrong sq m ↔ sq ft conversion is a document error (UNIT_MISMATCH), not two areas."
+    },
+    "gross_floor_area": {
+      "label": "Gross floor area (GIA)",
+      "material": true,
+      "area_basis": "gross",
+      "notes": "Kept separate from net floor area."
+    },
+    "floor_area": {
+      "label": "Floor area",
+      "material": true,
+      "split_net_gross": true,
+      "notes": "If area_basis is set, the fact is grouped with net_floor_area or gross_floor_area."
+    },
+    "energy_rating": {
+      "label": "Energy rating (EPC)",
+      "material": true,
+      "notes": "EPC register (official_record) is the authoritative source for the rating and certificate date."
+    },
+    "parking": {
+      "label": "Parking",
+      "notes": "Lease, title or deed of grant, and the allocation schedule sit above a brochure, which sits above a listing."
+    },
+    "lower_ground_floor_area": {
+      "label": "Lower ground floor area",
+      "material": true,
+      "resolution": "Keep explicit net measurements separate from figures with an unknown basis; do not infer a single area."
+    },
+    "parking_scope": {
+      "label": "Parking (scope)",
+      "resolution": "Never convert per-floor allocations into total parking without floor count and supporting evidence; preserve both scoped statements."
+    },
+    "parking_total": {
+      "label": "Parking total",
+      "material": true,
+      "resolution": "Measured survey or current allocation evidence outranks brochure; a six-versus-five disagreement is a human-review true conflict."
+    },
+    "en_suite_bathroom": {
+      "label": "En-suite bathrooms",
+      "material": true,
+      "resolution": "Do not inherit development-wide bathroom statements into a specific unit where the unit brochure differs."
+    }
+  }
+}
