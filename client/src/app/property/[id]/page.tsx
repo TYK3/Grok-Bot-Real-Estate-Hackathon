@@ -37,7 +37,7 @@ export default async function PropertyDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const property = getPropertyById(id);
+  const property = await getPropertyById(id);
   if (!property) notFound();
   const reception = receptionLabel(property);
   const features = [...new Set(property.key_features ?? [])];

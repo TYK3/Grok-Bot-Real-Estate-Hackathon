@@ -4,8 +4,8 @@ import { getAllProperties } from "@/lib/properties";
 
 export const dynamic = "force-dynamic";
 
-export default function Home() {
-  const listings = getAllProperties();
+export default async function Home() {
+  const listings = await getAllProperties();
 
   return (
     <main className="min-h-screen bg-[#f7f6f3] text-[#13294b]">

@@ -2,6 +2,7 @@ import "server-only";
 import fs from "node:fs";
 import path from "node:path";
 
+import { applyFactOverlay, loadPublishedFacts } from "./fact-overlay";
 import type { Property, VerifiedField } from "./property-types";
 
 export type { Property } from "./property-types";
@@ -49,7 +50,7 @@ function loadVerifiedListings(): Property[] {
     }));
 }
 
-export function getAllProperties(): Property[] {
+function getStaticProperties(): Property[] {
   if (cache) return cache;
   const hamptons = readJson<Property[]>(DATA_PATH);
   // Verified listings first, then the Hamptons catalogue.
@@ -60,10 +61,19 @@ export function getAllProperties(): Property[] {
   return cache;
 }
 
-export function getPropertyById(id: string): Property | null {
+/**
+ * JSON listings with the reviewed Supabase facts laid over the verified ones
+ * (fact-overlay.ts). Falls back to the JSON contracts when Supabase is unset
+ * or unreachable. The Supabase call is cached for 30 s by Next's fetch cache.
+ */
+export async function getAllProperties(): Promise<Property[]> {
+  return applyFactOverlay(getStaticProperties(), await loadPublishedFacts());
+}
+
+export async function getPropertyById(id: string): Promise<Property | null> {
   const target = decodeURIComponent(String(id)).trim();
   return (
-    getAllProperties().find(
+    (await getAllProperties()).find(
       (p) =>
         String(p.property_id) === target ||
         String(p.reference ?? "") === target,

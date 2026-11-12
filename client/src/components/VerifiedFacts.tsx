@@ -71,7 +71,13 @@ export function VerifiedFacts({ property }: { property: Property }) {
   const fields = property.verified_fields;
   if (!fields) return null;
 
-  const rows = FIELD_LABELS.filter(([key]) => fields[key]);
+  const known = new Set(FIELD_LABELS.map(([k]) => k));
+  // Fields reviewed in the workbench that contract 05 has no slot for.
+  const extra: [string, string][] = Object.keys(fields)
+    .filter((k) => !known.has(k))
+    .sort()
+    .map((k) => [k, k.replace(/_/g, " ").replace(/^./, (c) => c.toUpperCase())]);
+  const rows = [...FIELD_LABELS, ...extra].filter(([key]) => fields[key]);
   const verified = rows.filter(([k]) => fields[k].verification_status === "verified").length;
   const pending = rows.filter(
     ([k]) => fields[k].verification_status === "pending_verification",
@@ -122,6 +128,31 @@ export function VerifiedFacts({ property }: { property: Property }) {
                       </p>
                     ) : null}
                   </>
+                ) : status === "scoped" && f.claims?.length ? (
+                  <ul className="space-y-1.5">
+                    {f.claims.map((c, i) => (
+                      <li key={i}>
+                        <p className="flex items-start gap-1.5 font-medium text-[#13294b]">
+                          <CircleCheck className="mt-0.5 size-4 shrink-0 text-[#16a34a]" />
+                          <span className="break-words">
+                            {c.display}
+                            {c.scope ? (
+                              <span className="font-normal text-[#697586]">
+                                {" "}
+                                · {c.scope.replace(/_/g, " ")}
+                              </span>
+                            ) : null}
+                          </span>
+                        </p>
+                        {c.citation && sourceLine(c.citation) ? (
+                          <p className="mt-0.5 flex items-start gap-1.5 pl-[22px] text-xs text-[#697586]">
+                            <FileText className="mt-0.5 size-3.5 shrink-0" />
+                            <span className="min-w-0 break-words">{sourceLine(c.citation)}</span>
+                          </p>
+                        ) : null}
+                      </li>
+                    ))}
+                  </ul>
                 ) : status === "pending_verification" ? (
                   <p className="flex items-start gap-1.5 font-medium text-[#b45309]">
                     <Clock3 className="mt-0.5 size-4 shrink-0" />
