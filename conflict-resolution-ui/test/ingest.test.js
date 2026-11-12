@@ -11,6 +11,8 @@ import {
   ingestFiles,
   organiseDocuments,
   detectKind,
+  mergeFactSets,
+  mergeDocumentSets,
 } from '../src/ingest.js';
 import { resolveAll, applyOverride, buildAcceptanceRecords, CLASSIFICATIONS, STATUSES } from '../src/resolve.js';
 
@@ -88,6 +90,24 @@ describe('multi-document ingest', () => {
     assert.equal(facts[0].property_id, 'zip-house');
     assert.ok(documents.some((d) => d.kind === 'zip'));
     assert.ok(documents.some((d) => d.kind === 'json'));
+  });
+
+  it('accepts multiple JSON documents in one ingest batch', async () => {
+    const kelsoBytes = new TextEncoder().encode(JSON.stringify(kelso));
+    const edge = JSON.parse(readFileSync(resolve(root, 'data/edge_cases.example.json'), 'utf8'));
+    const edgeBytes = new TextEncoder().encode(JSON.stringify(edge));
+    const { facts, documents, warnings } = await ingestFiles([
+      { name: 'kelso.json', bytes: kelsoBytes, mime: 'application/json' },
+      { name: 'edge.json', bytes: edgeBytes, mime: 'application/json' },
+    ]);
+    assert.equal(warnings.length, 0);
+    assert.ok(facts.length >= kelso.facts.length);
+    assert.ok(documents.some((d) => /kelso/i.test(d.name || d.title || '')));
+    assert.ok(documents.some((d) => /edge/i.test(d.name || d.title || '')));
+    const mergedFacts = mergeFactSets([], facts);
+    const mergedDocs = mergeDocumentSets([], documents);
+    assert.equal(mergedFacts.length, facts.length);
+    assert.equal(mergedDocs.length, documents.length);
   });
 });
 
