@@ -1,0 +1,909 @@
+{
+  "schema_version": "1.0",
+  "payload_type": "property_fact_reconciliation",
+  "batch_id": "EXAMPLE-kelso-sthuberts-v1",
+  "generated_at": "2026-11-12T21:00:00.000Z",
+  "input_label": "Nine review scenarios · Kelso Villa and 59 St Huberts Close",
+  "example_only": true,
+  "ingestion_policy": {
+    "accepted_facts_only_for_canonical_values": true,
+    "context_claims_are_not_single_valued_facts": true,
+    "unresolved_cases_must_not_publish": true,
+    "reviewer_identity": "browser_local_unverified",
+    "timestamps": "client_clock_untrusted"
+  },
+  "counts": {
+    "accepted": 5,
+    "context": 3,
+    "unresolved": 1
+  },
+  "properties": [
+    {
+      "property_id": "59-st-huberts-close",
+      "property_name": "59 St Huberts Close"
+    },
+    {
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa"
+    }
+  ],
+  "source_documents": [
+    {
+      "document_id": "59-brochure",
+      "title": "59 St Huberts Close · brochure",
+      "document_type": "brochure",
+      "issuer": "Sales particulars",
+      "published_date": "2026-10-01",
+      "date_precision": "month",
+      "synthetic": false,
+      "uri": null
+    },
+    {
+      "document_id": "59-finishes",
+      "title": "St Huberts Close · synthetic finishes schedule",
+      "document_type": "specification",
+      "issuer": "Development schedule",
+      "published_date": null,
+      "date_precision": null,
+      "synthetic": true,
+      "uri": null
+    },
+    {
+      "document_id": "59-price",
+      "title": "59 St Huberts Close · synthetic price-change instruction",
+      "document_type": "developer_instruction",
+      "issuer": "Solicitor",
+      "published_date": "2026-11-09",
+      "date_precision": null,
+      "synthetic": true,
+      "uri": null
+    },
+    {
+      "document_id": "kv-apr",
+      "title": "Kelso Villa · April brochure",
+      "document_type": "brochure",
+      "issuer": "Carter Jonas",
+      "published_date": "2026-04-01",
+      "date_precision": "month",
+      "synthetic": false,
+      "uri": null
+    },
+    {
+      "document_id": "kv-oct",
+      "title": "Kelso Villa · October brochure",
+      "document_type": "brochure",
+      "issuer": "Carter Jonas",
+      "published_date": "2026-10-01",
+      "date_precision": "month",
+      "synthetic": false,
+      "uri": null
+    },
+    {
+      "document_id": "kv-survey",
+      "title": "Kelso Villa · synthetic measured survey",
+      "document_type": "measured_survey",
+      "issuer": "Synthetic test survey",
+      "published_date": null,
+      "date_precision": null,
+      "synthetic": true,
+      "uri": null
+    }
+  ],
+  "extracted_evidence": [
+    {
+      "evidence_id": "kelso-document-error__kv-apr__1",
+      "case_key": "kelso-villa::floor_area",
+      "property_id": "kelso-villa",
+      "field": "floor_area",
+      "source_document_id": "kv-apr",
+      "page_number": null,
+      "quote": "April total row: 185 sq m / 2,700 sq ft.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1,
+      "effective_date": null,
+      "claim": {
+        "value": 185,
+        "unit": "sqm",
+        "area_basis": null,
+        "scope": null,
+        "stated_equivalent": {
+          "value": 2700,
+          "unit": "sqft"
+        }
+      }
+    },
+    {
+      "evidence_id": "kelso-document-error__kv-apr__2",
+      "case_key": "kelso-villa::floor_area",
+      "property_id": "kelso-villa",
+      "field": "floor_area",
+      "source_document_id": "kv-apr",
+      "page_number": null,
+      "quote": "April total row: 185 sq m / 2,700 sq ft.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1,
+      "effective_date": null,
+      "claim": {
+        "value": 2700,
+        "unit": "sqft",
+        "area_basis": null,
+        "scope": null,
+        "stated_equivalent": {
+          "value": 185,
+          "unit": "sqm"
+        }
+      }
+    },
+    {
+      "evidence_id": "kelso-gross__kv-oct__1",
+      "case_key": "kelso-villa::gross_floor_area",
+      "property_id": "kelso-villa",
+      "field": "gross_floor_area",
+      "source_document_id": "kv-oct",
+      "page_number": null,
+      "quote": "October gross area: 2,700 sq ft.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1,
+      "effective_date": null,
+      "claim": {
+        "value": 2700,
+        "unit": "sqft",
+        "area_basis": "gross",
+        "scope": null,
+        "stated_equivalent": null
+      }
+    },
+    {
+      "evidence_id": "kelso-gross__kv-survey__2",
+      "case_key": "kelso-villa::gross_floor_area",
+      "property_id": "kelso-villa",
+      "field": "gross_floor_area",
+      "source_document_id": "kv-survey",
+      "page_number": null,
+      "quote": "Synthetic measured survey gross area: 2,672 sq ft.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1,
+      "effective_date": null,
+      "claim": {
+        "value": 2672,
+        "unit": "sqft",
+        "area_basis": "gross",
+        "scope": null,
+        "stated_equivalent": null
+      }
+    },
+    {
+      "evidence_id": "kelso-lower-ground__kv-apr__1",
+      "case_key": "kelso-villa::lower_ground_floor_area",
+      "property_id": "kelso-villa",
+      "field": "lower_ground_floor_area",
+      "source_document_id": "kv-apr",
+      "page_number": null,
+      "quote": "April brochure lower ground: 468 sq ft (basis not stated).",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1,
+      "effective_date": null,
+      "claim": {
+        "value": 468,
+        "unit": "sqft",
+        "area_basis": null,
+        "scope": null,
+        "stated_equivalent": null
+      }
+    },
+    {
+      "evidence_id": "kelso-lower-ground__kv-survey__2",
+      "case_key": "kelso-villa::lower_ground_floor_area",
+      "property_id": "kelso-villa",
+      "field": "lower_ground_floor_area",
+      "source_document_id": "kv-survey",
+      "page_number": null,
+      "quote": "Synthetic measured survey lower ground: 461 sq ft net.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1,
+      "effective_date": null,
+      "claim": {
+        "value": 461,
+        "unit": "sqft",
+        "area_basis": "net",
+        "scope": null,
+        "stated_equivalent": null
+      }
+    },
+    {
+      "evidence_id": "kelso-net__kv-oct__1",
+      "case_key": "kelso-villa::net_floor_area",
+      "property_id": "kelso-villa",
+      "field": "net_floor_area",
+      "source_document_id": "kv-oct",
+      "page_number": null,
+      "quote": "October net area: 1,990 sq ft (185 sq m).",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1,
+      "effective_date": null,
+      "claim": {
+        "value": 1990,
+        "unit": "sqft",
+        "area_basis": "net",
+        "scope": null,
+        "stated_equivalent": {
+          "value": 185,
+          "unit": "sqm"
+        }
+      }
+    },
+    {
+      "evidence_id": "kelso-net__kv-survey__2",
+      "case_key": "kelso-villa::net_floor_area",
+      "property_id": "kelso-villa",
+      "field": "net_floor_area",
+      "source_document_id": "kv-survey",
+      "page_number": null,
+      "quote": "Synthetic measured survey net area: 1,912 sq ft (177.6 sq m).",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1,
+      "effective_date": null,
+      "claim": {
+        "value": 1912,
+        "unit": "sqft",
+        "area_basis": "net",
+        "scope": null,
+        "stated_equivalent": {
+          "value": 177.6,
+          "unit": "sqm"
+        }
+      }
+    },
+    {
+      "evidence_id": "kelso-parking-scope__kv-apr__1",
+      "case_key": "kelso-villa::parking_scope",
+      "property_id": "kelso-villa",
+      "field": "parking_scope",
+      "source_document_id": "kv-apr",
+      "page_number": null,
+      "quote": "April brochure: one parking space per floor.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1,
+      "effective_date": null,
+      "claim": {
+        "value": 1,
+        "unit": null,
+        "area_basis": null,
+        "scope": "per_floor",
+        "stated_equivalent": null
+      }
+    },
+    {
+      "evidence_id": "kelso-parking-scope__kv-oct__2",
+      "case_key": "kelso-villa::parking_scope",
+      "property_id": "kelso-villa",
+      "field": "parking_scope",
+      "source_document_id": "kv-oct",
+      "page_number": null,
+      "quote": "October brochure: six spaces in total.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1,
+      "effective_date": null,
+      "claim": {
+        "value": 6,
+        "unit": null,
+        "area_basis": null,
+        "scope": "unit_total",
+        "stated_equivalent": null
+      }
+    },
+    {
+      "evidence_id": "kelso-parking-total__kv-oct__1",
+      "case_key": "kelso-villa::parking_total",
+      "property_id": "kelso-villa",
+      "field": "parking_total",
+      "source_document_id": "kv-oct",
+      "page_number": null,
+      "quote": "October brochure: six parking spaces in total.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1,
+      "effective_date": null,
+      "claim": {
+        "value": 6,
+        "unit": null,
+        "area_basis": null,
+        "scope": "unit_total",
+        "stated_equivalent": null
+      }
+    },
+    {
+      "evidence_id": "kelso-parking-total__kv-survey__2",
+      "case_key": "kelso-villa::parking_total",
+      "property_id": "kelso-villa",
+      "field": "parking_total",
+      "source_document_id": "kv-survey",
+      "page_number": null,
+      "quote": "Synthetic measured survey: five parking spaces; bay 6 is now a bin store.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1,
+      "effective_date": null,
+      "claim": {
+        "value": 5,
+        "unit": null,
+        "area_basis": null,
+        "scope": "unit_total",
+        "stated_equivalent": null
+      }
+    },
+    {
+      "evidence_id": "kelso-price__kv-apr__1",
+      "case_key": "kelso-villa::price",
+      "property_id": "kelso-villa",
+      "field": "price",
+      "source_document_id": "kv-apr",
+      "page_number": null,
+      "quote": "April brochure: £700,000 offers.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1,
+      "effective_date": null,
+      "claim": {
+        "value": 700000,
+        "unit": "GBP",
+        "area_basis": null,
+        "scope": null,
+        "stated_equivalent": null
+      }
+    },
+    {
+      "evidence_id": "kelso-price__kv-oct__2",
+      "case_key": "kelso-villa::price",
+      "property_id": "kelso-villa",
+      "field": "price",
+      "source_document_id": "kv-oct",
+      "page_number": null,
+      "quote": "October brochure: £600,000 guide price.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1,
+      "effective_date": null,
+      "claim": {
+        "value": 600000,
+        "unit": "GBP",
+        "area_basis": null,
+        "scope": null,
+        "stated_equivalent": null
+      }
+    },
+    {
+      "evidence_id": "sthuberts-ensuite__59-brochure__2",
+      "case_key": "59-st-huberts-close::en_suite_bathroom",
+      "property_id": "59-st-huberts-close",
+      "field": "en_suite_bathroom",
+      "source_document_id": "59-brochure",
+      "page_number": null,
+      "quote": "No. 59 brochure: principal en-suite bathroom.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1,
+      "effective_date": null,
+      "claim": {
+        "value": "Principal en-suite bathroom",
+        "unit": null,
+        "area_basis": null,
+        "scope": "unit",
+        "stated_equivalent": null
+      }
+    },
+    {
+      "evidence_id": "sthuberts-ensuite__59-finishes__1",
+      "case_key": "59-st-huberts-close::en_suite_bathroom",
+      "property_id": "59-st-huberts-close",
+      "field": "en_suite_bathroom",
+      "source_document_id": "59-finishes",
+      "page_number": null,
+      "quote": "Synthetic close-wide finishes schedule: every en-suite has a walk-in shower and no bath.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1,
+      "effective_date": null,
+      "claim": {
+        "value": "Walk-in showers in every en-suite; no baths",
+        "unit": null,
+        "area_basis": null,
+        "scope": "development",
+        "stated_equivalent": null
+      }
+    },
+    {
+      "evidence_id": "sthuberts-price__59-brochure__1",
+      "case_key": "59-st-huberts-close::price",
+      "property_id": "59-st-huberts-close",
+      "field": "price",
+      "source_document_id": "59-brochure",
+      "page_number": null,
+      "quote": "No. 59 brochure: £1,458,000.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1,
+      "effective_date": null,
+      "claim": {
+        "value": 1458000,
+        "unit": "GBP",
+        "area_basis": null,
+        "scope": null,
+        "stated_equivalent": null
+      }
+    },
+    {
+      "evidence_id": "sthuberts-price__59-price__2",
+      "case_key": "59-st-huberts-close::price",
+      "property_id": "59-st-huberts-close",
+      "field": "price",
+      "source_document_id": "59-price",
+      "page_number": null,
+      "quote": "Synthetic solicitor price-change instruction: £1,395,000 effective 9 November 2026.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1,
+      "effective_date": "2026-11-09",
+      "claim": {
+        "value": 1395000,
+        "unit": "GBP",
+        "area_basis": null,
+        "scope": null,
+        "stated_equivalent": null
+      }
+    }
+  ],
+  "accepted_facts": [
+    {
+      "record_id": "59-st-huberts-close::price::v1",
+      "case_key": "59-st-huberts-close::price",
+      "property_id": "59-st-huberts-close",
+      "field": "price",
+      "value": 1395000,
+      "unit": "GBP",
+      "area_basis": null,
+      "scope": null,
+      "area_converted": null,
+      "currency": "GBP",
+      "classification": "SUPERSEDED",
+      "source_evidence_id": "sthuberts-price__59-price__2",
+      "related_evidence_ids": [
+        "sthuberts-price__59-brochure__1",
+        "sthuberts-price__59-price__2"
+      ],
+      "source_document_id": "59-price",
+      "effective_date": "2026-11-09",
+      "source_published_date": "2026-11-09",
+      "rule_applied": "price: highest source-authority tier, then most recent dated brochure or price list in-tier (a newer brochure never beats a higher tier) (59 St Huberts Close · synthetic price-change instruction [developer_instruction], 2026-11-09); official last-sold prices are historical",
+      "decision": {
+        "action": "accept",
+        "accepted_by": "Example Reviewer (fictional)",
+        "accepted_at": "2026-11-12T20:54:00.000Z",
+        "reason": "ILLUSTRATIVE: solicitor instruction sets £1,395,000 effective 9 November 2026.",
+        "trust_level": "browser_local_unverified"
+      },
+      "version": 1
+    },
+    {
+      "record_id": "kelso-villa::gross_floor_area::v1",
+      "case_key": "kelso-villa::gross_floor_area",
+      "property_id": "kelso-villa",
+      "field": "gross_floor_area",
+      "value": 2672,
+      "unit": "sqft",
+      "area_basis": "gross",
+      "scope": null,
+      "area_converted": {
+        "sqft": 2672,
+        "sqm": 248.24
+      },
+      "currency": null,
+      "classification": "TRUE_CONFLICT",
+      "source_evidence_id": "kelso-gross__kv-survey__2",
+      "related_evidence_ids": [
+        "kelso-gross__kv-oct__1",
+        "kelso-gross__kv-survey__2"
+      ],
+      "source_document_id": "kv-survey",
+      "effective_date": null,
+      "source_published_date": null,
+      "rule_applied": "Gross floor area (GIA): source-authority hierarchy (signed legal > official register > signed spec > signed price list > particulars > listing); recency only within the same tier; a newer brochure never beats a higher tier — selected Kelso Villa · synthetic measured survey [measured_survey] (tier 3 (signed_spec), undated)",
+      "decision": {
+        "action": "accept",
+        "accepted_by": "Example Reviewer (fictional)",
+        "accepted_at": "2026-11-12T20:52:00.000Z",
+        "reason": "ILLUSTRATIVE: measured survey states gross 2,672 sq ft and outranks the brochure.",
+        "trust_level": "browser_local_unverified"
+      },
+      "version": 1
+    },
+    {
+      "record_id": "kelso-villa::net_floor_area::v1",
+      "case_key": "kelso-villa::net_floor_area",
+      "property_id": "kelso-villa",
+      "field": "net_floor_area",
+      "value": 1912,
+      "unit": "sqft",
+      "area_basis": "net",
+      "scope": null,
+      "area_converted": {
+        "sqft": 1912,
+        "sqm": 177.63
+      },
+      "currency": null,
+      "classification": "TRUE_CONFLICT",
+      "source_evidence_id": "kelso-net__kv-survey__2",
+      "related_evidence_ids": [
+        "kelso-net__kv-oct__1",
+        "kelso-net__kv-survey__2"
+      ],
+      "source_document_id": "kv-survey",
+      "effective_date": null,
+      "source_published_date": null,
+      "rule_applied": "Net floor area (NIA): source-authority hierarchy (signed legal > official register > signed spec > signed price list > particulars > listing); recency only within the same tier; a newer brochure never beats a higher tier — selected Kelso Villa · synthetic measured survey [measured_survey] (tier 3 (signed_spec), undated)",
+      "decision": {
+        "action": "accept",
+        "accepted_by": "Example Reviewer (fictional)",
+        "accepted_at": "2026-11-12T20:51:00.000Z",
+        "reason": "ILLUSTRATIVE: measured survey states net 1,912 sq ft and has higher authority than marketing.",
+        "trust_level": "browser_local_unverified"
+      },
+      "version": 1
+    },
+    {
+      "record_id": "kelso-villa::parking_total::v1",
+      "case_key": "kelso-villa::parking_total",
+      "property_id": "kelso-villa",
+      "field": "parking_total",
+      "value": 5,
+      "unit": null,
+      "area_basis": null,
+      "scope": "unit_total",
+      "area_converted": null,
+      "currency": null,
+      "classification": "TRUE_CONFLICT",
+      "source_evidence_id": "kelso-parking-total__kv-survey__2",
+      "related_evidence_ids": [
+        "kelso-parking-total__kv-oct__1",
+        "kelso-parking-total__kv-survey__2"
+      ],
+      "source_document_id": "kv-survey",
+      "effective_date": null,
+      "source_published_date": null,
+      "rule_applied": "Parking total: source-authority hierarchy (signed legal > official register > signed spec > signed price list > particulars > listing); recency only within the same tier; a newer brochure never beats a higher tier — selected Kelso Villa · synthetic measured survey [measured_survey] (tier 3 (signed_spec), undated)",
+      "decision": {
+        "action": "accept",
+        "accepted_by": "Example Reviewer (fictional)",
+        "accepted_at": "2026-11-12T20:53:00.000Z",
+        "reason": "ILLUSTRATIVE: five usable parking spaces; bay six described as a bin store in scenario.",
+        "trust_level": "browser_local_unverified"
+      },
+      "version": 1
+    },
+    {
+      "record_id": "kelso-villa::price::v1",
+      "case_key": "kelso-villa::price",
+      "property_id": "kelso-villa",
+      "field": "price",
+      "value": 600000,
+      "unit": "GBP",
+      "area_basis": null,
+      "scope": null,
+      "area_converted": null,
+      "currency": "GBP",
+      "classification": "SUPERSEDED",
+      "source_evidence_id": "kelso-price__kv-oct__2",
+      "related_evidence_ids": [
+        "kelso-price__kv-apr__1",
+        "kelso-price__kv-oct__2"
+      ],
+      "source_document_id": "kv-oct",
+      "effective_date": null,
+      "source_published_date": "2026-10-01",
+      "rule_applied": "price: highest source-authority tier, then most recent dated brochure or price list in-tier (a newer brochure never beats a higher tier) (Kelso Villa · October brochure [brochure], 2026-10-01); official last-sold prices are historical",
+      "decision": {
+        "action": "accept",
+        "accepted_by": "Example Reviewer (fictional)",
+        "accepted_at": "2026-11-12T20:50:00.000Z",
+        "reason": "ILLUSTRATIVE: October brochure supersedes the April asking price. Evidence needs genuine PDF verification.",
+        "trust_level": "browser_local_unverified"
+      },
+      "version": 1
+    }
+  ],
+  "context_facts": [
+    {
+      "case_key": "59-st-huberts-close::en_suite_bathroom",
+      "property_id": "59-st-huberts-close",
+      "field": "en_suite_bathroom",
+      "classification": "SCOPE_DIFFERENCE",
+      "resolution": "retain_separate_claims",
+      "publishable_as_single_fact": false,
+      "claims": [
+        {
+          "evidence_id": "sthuberts-ensuite__59-finishes__1",
+          "value": "Walk-in showers in every en-suite; no baths",
+          "unit": null,
+          "area_basis": null,
+          "scope": "development"
+        },
+        {
+          "evidence_id": "sthuberts-ensuite__59-brochure__2",
+          "value": "Principal en-suite bathroom",
+          "unit": null,
+          "area_basis": null,
+          "scope": "unit"
+        }
+      ],
+      "rule_applied": "En-suite bathrooms: source-authority hierarchy (signed legal > official register > signed spec > signed price list > particulars > listing); recency only within the same tier; a newer brochure never beats a higher tier — selected St Huberts Close · synthetic finishes schedule [specification] (tier 3 (signed_spec), undated)"
+    },
+    {
+      "case_key": "kelso-villa::lower_ground_floor_area",
+      "property_id": "kelso-villa",
+      "field": "lower_ground_floor_area",
+      "classification": "UNIT_MISMATCH",
+      "resolution": "retain_separate_claims",
+      "publishable_as_single_fact": false,
+      "claims": [
+        {
+          "evidence_id": "kelso-lower-ground__kv-apr__1",
+          "value": 468,
+          "unit": "sqft",
+          "area_basis": null,
+          "scope": null
+        },
+        {
+          "evidence_id": "kelso-lower-ground__kv-survey__2",
+          "value": 461,
+          "unit": "sqft",
+          "area_basis": "net",
+          "scope": null
+        }
+      ],
+      "rule_applied": "Lower ground floor area: source-authority hierarchy (signed legal > official register > signed spec > signed price list > particulars > listing); recency only within the same tier; a newer brochure never beats a higher tier — selected Kelso Villa · synthetic measured survey [measured_survey] (tier 3 (signed_spec), undated)"
+    },
+    {
+      "case_key": "kelso-villa::parking_scope",
+      "property_id": "kelso-villa",
+      "field": "parking_scope",
+      "classification": "SCOPE_DIFFERENCE",
+      "resolution": "retain_separate_claims",
+      "publishable_as_single_fact": false,
+      "claims": [
+        {
+          "evidence_id": "kelso-parking-scope__kv-apr__1",
+          "value": 1,
+          "unit": null,
+          "area_basis": null,
+          "scope": "per_floor"
+        },
+        {
+          "evidence_id": "kelso-parking-scope__kv-oct__2",
+          "value": 6,
+          "unit": null,
+          "area_basis": null,
+          "scope": "unit_total"
+        }
+      ],
+      "rule_applied": "Parking (scope): source-authority hierarchy (signed legal > official register > signed spec > signed price list > particulars > listing); recency only within the same tier; a newer brochure never beats a higher tier — selected Kelso Villa · October brochure [brochure] (tier 5 (brochure), 2026-10-01)"
+    }
+  ],
+  "unresolved_cases": [
+    {
+      "case_key": "kelso-villa::floor_area",
+      "property_id": "kelso-villa",
+      "field": "floor_area",
+      "status": "pending",
+      "classification": "UNIT_MISMATCH",
+      "document_error": true,
+      "proposed_value": 185,
+      "proposed_unit": "sqm",
+      "proposed_evidence_id": "kelso-document-error__kv-apr__1",
+      "evidence_ids": [
+        "kelso-document-error__kv-apr__1",
+        "kelso-document-error__kv-apr__2"
+      ],
+      "reason": "Document conversion or basis error, not two different areas. Kelso Villa · April brochure [brochure] states 2,700 sq ft as equivalent to 185 sq m, and Kelso Villa · April brochure [brochure] states 185 sq m. 2,700 sq ft is about 2,700 sq ft, which does not match. Prefer the source that states both figures consistently, and keep NIA and GIA as separate facts.",
+      "rule_applied": "Floor area: source-authority hierarchy (signed legal > official register > signed spec > signed price list > particulars > listing); recency only within the same tier; a newer brochure never beats a higher tier — selected Kelso Villa · April brochure [brochure] (tier 5 (brochure), 2026-04-01)",
+      "publishable": false
+    }
+  ],
+  "audit_events": [
+    {
+      "event_id": "59-st-huberts-close::en_suite_bathroom::event-1",
+      "case_key": "59-st-huberts-close::en_suite_bathroom",
+      "action": "auto_resolve",
+      "actor": "engine",
+      "occurred_at": "2026-11-12T20:40:00.000Z",
+      "classification": "SCOPE_DIFFERENCE",
+      "selected_evidence_id": "59-finishes",
+      "reason": "Candidate proposed (SCOPE_DIFFERENCE). Material or unresolved difference — pending until a human signs it off. History is kept.",
+      "rule_applied": "En-suite bathrooms: source-authority hierarchy (signed legal > official register > signed spec > signed price list > particulars > listing); recency only within the same tier; a newer brochure never beats a higher tier — selected St Huberts Close · synthetic finishes schedule [specification] (tier 3 (signed_spec), undated)",
+      "decision_version": null
+    },
+    {
+      "event_id": "59-st-huberts-close::en_suite_bathroom::event-2",
+      "case_key": "59-st-huberts-close::en_suite_bathroom",
+      "action": "auto_retain_context",
+      "actor": "rules-engine",
+      "occurred_at": "2026-11-12T20:40:00.000Z",
+      "classification": "SCOPE_DIFFERENCE",
+      "selected_evidence_id": null,
+      "reason": "Evidence refers to different scopes. Preserve both statements; do not copy development-wide facts onto this unit.",
+      "rule_applied": "safe:auto-retain-separate-scopes-or-bases",
+      "decision_version": null
+    },
+    {
+      "event_id": "59-st-huberts-close::price::event-1",
+      "case_key": "59-st-huberts-close::price",
+      "action": "auto_resolve",
+      "actor": "engine",
+      "occurred_at": "2026-11-12T20:40:00.000Z",
+      "classification": "SUPERSEDED",
+      "selected_evidence_id": "59-price",
+      "reason": "Candidate proposed (SUPERSEDED). Material or unresolved difference — pending until a human signs it off. History is kept.",
+      "rule_applied": "price: highest source-authority tier, then most recent dated brochure or price list in-tier (a newer brochure never beats a higher tier) (59 St Huberts Close · synthetic price-change instruction [developer_instruction], 2026-11-09); official last-sold prices are historical",
+      "decision_version": null
+    },
+    {
+      "event_id": "59-st-huberts-close::price::event-2",
+      "case_key": "59-st-huberts-close::price",
+      "action": "accept",
+      "actor": "Example Reviewer (fictional)",
+      "occurred_at": "2026-11-12T20:54:00.000Z",
+      "classification": "SUPERSEDED",
+      "selected_evidence_id": null,
+      "reason": "ILLUSTRATIVE: solicitor instruction sets £1,395,000 effective 9 November 2026.",
+      "rule_applied": "price: highest source-authority tier, then most recent dated brochure or price list in-tier (a newer brochure never beats a higher tier) (59 St Huberts Close · synthetic price-change instruction [developer_instruction], 2026-11-09); official last-sold prices are historical",
+      "decision_version": 1
+    },
+    {
+      "event_id": "kelso-villa::floor_area::event-1",
+      "case_key": "kelso-villa::floor_area",
+      "action": "auto_resolve",
+      "actor": "engine",
+      "occurred_at": "2026-11-12T20:40:00.000Z",
+      "classification": "UNIT_MISMATCH",
+      "selected_evidence_id": "kv-apr",
+      "reason": "Candidate proposed (UNIT_MISMATCH). Material or unresolved difference — pending until a human signs it off. History is kept.",
+      "rule_applied": "Floor area: source-authority hierarchy (signed legal > official register > signed spec > signed price list > particulars > listing); recency only within the same tier; a newer brochure never beats a higher tier — selected Kelso Villa · April brochure [brochure] (tier 5 (brochure), 2026-04-01)",
+      "decision_version": null
+    },
+    {
+      "event_id": "kelso-villa::gross_floor_area::event-1",
+      "case_key": "kelso-villa::gross_floor_area",
+      "action": "auto_resolve",
+      "actor": "engine",
+      "occurred_at": "2026-11-12T20:40:00.000Z",
+      "classification": "TRUE_CONFLICT",
+      "selected_evidence_id": "kv-survey",
+      "reason": "Proposed value is conflicting and needs human sign-off (TRUE_CONFLICT). The voice agent must not quote it.",
+      "rule_applied": "Gross floor area (GIA): source-authority hierarchy (signed legal > official register > signed spec > signed price list > particulars > listing); recency only within the same tier; a newer brochure never beats a higher tier — selected Kelso Villa · synthetic measured survey [measured_survey] (tier 3 (signed_spec), undated)",
+      "decision_version": null
+    },
+    {
+      "event_id": "kelso-villa::gross_floor_area::event-2",
+      "case_key": "kelso-villa::gross_floor_area",
+      "action": "accept",
+      "actor": "Example Reviewer (fictional)",
+      "occurred_at": "2026-11-12T20:52:00.000Z",
+      "classification": "TRUE_CONFLICT",
+      "selected_evidence_id": null,
+      "reason": "ILLUSTRATIVE: measured survey states gross 2,672 sq ft and outranks the brochure.",
+      "rule_applied": "Gross floor area (GIA): source-authority hierarchy (signed legal > official register > signed spec > signed price list > particulars > listing); recency only within the same tier; a newer brochure never beats a higher tier — selected Kelso Villa · synthetic measured survey [measured_survey] (tier 3 (signed_spec), undated)",
+      "decision_version": 1
+    },
+    {
+      "event_id": "kelso-villa::lower_ground_floor_area::event-1",
+      "case_key": "kelso-villa::lower_ground_floor_area",
+      "action": "auto_resolve",
+      "actor": "engine",
+      "occurred_at": "2026-11-12T20:40:00.000Z",
+      "classification": "UNIT_MISMATCH",
+      "selected_evidence_id": "kv-survey",
+      "reason": "Candidate proposed (UNIT_MISMATCH). Material or unresolved difference — pending until a human signs it off. History is kept.",
+      "rule_applied": "Lower ground floor area: source-authority hierarchy (signed legal > official register > signed spec > signed price list > particulars > listing); recency only within the same tier; a newer brochure never beats a higher tier — selected Kelso Villa · synthetic measured survey [measured_survey] (tier 3 (signed_spec), undated)",
+      "decision_version": null
+    },
+    {
+      "event_id": "kelso-villa::lower_ground_floor_area::event-2",
+      "case_key": "kelso-villa::lower_ground_floor_area",
+      "action": "auto_retain_context",
+      "actor": "rules-engine",
+      "occurred_at": "2026-11-12T20:40:00.000Z",
+      "classification": "UNIT_MISMATCH",
+      "selected_evidence_id": null,
+      "reason": "Measurement basis is not stated in one source. Preserve both labelled measurements; do not declare a winner.",
+      "rule_applied": "safe:auto-retain-separate-scopes-or-bases",
+      "decision_version": null
+    },
+    {
+      "event_id": "kelso-villa::net_floor_area::event-1",
+      "case_key": "kelso-villa::net_floor_area",
+      "action": "auto_resolve",
+      "actor": "engine",
+      "occurred_at": "2026-11-12T20:40:00.000Z",
+      "classification": "TRUE_CONFLICT",
+      "selected_evidence_id": "kv-survey",
+      "reason": "Proposed value is conflicting and needs human sign-off (TRUE_CONFLICT). The voice agent must not quote it.",
+      "rule_applied": "Net floor area (NIA): source-authority hierarchy (signed legal > official register > signed spec > signed price list > particulars > listing); recency only within the same tier; a newer brochure never beats a higher tier — selected Kelso Villa · synthetic measured survey [measured_survey] (tier 3 (signed_spec), undated)",
+      "decision_version": null
+    },
+    {
+      "event_id": "kelso-villa::net_floor_area::event-2",
+      "case_key": "kelso-villa::net_floor_area",
+      "action": "accept",
+      "actor": "Example Reviewer (fictional)",
+      "occurred_at": "2026-11-12T20:51:00.000Z",
+      "classification": "TRUE_CONFLICT",
+      "selected_evidence_id": null,
+      "reason": "ILLUSTRATIVE: measured survey states net 1,912 sq ft and has higher authority than marketing.",
+      "rule_applied": "Net floor area (NIA): source-authority hierarchy (signed legal > official register > signed spec > signed price list > particulars > listing); recency only within the same tier; a newer brochure never beats a higher tier — selected Kelso Villa · synthetic measured survey [measured_survey] (tier 3 (signed_spec), undated)",
+      "decision_version": 1
+    },
+    {
+      "event_id": "kelso-villa::parking_scope::event-1",
+      "case_key": "kelso-villa::parking_scope",
+      "action": "auto_resolve",
+      "actor": "engine",
+      "occurred_at": "2026-11-12T20:40:00.000Z",
+      "classification": "SCOPE_DIFFERENCE",
+      "selected_evidence_id": "kv-oct",
+      "reason": "Candidate proposed (SCOPE_DIFFERENCE). Material or unresolved difference — pending until a human signs it off. History is kept.",
+      "rule_applied": "Parking (scope): source-authority hierarchy (signed legal > official register > signed spec > signed price list > particulars > listing); recency only within the same tier; a newer brochure never beats a higher tier — selected Kelso Villa · October brochure [brochure] (tier 5 (brochure), 2026-10-01)",
+      "decision_version": null
+    },
+    {
+      "event_id": "kelso-villa::parking_scope::event-2",
+      "case_key": "kelso-villa::parking_scope",
+      "action": "auto_retain_context",
+      "actor": "rules-engine",
+      "occurred_at": "2026-11-12T20:40:00.000Z",
+      "classification": "SCOPE_DIFFERENCE",
+      "selected_evidence_id": null,
+      "reason": "Evidence refers to different scopes. Preserve both statements; do not copy development-wide facts onto this unit.",
+      "rule_applied": "safe:auto-retain-separate-scopes-or-bases",
+      "decision_version": null
+    },
+    {
+      "event_id": "kelso-villa::parking_total::event-1",
+      "case_key": "kelso-villa::parking_total",
+      "action": "auto_resolve",
+      "actor": "engine",
+      "occurred_at": "2026-11-12T20:40:00.000Z",
+      "classification": "TRUE_CONFLICT",
+      "selected_evidence_id": "kv-survey",
+      "reason": "Proposed value is conflicting and needs human sign-off (TRUE_CONFLICT). The voice agent must not quote it.",
+      "rule_applied": "Parking total: source-authority hierarchy (signed legal > official register > signed spec > signed price list > particulars > listing); recency only within the same tier; a newer brochure never beats a higher tier — selected Kelso Villa · synthetic measured survey [measured_survey] (tier 3 (signed_spec), undated)",
+      "decision_version": null
+    },
+    {
+      "event_id": "kelso-villa::parking_total::event-2",
+      "case_key": "kelso-villa::parking_total",
+      "action": "accept",
+      "actor": "Example Reviewer (fictional)",
+      "occurred_at": "2026-11-12T20:53:00.000Z",
+      "classification": "TRUE_CONFLICT",
+      "selected_evidence_id": null,
+      "reason": "ILLUSTRATIVE: five usable parking spaces; bay six described as a bin store in scenario.",
+      "rule_applied": "Parking total: source-authority hierarchy (signed legal > official register > signed spec > signed price list > particulars > listing); recency only within the same tier; a newer brochure never beats a higher tier — selected Kelso Villa · synthetic measured survey [measured_survey] (tier 3 (signed_spec), undated)",
+      "decision_version": 1
+    },
+    {
+      "event_id": "kelso-villa::price::event-1",
+      "case_key": "kelso-villa::price",
+      "action": "auto_resolve",
+      "actor": "engine",
+      "occurred_at": "2026-11-12T20:40:00.000Z",
+      "classification": "SUPERSEDED",
+      "selected_evidence_id": "kv-oct",
+      "reason": "Candidate proposed (SUPERSEDED). Material or unresolved difference — pending until a human signs it off. History is kept.",
+      "rule_applied": "price: highest source-authority tier, then most recent dated brochure or price list in-tier (a newer brochure never beats a higher tier) (Kelso Villa · October brochure [brochure], 2026-10-01); official last-sold prices are historical",
+      "decision_version": null
+    },
+    {
+      "event_id": "kelso-villa::price::event-2",
+      "case_key": "kelso-villa::price",
+      "action": "accept",
+      "actor": "Example Reviewer (fictional)",
+      "occurred_at": "2026-11-12T20:50:00.000Z",
+      "classification": "SUPERSEDED",
+      "selected_evidence_id": null,
+      "reason": "ILLUSTRATIVE: October brochure supersedes the April asking price. Evidence needs genuine PDF verification.",
+      "rule_applied": "price: highest source-authority tier, then most recent dated brochure or price list in-tier (a newer brochure never beats a higher tier) (Kelso Villa · October brochure [brochure], 2026-10-01); official last-sold prices are historical",
+      "decision_version": 1
+    }
+  ]
+}

@@ -1,5 +1,20 @@
 # Fact Review — Person B (simplified interface)
 
+## Latest updates — neutral UI + database export
+
+The reviewer interface now uses a **neutral greyscale theme** (`ui/theme-neutral.css`): quiet white/grey surfaces, a dark primary action, subtle selected rows, and a restrained warm warning reserved for document errors. Classifications are identified by words rather than colour. Existing extraction and decision logic is unchanged.
+
+**Export for database** is now the main download action and produces the versioned, ingestion-oriented `property-facts-database-handoff.json` with separate `accepted_facts`, `context_facts`, `unresolved_cases`, original `extracted_evidence`, `source_documents`, and `audit_events`. The previous verbose output remains available under **⋯ → Export full review archive**. The export contains *all properties in the loaded dataset*, not just the selected property.
+
+- [Ingestion specification and database mapping](docs/database-handoff.md)
+- [JSON Schema](schema/database_handoff.schema.json)
+- [Full illustrative two-property export](examples/database-handoff.example.json) — **fictional reviewer and synthetic scenario data, not production evidence**
+- Regenerate sample: `npm run example:handoff`
+- Validate implementation: `npm test`
+
+Browser-local reviewer names and timestamps are **not authenticated**. Production ingestion must validate them server-side.
+
+
 ## Quick start
 
 ```bash

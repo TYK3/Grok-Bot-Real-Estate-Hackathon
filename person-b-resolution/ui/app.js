@@ -5,6 +5,7 @@ import {
   REVIEW_CLASSIFICATIONS, CLASSIFICATIONS,
 } from '../src/resolve.js';
 import { ingestFiles, ingestJson, mergeFactSets, mergeDocumentSets, organiseDocuments } from '../src/ingest.js';
+import { buildDatabaseHandoff } from '../src/database_handoff.js';
 
 const $ = (id) => document.getElementById(id);
 const STATE_KEY = 'person-b-simple-workbench-v3';
@@ -278,7 +279,7 @@ function downloadJson(obj,filename){
   const url=URL.createObjectURL(new Blob([JSON.stringify(obj,null,2)],{type:'application/json'}));
   const a=document.createElement('a');a.href=url;a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
-function exportRecord(){
+function exportArchive(){
   if (!state.records.length){flashError('There are no facts to export. Add extraction JSON first.');return;}
   const result=buildVerifiedRecord(state.records,{
     rules:state.rules,generated_by:state.reviewer?`${state.reviewer} (local reviewer)`:'local fact review',
@@ -286,8 +287,18 @@ function exportRecord(){
   });
   result.export_note='Accepted facts are separately identified from pending/blocked and context-only facts. This browser-only demo does not authenticate reviewers or produce trusted server timestamps.';
   result.documents=state.documents.map(d=>({doc_id:d.doc_id,title:d.title||d.name,doc_type:d.doc_type,published_date:d.published_date,kind:d.kind}));
-  downloadJson(result,`${(state.propertyId||'property').replace(/[^\w.-]+/g,'-')}-review-handoff.json`);
-  notify(`${result.accepted_facts.length} accepted · ${result.blocked_facts.length} outstanding · ${result.context_facts.length} context-only. Hand-off JSON exported.`);
+  downloadJson(result,'property-facts-full-review-archive.json');
+  notify('Full review archive exported.');
+}
+function exportRecord(){
+  if (!state.records.length){flashError('There are no facts to export. Add extraction JSON first.');return;}
+  const result=buildDatabaseHandoff(state.records,{
+    documents:state.documents,
+    input_label:state.inputLabel,
+    example:state.isExample,
+  });
+  downloadJson(result, 'property-facts-database-handoff.json');
+  notify(`${result.counts.accepted} accepted · ${result.counts.unresolved} awaiting review · ${result.counts.context} context-only exported separately.`);
 }
 function exportBlocked(){
   const pack=buildAcceptanceRecords(state.records,{input_label:state.inputLabel});
@@ -543,6 +554,7 @@ function wire(){
     try{await ingestUserFiles(e.target.files);flashError('');}catch(err){flashError(`Could not read these files: ${err.message}`);}e.target.value='';
   });
   $('btn-export').addEventListener('click',exportRecord);
+  $('btn-export-archive').addEventListener('click',exportArchive);
   $('btn-export-blocked').addEventListener('click',exportBlocked);
   $('reviewer').addEventListener('input',e=>{state.reviewer=e.target.value;persist();});
   $('property').addEventListener('change',e=>{state.propertyId=e.target.value;state.selectedKey=null;ensureSelection();persist();render();});

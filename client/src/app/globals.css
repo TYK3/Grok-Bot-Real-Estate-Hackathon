@@ -1,0 +1,113 @@
+@import 'tailwindcss';
+
+@plugin 'tailwindcss-animate';
+@plugin '@tailwindcss/typography';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@theme {
+  --font-heading: Georgia, 'Times New Roman', serif;
+}
+
+:root {
+  --background: #f7f6f3;
+  --foreground: #13294b;
+  --card: #ffffff;
+  --card-foreground: #13294b;
+  --popover: #ffffff;
+  --popover-foreground: #13294b;
+  --primary: #13294b;
+  --primary-foreground: #ffffff;
+  --secondary: #eceff2;
+  --secondary-foreground: #13294b;
+  --muted: #eef0f2;
+  --muted-foreground: #697586;
+  --accent: #e95650;
+  --accent-foreground: #ffffff;
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: #ffffff;
+  --border: #d9dee5;
+  --input: #d9dee5;
+  --ring: #13294b;
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded bg-foreground/20;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-foreground/35;
+  }
+}
+
+@layer components {
+  .font-heading {
+    font-family: var(--font-heading);
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .property-gallery .swiper-button-prev,
+  .property-gallery .swiper-button-next {
+    color: #13294b;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid #d9dee5;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  .property-gallery .swiper-button-prev::after,
+  .property-gallery .swiper-button-next::after {
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  .property-gallery .swiper-pagination-bullet {
+    background: #13294b;
+    opacity: 0.28;
+  }
+
+  .property-gallery .swiper-pagination-bullet-active {
+    background: #e95650;
+    opacity: 1;
+  }
+}
