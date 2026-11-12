@@ -6,6 +6,10 @@
 </p>
 
 <p align="center">
+  <a href="https://www.youtube.com/watch?v=clWr3SJiLjw"><img alt="Watch the demo video" src="https://img.shields.io/badge/🎬%20watch%20the%20demo-YouTube-FF0000?style=for-the-badge&labelColor=111111"></a>
+</p>
+
+<p align="center">
   <img alt="Voice" src="https://img.shields.io/badge/voice-xAI%20Grok%20·%20STT%20·%20TTS-111111?style=flat-square">
   <img alt="LLM" src="https://img.shields.io/badge/LLM-grok--4.20%20non--reasoning-111111?style=flat-square">
   <img alt="Realtime" src="https://img.shields.io/badge/realtime-LiveKit%20Agents%201.8-1f6feb?style=flat-square">
@@ -13,6 +17,17 @@
   <img alt="Python" src="https://img.shields.io/badge/Python-3.12-3776ab?style=flat-square&logo=python&logoColor=white">
   <img alt="Database" src="https://img.shields.io/badge/Supabase-fact%20store-3ecf8e?style=flat-square&logo=supabase&logoColor=white">
   <img alt="Map data" src="https://img.shields.io/badge/map-OpenStreetMap-7ebc6f?style=flat-square&logo=openstreetmap&logoColor=white">
+</p>
+
+<a id="-demo-video"></a>
+
+## 🎬 Demo video
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=clWr3SJiLjw" title="Watch the Verified Fact Record demo on YouTube">
+    <img src="https://i.ytimg.com/vi/clWr3SJiLjw/hqdefault.jpg" alt="Verified Fact Record demo video: click to watch on YouTube" width="70%">
+  </a>
+  <br><b>▶️ <a href="https://www.youtube.com/watch?v=clWr3SJiLjw">Watch the demo on YouTube</a></b>
 </p>
 
 | 📄 Reads the documents | ⚖️ Catches the contradictions | 🎙️ Speaks only what is verified |
@@ -26,7 +41,8 @@
 
 | | |
 |---|---|
-| 🚀 [The MVP](#-the-mvp) · 🤯 [Wow factors](#-wow-factors) | 🏗️ [Architecture](#️-architecture) |
+| 🎬 [Demo video](#-demo-video) | 🏗️ [Architecture](#️-architecture) |
+| 🚀 [The MVP](#-the-mvp) · 🤯 [Wow factors](#-wow-factors) | |
 | 🧭 [Judges: a 2-minute tour](#-judges-a-2-minute-tour) | 📊 [Measured results](#-measured-results) |
 | 🎯 [The problem](#-the-problem) | 🏆 [How it meets the judging criteria](#-how-it-meets-the-judging-criteria) |
 | 📚 [The demo documents and contradictions](#-the-demo-documents-and-contradictions) | 🙏 [Team, credits and data](#-team-credits-and-data) |
