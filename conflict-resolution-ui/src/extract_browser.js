@@ -4,7 +4,7 @@
 
 const MONTHS = ['january','february','march','april','may','june','july','august','september','october','november','december'];
 const FLOOR_RE = /(lower\s+ground|upper\s+ground|ground|first|second|third|fourth|basement|mezzanine|attic)\s+floor/i;
-const PRICE_EXCLUDE = /previous|\bwas\b|paid|reduced\s+from|\bfrom\b|fee|deposit|stamp\s+duty|referral|service\s+charge|ground\s+rent|council\s+tax/i;
+const PRICE_EXCLUDE = /previous|change|\bwas\b|paid|reduced\s+from|\bfrom\b|fee|deposit|stamp\s+duty|referral|service\s+charge|ground\s+rent|council\s+tax/i;
 const KNOWN = [
   [/kelso\s*villa|kelso-villa/i, 'kelso-villa', 'Kelso Villa, Upper Bristol Road, Bath BA1 3AU'],
   [/huberts/i, 'st-huberts-close', 'St Huberts Close, Gerrards Cross'],
@@ -16,9 +16,9 @@ const num = (s) => Number(String(s).replace(/[,\s]/g, ''));
 
 export function classifyDoc(name, text) {
   const t = `${name}\n${text.slice(0, 3000)}`.toLowerCase();
+  if (/measured[\s-]survey|schedule[\s-]of[\s-]finishes|specification schedule/.test(t)) return [/finishes/.test(t) ? 'schedule_of_finishes' : 'measured_survey', 3];
   if (/energy performance certificate|epc[-_ ]register/.test(t)) return ['epc_register', 2];
   if (/title register|land registry|hm land/.test(t)) return ['land_registry', 2];
-  if (/measured[\s-]survey|schedule[\s-]of[\s-]finishes|specification schedule/.test(t)) return [/finishes/.test(t) ? 'schedule_of_finishes' : 'measured_survey', 3];
   if (/price[\s-]change|price list|instruction/.test(t)) return ['developer_instruction', 4];
   if (/rightmove|zoopla|onthemarket|portal/.test(t)) return ['listing', 6];
   return ['brochure', 5];
@@ -47,15 +47,22 @@ function quoteAround(text, start, end) {
   let b = text.indexOf('\n', end); if (b < 0 || b - end > 120) b = Math.min(text.length, end + 120);
   return clean(text.slice(a, b));
 }
+function lastMatch(re, str) { let m, last = null; const g = new RegExp(re.source, 'gi'); while ((m = g.exec(str))) last = m; return last; }
 function floorScope(text, idx) {
-  const lineStart = text.lastIndexOf('\n', idx - 1) + 1;
-  const pre = text.slice(Math.max(0, lineStart - 0), idx).slice(-80);
-  const m = pre.match(FLOOR_RE);
-  if (m) return slug(m[1].replace(/^lower$/i, 'lower ground'));
-  if (/garage/i.test(pre)) return 'whole-garage';
+  const pre = text.slice(Math.max(0, idx - 250), idx);
+  if (/garage/i.test(pre.slice(-40))) return 'whole-garage';
+  const fl = lastMatch(FLOOR_RE, pre), tot = lastMatch(/\btotal\b|whole\s+building|all\s+floors|overall/, pre);
+  if (fl && (!tot || fl.index > tot.index)) return slug(fl[1].replace(/^lower$/i, 'lower ground'));
   return 'whole';
 }
-
+function areaBasis(text, idx, end) {
+  const lineStart = text.lastIndexOf('\n', idx - 1) + 1;
+  const pre = text.slice(Math.max(lineStart, idx - 40), idx);
+  const b = lastMatch(/\b(NIA|GIA)\b|net\s+internal|gross\s+internal|\bnet\b|\bgross\b/, pre);
+  const post = text.slice(end, end + 20);
+  const s = b ? b[0] : (/^\s*\)?\s*(net|NIA)\b/i.test(post) ? 'net' : /^\s*\)?\s*(gross|GIA)\b/i.test(post) ? 'gross' : '');
+  return /^(NIA|net)/i.test(s) ? 'net' : /^(GIA|gross)/i.test(s) ? 'gross' : null;
+}
 // Pure: page texts -> facts. pages: [{page, text}]
 export function extractFactsFromPages(pages, { name, doc_id }) {
   const all = pages.map((p) => p.text).join('\n');
@@ -88,7 +95,8 @@ export function extractFactsFromPages(pages, { name, doc_id }) {
         continue;
       }
       if (v < 50000) continue;
-      if (PRICE_EXCLUDE.test(pre.slice(-35)) && !/revised|reduced\s+to|\bnow\b|new\s+(asking\s+)?price/i.test(pre)) continue;
+      if (/change|previous|\bwas\b/i.test(pre.slice(-25))) continue;
+      if (PRICE_EXCLUDE.test(pre) && !/revised|reduced\s+to|\bnow\b|new\s+(asking\s+)?price/i.test(pre)) continue;
       if (once(`price:${v}:${page}`)) push(page, text, m, { field: 'price', value: v, unit: 'GBP', plot: 'whole' });
     }
     // Tenure
@@ -98,15 +106,18 @@ export function extractFactsFromPages(pages, { name, doc_id }) {
     const txRe = /\b(for\s+sale|to\s+let)\b/gi;
     while ((m = txRe.exec(text))) { const v = m[1].toLowerCase().replace(/\s+/g, '_'); if (once(`tx:${v}`)) push(page, text, m, { field: 'transaction_type', value: v, plot: 'whole' }); }
     // Floor areas: "468 sq ft (43.45 sq m)" or "42.8 m² (461 sq ft)" or single unit
-    const areaRe = /(\d{1,3}(?:,\d{3})*(?:\.\d+)?)\s*(sq\.?\s*ft|sqft|ft²|ft2|square\s+feet|sq\.?\s*m\b|sqm|m²|m2|square\s+met(?:re|er)s)\.?(?:\s*\(?\s*(\d{1,3}(?:,\d{3})*(?:\.\d+)?)\s*(sq\.?\s*ft|sqft|ft²|sq\.?\s*m\b|sqm|m²)\s*\)?)?/gi;
+    const areaRe = /(\d{1,3}(?:,\d{3})*(?:\.\d+)?)\s*(sq\.?\s*ft|sqft|ft²|ft2|square\s+feet|sq\.?\s*m\b|sqm|m²|m2|square\s+met(?:re|er)s)\.?(?:\s*\(?\s*(\d{1,3}(?:,\d{3})*(?:\.\d+)?)\s*(sq\.?\s*ft|sqft|ft²|sq\.?\s*m\b|sqm|m²|m2)\s*\)?)?/gi;
     while ((m = areaRe.exec(text))) {
       const isFt = /ft|feet/i.test(m[2]);
       const v = num(m[1]); if (!v || v < 5) continue;
       const ctx = text.slice(Math.max(0, text.lastIndexOf('\n', m.index - 1) - 60), m.index + m[0].length + 25);
       if (/per\s+sq|£\s*$/i.test(text.slice(Math.max(0, m.index - 3), m.index)) || /^\s*(\)|\s)*(quoted\s+in|stated\s+in)/i.test(text.slice(m.index + m[0].length, m.index + m[0].length + 20))) continue;
-      const basis = /\bNIA\b|net\s+internal|\bnet\b/i.test(ctx) ? 'net' : /\bGIA\b|gross\s+internal|\bgross\b/i.test(ctx) ? 'gross' : null;
+      if (/=\s*$/.test(text.slice(Math.max(0, m.index - 4), m.index)) || /^\s*=/.test(text.slice(m.index + m[0].length, m.index + m[0].length + 4))) continue;
+      if (/(than|from|vs\.?|versus)\s+(the\s+)?$/i.test(text.slice(Math.max(0, m.index - 15), m.index))) continue;
+      const basis = areaBasis(text, m.index, m.index + m[0].length);
       const plot = floorScope(text, m.index);
-      const field = basis === 'net' ? 'net_floor_area' : basis === 'gross' ? 'gross_floor_area' : 'floor_area';
+      const epc = /EPC\s+floor\s+area|useful\s+floor\s+area/i.test(text.slice(Math.max(0, m.index - 80), m.index + 60));
+      const field = epc && !basis ? 'epc_floor_area' : basis === 'net' ? 'net_floor_area' : basis === 'gross' ? 'gross_floor_area' : 'floor_area';
       const sqft = isFt ? v : m[3] && /ft/i.test(m[4] || '') ? num(m[3]) : Math.round(v * 10.7639);
       const eq = m[3] ? `${m[3]} ${m[4]}` : null;
       if (once(`area:${field}:${plot}:${sqft}:${page}`)) push(page, text, m, { field, value: sqft, unit: 'sqft', area_basis: basis, plot, stated_equivalent: eq });
@@ -123,6 +134,7 @@ export function extractFactsFromPages(pages, { name, doc_id }) {
     while ((m = parkRe.exec(text))) {
       const around = text.slice(Math.max(0, m.index - 80), m.index + m[0].length + 40);
       if (m[3] && !/park|car|garage/i.test(around)) continue;
+      if (m[5] && /^\s*(to\s+)?types?\b/i.test(text.slice(m.index + m[0].length, m.index + m[0].length + 14))) continue;
       const raw = (m[1] || m[4] || m[5]).toLowerCase(); const v = words[raw] ?? Number(raw);
       if (once(`parking:${v}:${page}:${m.index}`)) push(page, text, m, { field: 'parking', value: v, plot: /per\s+floor|each\s+floor/i.test(around) ? 'per-floor' : 'whole' });
     }
@@ -133,6 +145,18 @@ export function extractFactsFromPages(pages, { name, doc_id }) {
       const field = /bath/i.test(m[2]) ? 'bathrooms' : 'bedrooms';
       if (once(`${field}:${v}:${page}`)) push(page, text, m, { field, value: v, plot: 'whole' });
     }
+    // House-type schedule rows: "A   The Bulstrode   3   2   2   Single   1,420"
+    const typeRe = /^\s*([A-H])\s{2,}(The\s+\w+)\s+(\d{1,2})\s+(\d{1,2})\s+(\d{1,2})\s+(Single|Double|Triple|None|—)\s+([\d,]{3,6})\s*$/gim;
+    const gia = /GIA/i.test(text);
+    while ((m = typeRe.exec(text))) {
+      const plot = `type-${m[1].toLowerCase()}`;
+      push(page, text, m, { field: gia ? 'gross_floor_area' : 'floor_area', value: num(m[7]), unit: 'sqft', area_basis: gia ? 'gross' : null, plot, unit_type: m[1], scope: 'house_type' });
+      push(page, text, m, { field: 'bedrooms', value: Number(m[3]), plot, unit_type: m[1], scope: 'house_type' });
+      push(page, text, m, { field: 'bathrooms', value: Number(m[4]), plot, unit_type: m[1], scope: 'house_type' });
+    }
+    // En-suite fixtures
+    const fixRe = /all\s+en[\s-]?suites\s+(?:are\s+)?(?:fitted\s+with\s+)?([^.]{0,40}?)(showers?|baths?)\b/gi;
+    while ((m = fixRe.exec(text))) push(page, text, m, { field: 'bathroom_fixture', value: /shower/i.test(m[2]) ? 'shower' : 'bath', plot: 'en-suite-all' });
     // Listed status
     const lsRe = /\b(?:listed\s+grade\s+(II\*?|Il|I)\b|grade\s+(II\*?|Il|I)\s+listed)/gi;
     while ((m = lsRe.exec(text))) { const v = (m[1] || m[2]).replace('Il', 'II'); if (once(`listed:${v}`)) push(page, text, m, { field: 'listed_status', value: `Grade ${v}`, plot: 'whole' }); }
