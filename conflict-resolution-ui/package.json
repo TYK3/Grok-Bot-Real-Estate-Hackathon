@@ -8,7 +8,7 @@
     "test": "node --test test/*.test.js",
     "resolve": "node src/cli.js",
     "serve": "python3 -m http.server 8080",
-    "pack": "cd .. && zip -r person-b-resolution.zip person-b-resolution -x 'person-b-resolution/.git/*' -x '*/node_modules/*' -x '*/.DS_Store'",
+    "pack": "cd .. && zip -r conflict-resolution-ui.zip conflict-resolution-ui -x 'conflict-resolution-ui/.git/*' -x '*/node_modules/*' -x '*/.DS_Store'",
     "example:handoff": "node scripts/generate-example.mjs"
   }
 }
