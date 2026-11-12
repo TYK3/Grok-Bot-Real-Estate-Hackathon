@@ -169,5 +169,8 @@ export function getFactChecks(): Development[] {
   });
 }
 
+// Served by app/review/[[...path]]/route.ts; ?data= opens the workbench straight
+// onto the same pipeline facts this page reads, skipping the upload screen.
 export const FACT_REVIEW_URL =
-  process.env.NEXT_PUBLIC_FACT_REVIEW_URL ?? "http://localhost:8080/conflict-resolution-ui/";
+  process.env.NEXT_PUBLIC_FACT_REVIEW_URL ??
+  "/review/conflict-resolution-ui/index.html?data=../fact_record/contracts/01_extracted.json";
