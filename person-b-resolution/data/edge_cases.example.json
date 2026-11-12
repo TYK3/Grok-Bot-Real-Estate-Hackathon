@@ -1,0 +1,363 @@
+{
+  "_comment": "EXAMPLE DATA — edge cases aligned with the product spec. Lumley House is a real official-record mismatch from tonight's evidence (listing freehold vs 2016 Price Paid leasehold) and must be worded 'check this', not 'error'. Flat 53 Coachman Court is the unmatched-join example: a low-confidence match must not raise a conflict. Scope and plot/type rows are typical (assumed) cases from the spec, not tonight's hero documents. The true-conflict parking, stale-listing price, historical official asking-price, and net-vs-gross rows remain as engine tests.",
+  "example": true,
+  "label": "Edge cases — official-record mismatch, unmatched join, scope, plot/type",
+  "facts": [
+    {
+      "property_id": "edge-true-conflict",
+      "property_name": "Edgecourt House, 12 Test Street, Bath BA1 1AA",
+      "field": "parking",
+      "value": 2,
+      "unit": null,
+      "source": {
+        "doc_id": "edge-brochure-a",
+        "doc_type": "brochure",
+        "title": "Agent A particulars",
+        "published_date": "2026-09-01",
+        "retrieved_date": "2026-11-12",
+        "issuer": "Agent A"
+      },
+      "page": 1,
+      "quote": "Two allocated parking spaces.",
+      "extraction_confidence": 0.9,
+      "entity_match_confidence": 1.0
+    },
+    {
+      "property_id": "edge-true-conflict",
+      "property_name": "Edgecourt House, 12 Test Street, Bath BA1 1AA",
+      "field": "parking",
+      "value": 4,
+      "unit": null,
+      "source": {
+        "doc_id": "edge-brochure-b",
+        "doc_type": "brochure",
+        "title": "Agent B particulars",
+        "published_date": "2026-09-01",
+        "retrieved_date": "2026-11-12",
+        "issuer": "Agent B"
+      },
+      "page": 1,
+      "quote": "Four allocated parking spaces.",
+      "extraction_confidence": 0.9,
+      "entity_match_confidence": 1.0
+    },
+    {
+      "property_id": "edge-stale-listing",
+      "property_name": "Stale Cottage, 3 Archive Lane, Bath BA2 2BB",
+      "field": "price",
+      "value": 520000,
+      "unit": "GBP",
+      "source": {
+        "doc_id": "stale-brochure",
+        "doc_type": "brochure",
+        "title": "Revised particulars (current)",
+        "published_date": "2026-10-20",
+        "retrieved_date": "2026-11-12",
+        "issuer": "Example Agent"
+      },
+      "page": 1,
+      "quote": "Guide price £520,000.",
+      "extraction_confidence": 0.95,
+      "entity_match_confidence": 1.0
+    },
+    {
+      "property_id": "edge-stale-listing",
+      "property_name": "Stale Cottage, 3 Archive Lane, Bath BA2 2BB",
+      "field": "price",
+      "value": 495000,
+      "unit": "GBP",
+      "source": {
+        "doc_id": "stale-listing",
+        "doc_type": "listing",
+        "title": "Portal listing (not updated)",
+        "published_date": "2026-05-01",
+        "retrieved_date": "2026-11-12"
+      },
+      "page": null,
+      "quote": "£495,000",
+      "extraction_confidence": 0.9,
+      "entity_match_confidence": 1.0
+    },
+    {
+      "property_id": "edge-price-official-historical",
+      "property_name": "Sold House, 7 Ledger Close, Bath BA1 3CC",
+      "field": "price",
+      "value": 450000,
+      "unit": "GBP",
+      "source": {
+        "doc_id": "sold-brochure",
+        "doc_type": "brochure",
+        "title": "Current particulars (asking price)",
+        "published_date": "2026-08-01",
+        "retrieved_date": "2026-11-12"
+      },
+      "page": 1,
+      "quote": "Asking price £450,000.",
+      "extraction_confidence": 0.95,
+      "entity_match_confidence": 1.0
+    },
+    {
+      "property_id": "edge-price-official-historical",
+      "property_name": "Sold House, 7 Ledger Close, Bath BA1 3CC",
+      "field": "price",
+      "value": 380000,
+      "unit": "GBP",
+      "source": {
+        "doc_id": "ppd-example",
+        "doc_type": "official_record",
+        "title": "HM Land Registry Price Paid (last sold, historical asking-price comparison)",
+        "published_date": "2021-03-15",
+        "retrieved_date": "2026-11-12"
+      },
+      "page": null,
+      "quote": "Price paid: £380,000 on 15 March 2021.",
+      "extraction_confidence": 1.0,
+      "entity_match_confidence": 1.0
+    },
+    {
+      "property_id": "edge-net-vs-gross",
+      "property_name": "Basis Hall, 1 Measure Yard, Bath BA1 4DD",
+      "field": "floor_area",
+      "value": 1990,
+      "unit": "sqft",
+      "area_basis": "net",
+      "source": {
+        "doc_id": "basis-brochure",
+        "doc_type": "brochure",
+        "title": "Particulars",
+        "published_date": "2026-06-01",
+        "retrieved_date": "2026-11-12"
+      },
+      "page": 1,
+      "quote": "NIA 1,990 sq ft.",
+      "extraction_confidence": 0.9,
+      "entity_match_confidence": 1.0
+    },
+    {
+      "property_id": "edge-net-vs-gross",
+      "property_name": "Basis Hall, 1 Measure Yard, Bath BA1 4DD",
+      "field": "floor_area",
+      "value": 2700,
+      "unit": "sqft",
+      "area_basis": "gross",
+      "source": {
+        "doc_id": "basis-brochure",
+        "doc_type": "brochure",
+        "title": "Particulars",
+        "published_date": "2026-06-01",
+        "retrieved_date": "2026-11-12"
+      },
+      "page": 1,
+      "quote": "GIA 2,700 sq ft.",
+      "extraction_confidence": 0.9,
+      "entity_match_confidence": 1.0
+    },
+
+    {
+      "property_id": "lumley-house",
+      "property_name": "Lumley House, 56 Elliott Road, Cirencester, GL7 1YS",
+      "field": "tenure",
+      "value": "Freehold",
+      "unit": null,
+      "source": {
+        "doc_id": "lumley-listing",
+        "doc_type": "listing",
+        "title": "Portal listing — Lumley House",
+        "published_date": "2026-06-01",
+        "retrieved_date": "2026-10-24"
+      },
+      "page": null,
+      "quote": "Tenure: Freehold.",
+      "quote_attribution": "Taken from the product-spec evidence: the listing says freehold.",
+      "extraction_confidence": 0.92,
+      "entity_match_confidence": 0.95
+    },
+    {
+      "property_id": "lumley-house",
+      "property_name": "Lumley House, 56 Elliott Road, Cirencester, GL7 1YS",
+      "field": "tenure",
+      "value": "Leasehold",
+      "unit": null,
+      "source": {
+        "doc_id": "lumley-ppd-2016",
+        "doc_type": "official_record",
+        "official_kind": "price_paid",
+        "title": "HM Land Registry Price Paid — 2016 sale",
+        "published_date": "2016-01-01",
+        "retrieved_date": "2026-11-12"
+      },
+      "page": null,
+      "quote": "Price Paid record: tenure leasehold at the 2016 sale.",
+      "quote_attribution": "Taken from the product spec: Land Registry Price Paid recorded leasehold at the 2016 sale. A later freehold purchase could explain it — word as 'check this', not 'error'. The agent checks the current title, not only Price Paid.",
+      "extraction_confidence": 1.0,
+      "entity_match_confidence": 0.95
+    },
+
+    {
+      "property_id": "coachman-court-flat-53",
+      "property_name": "Flat 53, Coachman Court",
+      "field": "tenure",
+      "value": "Leasehold",
+      "unit": null,
+      "source": {
+        "doc_id": "coachman-flat-53-listing",
+        "doc_type": "listing",
+        "title": "Listing for Flat 53, Coachman Court",
+        "published_date": "2026-05-01",
+        "retrieved_date": "2026-10-24"
+      },
+      "page": null,
+      "quote": "Flat 53, Coachman Court. Tenure leasehold.",
+      "quote_attribution": "Spec evidence: organiser pre-joins matched Flat 53 to Flat 21. This listing is for Flat 53 and is confident.",
+      "extraction_confidence": 0.9,
+      "entity_match_confidence": 1.0
+    },
+    {
+      "property_id": "coachman-court-flat-53",
+      "property_name": "Flat 53, Coachman Court",
+      "field": "tenure",
+      "value": "Freehold",
+      "unit": null,
+      "entity_match": {
+        "confident": false,
+        "confidence": "low",
+        "score": 0.31,
+        "matched_to": "Flat 21, Coachman Court",
+        "reason": "Organiser pre-join of Flat 53 to Flat 21 — a matching failure, not a dispute about Flat 53."
+      },
+      "entity_match_confidence": 0.31,
+      "source": {
+        "doc_id": "coachman-flat-21-title",
+        "doc_type": "official_record",
+        "title": "Land Registry title actually for Flat 21, Coachman Court (bad join)",
+        "published_date": "2019-04-01",
+        "retrieved_date": "2026-11-12"
+      },
+      "page": 1,
+      "quote": "Title for Flat 21: Freehold. (This record was incorrectly pre-joined to Flat 53.)",
+      "quote_attribution": "Taken from the product spec callout: if entity resolution is not confident, do not raise a conflict. Hold the item unmatched.",
+      "extraction_confidence": 0.95
+    },
+
+    {
+      "property_id": "edge-scope",
+      "property_name": "Scope Yard, Bath BA1 5EE",
+      "field": "bathrooms",
+      "value": "showers in all rooms",
+      "scope": "development",
+      "source": {
+        "doc_id": "scope-dev-brochure",
+        "doc_type": "brochure",
+        "title": "Development brochure",
+        "published_date": "2026-03-01",
+        "retrieved_date": "2026-11-12"
+      },
+      "page": 4,
+      "quote": "All rooms have showers.",
+      "quote_attribution": "Typical (assumption) from the product spec — not demonstrated in tonight's hero examples.",
+      "extraction_confidence": 0.85,
+      "entity_match_confidence": 1.0
+    },
+    {
+      "property_id": "edge-scope",
+      "property_name": "Scope Yard, Bath BA1 5EE",
+      "field": "bathrooms",
+      "value": "bath",
+      "scope": "unit",
+      "source": {
+        "doc_id": "scope-unit-plan",
+        "doc_type": "specification",
+        "title": "Unit plan, Plot 12",
+        "published_date": "2026-03-15",
+        "retrieved_date": "2026-11-12"
+      },
+      "page": 1,
+      "quote": "Plot 12 bathroom: bath.",
+      "quote_attribution": "Typical (assumption) from the product spec. Do not copy a development-wide claim onto a unit without a unit-level source.",
+      "extraction_confidence": 0.9,
+      "entity_match_confidence": 1.0
+    },
+
+    {
+      "property_id": "edge-plot-type",
+      "property_name": "Type Gardens (new-build scheme)",
+      "field": "net_floor_area",
+      "value": 92,
+      "unit": "sqm",
+      "area_basis": "net",
+      "plot": "Plot 4",
+      "unit_type": "Type A",
+      "source": {
+        "doc_id": "type-a-spec",
+        "doc_type": "specification",
+        "title": "Type A specification",
+        "published_date": "2026-02-01",
+        "retrieved_date": "2026-11-12"
+      },
+      "page": 1,
+      "quote": "Type A, Plot 4: 92 sq m NIA.",
+      "quote_attribution": "Typical on new-build schemes (assumption). Not a Kelso Villa case. Never merge types or plots.",
+      "extraction_confidence": 0.95,
+      "entity_match_confidence": 1.0
+    },
+    {
+      "property_id": "edge-plot-type",
+      "property_name": "Type Gardens (new-build scheme)",
+      "field": "net_floor_area",
+      "value": 118,
+      "unit": "sqm",
+      "area_basis": "net",
+      "plot": "Plot 9",
+      "unit_type": "Type C",
+      "source": {
+        "doc_id": "type-c-spec",
+        "doc_type": "specification",
+        "title": "Type C specification",
+        "published_date": "2026-02-01",
+        "retrieved_date": "2026-11-12"
+      },
+      "page": 1,
+      "quote": "Type C, Plot 9: 118 sq m NIA.",
+      "quote_attribution": "Typical on new-build schemes (assumption). Resolve the entity first; a fact belongs to a named plot or type only.",
+      "extraction_confidence": 0.95,
+      "entity_match_confidence": 1.0
+    },
+
+    {
+      "property_id": "edge-tier-precedence",
+      "property_name": "Contract House, 8 Seal Row, Bath BA1 6FF",
+      "field": "price",
+      "value": 500000,
+      "unit": "GBP",
+      "source": {
+        "doc_id": "contract-house-sale",
+        "doc_type": "sale_contract",
+        "title": "Signed sale contract",
+        "published_date": "2026-07-01",
+        "retrieved_date": "2026-11-12"
+      },
+      "page": 1,
+      "quote": "The purchase price is £500,000.",
+      "extraction_confidence": 1.0,
+      "entity_match_confidence": 1.0
+    },
+    {
+      "property_id": "edge-tier-precedence",
+      "property_name": "Contract House, 8 Seal Row, Bath BA1 6FF",
+      "field": "price",
+      "value": 525000,
+      "unit": "GBP",
+      "source": {
+        "doc_id": "contract-house-brochure-later",
+        "doc_type": "brochure",
+        "title": "Later marketing brochure (September)",
+        "published_date": "2026-09-01",
+        "retrieved_date": "2026-11-12"
+      },
+      "page": 1,
+      "quote": "Guide price £525,000.",
+      "extraction_confidence": 0.9,
+      "entity_match_confidence": 1.0
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "verified-fact-record",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Person B — Fact Reconciliation Workbench: multi-document ingest, contradiction classification, evidence-first review UI, verified fact export.",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "resolve": "node src/cli.js",
+    "serve": "python3 -m http.server 8080",
+    "pack": "cd .. && zip -r person-b-resolution.zip person-b-resolution -x 'person-b-resolution/.git/*' -x '*/node_modules/*' -x '*/.DS_Store'"
+  }
+}

@@ -1,0 +1,5 @@
+property_id,property_name,field,value,unit,doc_id,doc_type,title,published_date,agent,quote
+kelso-villa,"Kelso Villa, Upper Bristol Road, Bath BA1 3AU",price,700000,GBP,sample-portal-1,listing,Sample portal row A,2026-04-13,Carter Jonas,Guide price £700,000
+kelso-villa,"Kelso Villa, Upper Bristol Road, Bath BA1 3AU",tenure,leasehold,,sample-portal-1,listing,Sample portal row A,2026-04-13,Carter Jonas,tenure=leasehold
+kelso-villa,"Kelso Villa, Upper Bristol Road, Bath BA1 3AU",price,700000,GBP,sample-portal-2,listing,Sample portal row B,2026-10-16,Carter Jonas,Guide price £700,000
+kelso-villa,"Kelso Villa, Upper Bristol Road, Bath BA1 3AU",tenure,freehold,,sample-portal-2,listing,Sample portal row B,2026-10-16,Carter Jonas,tenure=freehold
