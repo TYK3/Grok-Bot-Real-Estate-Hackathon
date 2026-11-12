@@ -4,6 +4,8 @@ node_modules/
 venv/
 __pycache__/
 *.py[cod]
+*.pyo
+*.egg-info/
 
 # Environment and secrets
 .env
@@ -25,8 +27,41 @@ coverage/
 *.db
 *.log
 
+# Model and runtime caches
+.cache/
+.uv-cache/
+call_summaries/
+data/sessions/
+client/.next.bak-*/
+
+# Project-specific generated files
+work/*.html
+work/*.js
+natwest-voice-demo/
+KMS/
+
 # Editors and operating systems
 .DS_Store
 .idea/
 .vscode/
 *.zip
+.cursor/
+.cursor/chat/
+.cursor/rules/*.local.mdc
+
+# Claude Code
+.claude/settings.local.json
+.claude/worktrees/
+
+# OpenAI Codex
+.codex/config.local.toml
+
+# Gemini CLI
+.gemini/history/
+.gemini/tmp/
+.gemini/google_accounts.json
+.gemini/installation_id
+.gemini/oauth_creds.json
+
+# GitHub CLI
+.github/personal-instructions.md

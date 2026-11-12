@@ -1,0 +1,38 @@
+[project]
+name = "car-negotiation-demo-livekit"
+version = "0.1.0"
+description = "Property lettings voice AI demo with LiveKit Agents"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "google-generativeai>=0.8.6",
+    "livekit-agents[elevenlabs,openai,silero]~=1.4",
+    "livekit-plugins-ai-coustics>=0.3.0",
+    "livekit-plugins-noise-cancellation~=0.2",
+    "perplexityai>=0.42.0",
+    "python-dotenv>=1.2.2",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.3.0",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "ruff>=0.15.20",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "B", "A", "C4", "UP", "SIM", "RUF"]
+ignore = ["E501"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

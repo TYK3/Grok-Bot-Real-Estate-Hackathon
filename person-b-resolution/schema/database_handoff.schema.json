@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schema/database_handoff.schema.json",
+  "title": "Person B database ingestion handoff",
+  "description": "Versioned output. Ingest only accepted_facts as canonical property values. All other collections are provenance, contextual claims, or review work queues.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "payload_type", "batch_id", "generated_at", "input_label",
+    "example_only", "ingestion_policy", "counts", "properties", "source_documents",
+    "extracted_evidence", "accepted_facts", "context_facts", "unresolved_cases", "audit_events"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "payload_type": { "const": "property_fact_reconciliation" },
+    "batch_id": { "$ref": "#/$defs/nullableString" },
+    "generated_at": { "$ref": "#/$defs/timestamp" },
+    "input_label": { "$ref": "#/$defs/nullableString" },
+    "example_only": { "type": "boolean" },
+    "ingestion_policy": {
+      "type": "object",
+      "required": ["accepted_facts_only_for_canonical_values", "context_claims_are_not_single_valued_facts", "unresolved_cases_must_not_publish", "reviewer_identity", "timestamps"],
+      "properties": {
+        "accepted_facts_only_for_canonical_values": { "const": true },
+        "context_claims_are_not_single_valued_facts": { "const": true },
+        "unresolved_cases_must_not_publish": { "const": true },
+        "reviewer_identity": { "const": "browser_local_unverified" },
+        "timestamps": { "const": "client_clock_untrusted" }
+      },
+      "additionalProperties": false
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["accepted", "context", "unresolved"],
+      "properties": {
+        "accepted": { "type": "integer", "minimum": 0 },
+        "context": { "type": "integer", "minimum": 0 },
+        "unresolved": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "properties": {
+      "type": "array", "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["property_id", "property_name"],
+        "properties": { "property_id": { "type": "string", "minLength": 1 }, "property_name": { "type": "string" } }
+      }
+    },
+    "source_documents": { "type": "array", "items": { "$ref": "#/$defs/sourceDocument" } },
+    "extracted_evidence": { "type": "array", "items": { "$ref": "#/$defs/evidence" } },
+    "accepted_facts": { "type": "array", "items": { "$ref": "#/$defs/acceptedFact" } },
+    "context_facts": { "type": "array", "items": { "$ref": "#/$defs/contextCase" } },
+    "unresolved_cases": { "type": "array", "items": { "$ref": "#/$defs/unresolvedCase" } },
+    "audit_events": { "type": "array", "items": { "$ref": "#/$defs/auditEvent" } }
+  },
+  "$defs": {
+    "nullableString": { "type": ["string", "null"] },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "nullableTimestamp": { "oneOf": [{ "$ref": "#/$defs/timestamp" }, { "type": "null" }] },
+    "stringArray": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+    "sourceDocument": {
+      "type": "object", "additionalProperties": false,
+      "required": ["document_id", "title", "document_type", "issuer", "published_date", "date_precision", "synthetic", "uri"],
+      "properties": {
+        "document_id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string" },
+        "document_type": { "$ref": "#/$defs/nullableString" },
+        "issuer": { "$ref": "#/$defs/nullableString" },
+        "published_date": { "$ref": "#/$defs/nullableString" },
+        "date_precision": { "$ref": "#/$defs/nullableString" },
+        "synthetic": { "type": "boolean" },
+        "uri": { "$ref": "#/$defs/nullableString" }
+      }
+    },
+    "claim": {
+      "type": "object", "additionalProperties": false,
+      "required": ["value", "unit", "area_basis", "scope", "stated_equivalent"],
+      "properties": {
+        "value": {},
+        "unit": { "$ref": "#/$defs/nullableString" },
+        "area_basis": { "$ref": "#/$defs/nullableString" },
+        "scope": { "$ref": "#/$defs/nullableString" },
+        "stated_equivalent": { "type": ["object", "null"] }
+      }
+    },
+    "evidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["evidence_id", "case_key", "property_id", "field", "source_document_id", "page_number", "quote", "quote_attribution", "extraction_confidence", "effective_date", "claim"],
+      "properties": {
+        "evidence_id": { "type": "string", "minLength": 1 },
+        "case_key": { "type": "string" },
+        "property_id": { "type": "string" },
+        "field": { "type": "string" },
+        "source_document_id": { "$ref": "#/$defs/nullableString" },
+        "page_number": { "type": ["integer", "null"], "minimum": 1 },
+        "quote": { "$ref": "#/$defs/nullableString" },
+        "quote_attribution": { "$ref": "#/$defs/nullableString" },
+        "extraction_confidence": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "effective_date": { "$ref": "#/$defs/nullableString" },
+        "claim": { "$ref": "#/$defs/claim" }
+      }
+    },
+    "acceptedFact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["record_id", "case_key", "property_id", "field", "value", "unit", "area_basis", "scope", "area_converted", "currency", "classification", "source_evidence_id", "related_evidence_ids", "source_document_id", "effective_date", "source_published_date", "rule_applied", "decision", "version"],
+      "properties": {
+        "record_id": { "type": "string", "minLength": 1 },
+        "case_key": { "type": "string" },
+        "property_id": { "type": "string" },
+        "field": { "type": "string" },
+        "value": {},
+        "unit": { "$ref": "#/$defs/nullableString" },
+        "area_basis": { "$ref": "#/$defs/nullableString" },
+        "scope": { "$ref": "#/$defs/nullableString" },
+        "area_converted": { "oneOf": [{ "type": "null" }, {
+          "type": "object", "additionalProperties": false,
+          "required": ["sqft", "sqm"],
+          "properties": { "sqft": { "type": "number" }, "sqm": { "type": "number" } }
+        }] },
+        "currency": { "$ref": "#/$defs/nullableString" },
+        "classification": { "type": "string" },
+        "source_evidence_id": { "$ref": "#/$defs/nullableString" },
+        "related_evidence_ids": { "$ref": "#/$defs/stringArray" },
+        "source_document_id": { "$ref": "#/$defs/nullableString" },
+        "effective_date": { "$ref": "#/$defs/nullableString" },
+        "source_published_date": { "$ref": "#/$defs/nullableString" },
+        "rule_applied": { "$ref": "#/$defs/nullableString" },
+        "decision": { "type": "object", "additionalProperties": false,
+          "required": ["action", "accepted_by", "accepted_at", "reason", "trust_level"],
+          "properties": {
+            "action": { "type": "string" },
+            "accepted_by": { "type": "string" },
+            "accepted_at": { "$ref": "#/$defs/nullableTimestamp" },
+            "reason": { "$ref": "#/$defs/nullableString" },
+            "trust_level": { "const": "browser_local_unverified" }
+          }
+        },
+        "version": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "contextCase": {
+      "type": "object", "additionalProperties": false,
+      "required": ["case_key", "property_id", "field", "classification", "resolution", "publishable_as_single_fact", "claims", "rule_applied"],
+      "properties": {
+        "case_key": { "type": "string" },
+        "property_id": { "type": "string" },
+        "field": { "type": "string" },
+        "classification": { "type": "string" },
+        "resolution": { "const": "retain_separate_claims" },
+        "publishable_as_single_fact": { "const": false },
+        "claims": { "type": "array", "minItems": 2, "items": {
+          "type": "object", "additionalProperties": false,
+          "required": ["evidence_id", "value", "unit", "area_basis", "scope"],
+          "properties": {
+            "evidence_id": { "type": "string" },
+            "value": {},
+            "unit": { "$ref": "#/$defs/nullableString" },
+            "area_basis": { "$ref": "#/$defs/nullableString" },
+            "scope": { "$ref": "#/$defs/nullableString" }
+          }
+        } },
+        "rule_applied": { "$ref": "#/$defs/nullableString" }
+      }
+    },
+    "unresolvedCase": {
+      "type": "object", "additionalProperties": false,
+      "required": ["case_key", "property_id", "field", "status", "classification", "document_error", "proposed_value", "proposed_unit", "proposed_evidence_id", "evidence_ids", "reason", "rule_applied", "publishable"],
+      "properties": {
+        "case_key": { "type": "string" },
+        "property_id": { "type": "string" },
+        "field": { "type": "string" },
+        "status": { "enum": ["pending", "blocked", "conflicting", "unknown"] },
+        "classification": { "type": "string" },
+        "document_error": { "type": "boolean" },
+        "proposed_value": {},
+        "proposed_unit": { "$ref": "#/$defs/nullableString" },
+        "proposed_evidence_id": { "$ref": "#/$defs/nullableString" },
+        "evidence_ids": { "$ref": "#/$defs/stringArray" },
+        "reason": { "$ref": "#/$defs/nullableString" },
+        "rule_applied": { "$ref": "#/$defs/nullableString" },
+        "publishable": { "const": false }
+      }
+    },
+    "auditEvent": {
+      "type": "object", "additionalProperties": false,
+      "required": ["event_id", "case_key", "action", "actor", "occurred_at", "classification", "selected_evidence_id", "reason", "rule_applied", "decision_version"],
+      "properties": {
+        "event_id": { "type": "string" },
+        "case_key": { "type": "string" },
+        "action": { "type": "string" },
+        "actor": { "type": "string" },
+        "occurred_at": { "$ref": "#/$defs/timestamp" },
+        "classification": { "$ref": "#/$defs/nullableString" },
+        "selected_evidence_id": { "$ref": "#/$defs/nullableString" },
+        "reason": { "$ref": "#/$defs/nullableString" },
+        "rule_applied": { "$ref": "#/$defs/nullableString" },
+        "decision_version": { "type": ["integer", "null"] }
+      }
+    }
+  }
+}

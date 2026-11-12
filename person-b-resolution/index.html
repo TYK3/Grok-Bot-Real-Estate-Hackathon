@@ -3,10 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f5f7f8">
+  <meta name="theme-color" content="#f6f7f8">
   <meta name="description" content="Compare evidence, accept authoritative facts, and pass verified property information forward.">
   <title>Fact Review — Person B</title>
   <link rel="stylesheet" href="ui/app.css">
+  <link rel="stylesheet" href="ui/theme-neutral.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
 </head>
 <body>
@@ -20,10 +21,10 @@
       <span class="storage-note" title="Review state stays in this browser">◉ Local review workspace</span>
       <button type="button" class="button secondary" id="btn-ingest">＋ Add evidence</button>
       <input type="file" id="file-input" multiple hidden accept=".json,.pdf,.zip,.csv,.tsv,.txt,application/json,application/pdf,application/zip,text/csv,text/plain">
-      <button type="button" class="button primary" id="btn-export">↗ Export hand-off</button>
+      <button type="button" class="button primary" id="btn-export">Export for database</button>
       <details class="more-menu">
         <summary class="button secondary" aria-label="More options">⋯</summary>
-        <div class="menu-content"><button type="button" id="btn-export-blocked">Export outstanding cases only</button></div>
+        <div class="menu-content"><button type="button" id="btn-export-archive">Export full review archive</button><button type="button" id="btn-export-blocked">Export outstanding cases only</button></div>
       </details>
     </div>
   </header>
@@ -92,7 +93,7 @@
     </div>
 
     <footer class="footer">
-      <span>Original extraction evidence stays unchanged. Unresolved cases cannot be published as verified values.</span>
+      <div class="footer-info"><span>Original evidence is preserved. Only accepted facts enter the canonical database; contextual and unresolved claims remain separate.</span><a href="examples/database-handoff.example.json" target="_blank" rel="noopener noreferrer">View illustrative database JSON (not production evidence)</a></div>
       <details><summary>How automatic rules work</summary>
         <p>Source authority comes first; date breaks ties within a tier. Later formal price instructions can replace older marketing. True conflicts need human sign-off. Scope differences and unlabelled measurement bases are kept separately, never turned into an unqualified property fact. This demo uses your browser clock and local storage; it has no authenticated server.</p>
         <label for="samples">Sample dataset</label><select id="samples"><option value="data/review_scenarios.example.json">Nine review scenarios (recommended)</option><option value="data/kelso_villa.example.json">Original Kelso sample</option><option value="data/edge_cases.example.json">Additional edge cases</option><option value="data/kelso_villa.bundle.example.json">Kelso source-library sample</option></select>

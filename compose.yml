@@ -1,0 +1,10 @@
+# Local LiveKit server for development.
+# Docs: https://docs.livekit.io/transport/self-hosting/local/
+services:
+  livekit:
+    image: livekit/livekit-server:latest
+    command: --dev --bind 0.0.0.0
+    ports:
+      - "7880:7880" # HTTP / WebSocket signaling
+      - "7881:7881" # WebRTC over TCP
+      - "7882:7882/udp" # WebRTC over UDP
