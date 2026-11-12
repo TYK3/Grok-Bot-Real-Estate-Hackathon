@@ -2,9 +2,12 @@
 
     python fact_record/extraction_service/server.py      # listens on :8765
 
-GET  /health   -> {"ok": true}
+GET  /health   -> {"ok": true, "supabase": <configured?>}
 POST /extract  -> multipart PDFs (field name "files") -> extracted_fact JSON
                   ({"facts": [...], "documents": [...]}), CORS enabled.
+                  When Supabase is configured, documents, facts and the parser's
+                  contradictions are also saved (result under "supabase").
+POST /handoff  -> workbench database handoff JSON -> saved to Supabase.
 
 Needs the extractor deps (pip install -r fact_record/requirements.txt) and the
 tesseract binary for scanned brochures. The workbench falls back to the
@@ -26,6 +29,7 @@ sys.path.insert(0, os.path.dirname(HERE))  # fact_record/ -> import extraction
 sys.path.insert(0, HERE)
 
 from convert import convert_dir  # noqa: E402
+import supabase_sink  # noqa: E402
 
 PORT = int(os.environ.get("EXTRACTOR_PORT", "8765"))
 
@@ -77,10 +81,12 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         if self.path.startswith("/health"):
-            return self._send(200, {"ok": True})
+            return self._send(200, {"ok": True, "supabase": supabase_sink.configured()})
         self._send(404, {"error": "not found"})
 
     def do_POST(self):
+        if self.path.startswith("/handoff"):
+            return self._handoff()
         if not self.path.startswith("/extract"):
             return self._send(404, {"error": "not found"})
         try:
@@ -89,12 +95,30 @@ class Handler(BaseHTTPRequestHandler):
                      if f[0].lower().endswith(".pdf")]
             if not files:
                 return self._send(400, {"error": "upload PDFs as multipart field 'files'"})
-            self._send(200, run_extractor(files))
+            result = run_extractor(files)
+            result["supabase"] = supabase_sink.try_save_extraction(result)
+            self._send(200, result)
         except Exception as e:  # keep the demo alive; UI falls back
             traceback.print_exc()
             self._send(500, {"error": str(e)})
 
+    def _handoff(self):
+        if not supabase_sink.configured():
+            return self._send(503, {"error": "Supabase is not configured: set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY"})
+        try:
+            payload = json.loads(self.rfile.read(int(self.headers.get("Content-Length", 0))) or b"null")
+        except ValueError:
+            return self._send(400, {"error": "body must be JSON"})
+        if not isinstance(payload, dict):
+            return self._send(400, {"error": "body must be a handoff object"})
+        try:
+            self._send(200, supabase_sink.save_handoff(payload))
+        except Exception as e:  # noqa: BLE001
+            traceback.print_exc()
+            self._send(502, {"error": str(e)})
+
 
 if __name__ == "__main__":
-    print(f"Extractor service on http://localhost:{PORT} (POST /extract, GET /health)")
+    print(f"Extractor service on http://localhost:{PORT} (POST /extract, POST /handoff, GET /health)"
+          f" — Supabase {'on' if supabase_sink.configured() else 'off'}")
     ThreadingHTTPServer(("127.0.0.1", PORT), Handler).serve_forever()

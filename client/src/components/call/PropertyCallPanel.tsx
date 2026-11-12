@@ -40,7 +40,26 @@ export type CallSnapshot = {
     phone?: string;
   } | null;
   summary?: string | null;
+  search?: {
+    shortlist?: SearchResult[];
+    focus_id?: string;
+  } | null;
 } | null;
+
+/** One listing found by the general search agent (search.json). */
+export type SearchResult = {
+  id: string;
+  title?: string;
+  address?: string;
+  price?: string;
+  bedrooms?: number | null;
+  property_type?: string | null;
+  lat?: number;
+  lon?: number;
+  nearest?: string;
+  metres?: number;
+  walk_minutes?: number;
+};
 
 export function PropertyCallPanel({
   property,

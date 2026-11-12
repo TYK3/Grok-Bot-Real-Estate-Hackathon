@@ -23,6 +23,10 @@ import {
   type CallSnapshot,
 } from "@/components/call/PropertyCallPanel";
 import { CallStage } from "@/components/call/CallStage";
+import { GeneralSearchPanel } from "@/components/call/GeneralSearchPanel";
+
+// Matches GENERAL_CALL_ID in app/call/[id]/page.tsx.
+const GENERAL_CALL_ID = "general";
 
 type CallState = "connecting" | "connected" | "ended" | "error";
 type BookingToast = {
@@ -33,6 +37,7 @@ type BookingToast = {
 
 export function CallExperience({ property }: { property: CallProperty }) {
   const router = useRouter();
+  const isGeneral = property.id === GENERAL_CALL_ID;
   const [room] = useState(
     () => new Room({ adaptiveStream: true, dynacast: true }),
   );
@@ -114,8 +119,8 @@ export function CallExperience({ property }: { property: CallProperty }) {
 
   const handleEndCall = useCallback(() => {
     room.disconnect();
-    router.push(`/property/${property.id}`);
-  }, [room, router, property.id]);
+    router.push(isGeneral ? "/" : `/property/${property.id}`);
+  }, [room, router, property.id, isGeneral]);
 
   useEffect(() => {
     const booking = snapshot?.booking;
@@ -233,14 +238,26 @@ export function CallExperience({ property }: { property: CallProperty }) {
           </button>
         </header>
 
-        <div className="mx-auto grid min-h-screen w-full max-w-[92rem] grid-cols-1 gap-5 px-4 py-16 sm:px-6 lg:grid-cols-[460px_minmax(0,1fr)] lg:px-8">
-          <PropertyCallPanel
-            property={property}
-            snapshot={snapshot}
-            connected={callState === "connected"}
-          />
+        <div
+          className={`mx-auto grid min-h-screen w-full max-w-[92rem] grid-cols-1 gap-5 px-4 py-16 sm:px-6 lg:px-8 ${
+            isGeneral
+              ? "lg:grid-cols-[minmax(0,1fr)_minmax(380px,520px)]"
+              : "lg:grid-cols-[460px_minmax(0,1fr)]"
+          }`}
+        >
+          {isGeneral ? null : (
+            <PropertyCallPanel
+              property={property}
+              snapshot={snapshot}
+              connected={callState === "connected"}
+            />
+          )}
 
-          <section className="flex min-h-[calc(100dvh-8rem)] min-w-0 items-center justify-center lg:justify-end">
+          <section
+            className={`flex min-h-[calc(100dvh-8rem)] min-w-0 items-center justify-center ${
+              isGeneral ? "lg:order-first lg:justify-start" : "lg:justify-end"
+            }`}
+          >
             {callState === "connected" ? (
               <CallStage
                 title={property.title}
@@ -274,12 +291,14 @@ export function CallExperience({ property }: { property: CallProperty }) {
                     onClick={() => router.push(`/property/${property.id}`)}
                     className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[#e95650] px-6 text-sm font-semibold text-white transition-colors hover:bg-[#d94c46]"
                   >
-                    Back to property
+                    {isGeneral ? "Back to home" : "Back to property"}
                   </button>
                 ) : null}
               </div>
             )}
           </section>
+
+          {isGeneral ? <GeneralSearchPanel snapshot={snapshot} /> : null}
         </div>
 
         <RoomAudioRenderer />

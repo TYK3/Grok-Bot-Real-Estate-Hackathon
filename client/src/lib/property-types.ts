@@ -29,6 +29,8 @@ export type VerificationStatus =
   | "verified"
   | "pending_verification"
   | "not_stated"
+  /** Separate scoped claims (e.g. per floor vs total): show each, never merge. */
+  | "scoped"
   | (string & {});
 
 /** One field of a verified listing (fact_record contract 05). */
@@ -40,6 +42,7 @@ export type VerifiedField = {
   citation?: FactCitation;
   blocked_by?: string[];
   items?: { text: string; fact_id?: string; verification_status?: string }[];
+  claims?: { display: string; scope?: string | null; citation?: FactCitation }[];
 };
 
 export type Property = {

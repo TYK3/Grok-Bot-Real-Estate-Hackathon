@@ -7,6 +7,8 @@ utilities so the agent can be scoped to a single property.
 import json
 import logging
 import os
+import time
+import urllib.request
 from pathlib import Path
 from typing import Any
 
@@ -55,8 +57,109 @@ VOICE_UNITS: dict[str, dict[str, Any]] = (
 )
 
 
+# --- Reviewed facts from Supabase ------------------------------------------
+# published_fact_state() (supabase/migrations/20261112010000) returns accepted
+# facts with citations, pending cases (status only) and scoped claims. For any
+# field it covers, Supabase supersedes contract 04; pending always blocks a
+# value. Without SUPABASE_URL + SUPABASE_ANON_KEY, or on error, contract 04 is
+# used alone.
+
+_STATE_TTL = 30.0
+_state_cache: tuple[float, dict[str, Any] | None] = (0.0, None)
+
+# Workbench ids/fields -> listing ids / contract-04 voice fields.
+PROPERTY_ALIASES = {"st-huberts-close": "59-st-huberts-close"}
+VOICE_FIELD = {
+    "net_floor_area": "floor_area", "gross_floor_area": "floor_area",
+    "lower_ground_floor_area": "floor_area", "energy_rating": "epc_rating",
+    "parking_total": "parking", "parking_scope": "parking",
+}
+SAFE_PHRASING = {
+    "price": "The price is being confirmed with the agent; I can arrange for them to call you.",
+    "rent": "The rent is being confirmed with the agent.",
+    "floor_area": "The floor area is being verified against the measured survey; I can send the confirmed figure.",
+    "parking": "The parking allocation is being confirmed.",
+    "epc_rating": "The EPC rating is being checked against the official register.",
+    "tenure": "The tenure is being confirmed with the agent.",
+    "transaction_type": "Whether it is for sale or to let is being confirmed with the agent.",
+    "bedrooms": "The bedroom count for this home is being confirmed.",
+    "availability": "Availability is being confirmed with the agent.",
+}
+_BASIS = {"net": "NIA", "gross": "GIA"}
+
+
+def _listing_id(pid: Any) -> str:
+    return PROPERTY_ALIASES.get(str(pid), str(pid))
+
+
+def published_fact_state() -> dict[str, Any] | None:
+    """Supabase review state, cached for 30 s. None when unset or unreachable."""
+    global _state_cache
+    url, key = os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_ANON_KEY")
+    if not url or not key:
+        return None
+    fetched_at, cached = _state_cache
+    if fetched_at and time.monotonic() - fetched_at < _STATE_TTL:
+        return cached
+    req = urllib.request.Request(
+        url.rstrip("/") + "/rest/v1/rpc/published_fact_state", data=b"{}", method="POST",
+        headers={"apikey": key, "Authorization": f"Bearer {key}", "Content-Type": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=4) as r:
+            state = json.loads(r.read())
+    except Exception as error:  # keep the agent talking on contract 04
+        logger.error("Supabase published_fact_state failed, using contract 04: %s", error)
+        state = cached  # last good state, if any
+    _state_cache = (time.monotonic(), state)
+    return state
+
+
+def _format_claim(field: str, value: Any, unit: str | None, basis: str | None,
+                  converted: dict[str, Any] | None = None) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, (dict, list)):
+        return json.dumps(value)
+    try:
+        n = float(value)
+    except (TypeError, ValueError):
+        n = None
+    if unit == "GBP" and n is not None:
+        return f"£{n:,.0f}"
+    if unit in ("sqft", "sqm") and n is not None:
+        if converted:
+            area = f"{converted['sqft']:,.0f} sq ft ({converted['sqm']:,.1f} sq m)"
+        else:
+            area = f"{n:,.0f} {'sq ft' if unit == 'sqft' else 'sq m'}"
+        return f"{area} {_BASIS.get(basis, basis) if basis else '[basis not stated]'}"
+    if n is not None and "parking" in field:
+        return f"{n:g} space{'' if n == 1 else 's'}"
+    if n is not None and field == "bedrooms":
+        return f"{n:g} bedroom{'' if n == 1 else 's'}"
+    return str(value)
+
+
+def _field_label(field: str) -> str:
+    return field.replace("_", " ").capitalize()
+
+
+def _reviewed_for(development: str) -> dict[str, list[dict[str, Any]]] | None:
+    state = published_fact_state()
+    if not state:
+        return None
+
+    def pick(rows: Any) -> list[dict[str, Any]]:
+        return [r for r in rows or [] if _listing_id(r.get("property_id")) == development]
+
+    out = {k: pick(state.get(k)) for k in ("facts", "pending", "context")}
+    return out if any(out.values()) else None
+
+
 def get_property_by_id(property_id: str | int | None) -> dict[str, Any] | None:
-    """Return the property whose ``property_id`` (or ``reference``) matches."""
+    """Return the property whose ``property_id`` (or ``reference``) matches.
+
+    Falls back to properties that exist only in Supabase (reviewed in the
+    workbench, no listing contract yet)."""
     if property_id is None:
         return None
     target = str(property_id).strip()
@@ -67,6 +170,10 @@ def get_property_by_id(property_id: str | int | None) -> dict[str, Any] | None:
             return prop
         if str(prop.get("reference")) == target:
             return prop
+    for p in (published_fact_state() or {}).get("properties") or []:
+        if _listing_id(p.get("property_id")) == target:
+            return {"property_id": target, "reference": target, "verified": True,
+                    "address": {"display": p.get("property_name") or target}}
     return None
 
 
@@ -101,16 +208,35 @@ def format_verified_details(prop: dict[str, Any]) -> str:
 
     lines = [
         f"Property: {(prop.get('address') or {}).get('display') or development}",
-        f"Marketed by: {prop.get('agency')}",
+        *([f"Marketed by: {prop['agency']}"] if prop.get("agency") else []),
         "",
         "VERIFIED FACTS (the only facts you may state; the source is in brackets, "
         "use it when asked where a fact comes from):",
     ]
+    reviewed = _reviewed_for(development) or {}
+    # Voice fields the Supabase review covers: its state replaces contract 04's.
+    superseded = {
+        VOICE_FIELD.get(r["field"], r["field"]) for rows in reviewed.values() for r in rows
+    }
     # Fields with an open contradiction anywhere in the development are never
     # stated, even if a statement for that field slipped into 'statements'.
     blocked_fields = {
         d.get("field") for u in units.values() for d in u.get("do_not_state") or []
-    }
+        if d.get("field") not in superseded
+    } | superseded
+
+    for f in reviewed.get("facts", []):
+        say = _format_claim(f["field"], f.get("value"), f.get("unit"), f.get("area_basis"),
+                            f.get("area_converted"))
+        lines.append(f"- {_field_label(f['field'])}: {say}.{_citation_note(f.get('citation'))}")
+    for c in reviewed.get("context", []):
+        claims = "; ".join(
+            _format_claim(c["field"], cl.get("value"), cl.get("unit"), cl.get("area_basis"))
+            + " (" + str(cl.get("scope") or cl.get("area_basis") or "scope not stated").replace("_", " ") + ")"
+            + _citation_note(cl.get("citation"))
+            for cl in c.get("claims") or [])
+        lines.append(f"- {_field_label(c['field'])}, separate claims (state each with its scope, "
+                     f"never combine them into one figure): {claims}")
 
     seen_say: set[str] = set()
     for uid, unit in ordered:
@@ -131,8 +257,18 @@ def format_verified_details(prop: dict[str, Any]) -> str:
 
     seen_dns: set[str] = set()
     dns_lines = []
+    for p in reviewed.get("pending", []):
+        voice_field = VOICE_FIELD.get(p["field"], p["field"])
+        why = "the document has an error" if p.get("document_error") else "the documents disagree"
+        phrasing = SAFE_PHRASING.get(voice_field, "That detail is still being verified with the agent.")
+        dns_lines.append(
+            f"- {_field_label(p['field'])}: {why} (case {p['case_key']}, {p.get('status')}). "
+            f'Never give a value. Say: "{phrasing}"'
+        )
     for _uid, unit in ordered:
         for d in unit.get("do_not_state") or []:
+            if d.get("field") in superseded:
+                continue
             key = d.get("contradiction_id") or d.get("field")
             if key in seen_dns:
                 continue

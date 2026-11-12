@@ -574,6 +574,9 @@ async function extractPdfFacts(prepared,ingested){
     }
   }
   const warnings=[];
+  const db=payload?.supabase;
+  if(db?.saved){const c=db.counts||{};warnings.push(`Saved to Supabase: ${c.facts_inserted??0} new facts, ${c.contradictions_new??0} new contradictions (${c.contradictions_seen??0} detected).`);}
+  else if(db?.error)warnings.push(`Supabase save failed: ${db.error}`);
   if(result.facts.length){
     warnings.push(`Extracted ${result.facts.length} facts from ${result.matched.length} PDF${result.matched.length===1?'':'s'} (${via}).`);
     if(result.unmatched.length)warnings.push(`No facts extracted from: ${result.unmatched.join(', ')}.`);
@@ -656,6 +659,21 @@ function exportRecord(){
   });
   downloadJson(result, 'property-facts-database-handoff.json');
   notify(`${result.counts.accepted} accepted · ${result.counts.unresolved} awaiting review · ${result.counts.context} context-only exported separately.`);
+}
+const HANDOFF_URL=EXTRACTOR_URL.replace('/extract','/handoff');
+async function saveToSupabase(){
+  if (!state.records.length){flashError('There are no facts to save. Add extraction JSON first.');return;}
+  const btn=$('btn-save-db');btn.disabled=true;const label=btn.textContent;btn.textContent='Saving…';
+  try{
+    const handoff=buildDatabaseHandoff(state.records,{documents:state.documents,input_label:state.inputLabel,example:state.isExample});
+    let r;
+    try{r=await fetch(HANDOFF_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(handoff)});}
+    catch{flashError('Extractor service is not running. Start it with: python fact_record/extraction_service/server.py');return;}
+    const body=await r.json().catch(()=>({}));
+    if(!r.ok){flashError(`Supabase save failed: ${body.error||r.status}`);return;}
+    const c=body.counts||{};const rej=(body.rejected||[]).length;
+    notify(`Saved to Supabase · ${c.accepted_inserted??0} new accepted (${c.accepted_already_stored??0} already stored) · ${c.unresolved_upserted??0} in review queue · ${c.context_claims_inserted??0} context claims${rej?` · ${rej} rejected: ${body.rejected.map(x=>`${x.record_id} (${x.reason})`).join('; ')}`:''}.`);
+  }finally{btn.disabled=false;btn.textContent=label;}
 }
 function exportBlocked(){
   const pack=buildAcceptanceRecords(state.records,{input_label:state.inputLabel});
@@ -951,6 +969,7 @@ function wire(){
   });
   $('api-key')?.addEventListener('change',()=>readApiKey());
   $('btn-export').addEventListener('click',exportRecord);
+  $('btn-save-db').addEventListener('click',saveToSupabase);
   $('btn-export-archive').addEventListener('click',exportArchive);
   $('btn-export-blocked').addEventListener('click',exportBlocked);
   $('reviewer').addEventListener('input',e=>{state.reviewer=e.target.value;persist();});

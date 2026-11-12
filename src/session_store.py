@@ -87,3 +87,22 @@ def save_transcript(transcript_text: str) -> None:
 
 def get_session_dir() -> str:
     return _session_dir()
+
+
+SEARCH_FILENAME = "search.json"
+
+
+def save_search(shortlist: list[dict[str, Any]] | None = None, focus_id: str | None = None) -> None:
+    """Shortlist and focused property for the general-search call screen.
+
+    The UI polls this (via /api/sessions/<room>) to pin results on the map and
+    open the property the agent is talking about."""
+    path = os.path.join(_session_dir(), SEARCH_FILENAME)
+    with _lock:
+        current = _read_json(path)
+        if shortlist is not None:
+            current["shortlist"] = shortlist
+        if focus_id is not None:
+            current["focus_id"] = focus_id
+        current["updated_at"] = _now()
+        _write_json(path, current)

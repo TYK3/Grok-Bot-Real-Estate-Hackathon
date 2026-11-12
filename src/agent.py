@@ -38,7 +38,7 @@ from properties import (
     get_property_images,
 )
 from web_search import perplexity_search
-from amenities import describe_ranking, rank_properties
+from amenities import describe_ranking, rank_properties, shortlist_payload
 from datetime import datetime
 todays_date = datetime.now().strftime("%Y-%m-%d")
 
@@ -68,7 +68,7 @@ def format_transcript(history: llm.ChatContext) -> str:
                 continue
             lines.append(f"{item.role.upper()}: {text}")
         elif isinstance(item, FunctionCall):
-            lines.append(f"TOOL CALL: {item.w}({item.arguments})")
+            lines.append(f"TOOL CALL: {item.name}({item.arguments})")
         elif isinstance(item, FunctionCallOutput):
             lines.append(f"TOOL RESULT ({item.name}): {item.output}")
     return "\n\n".join(lines) if lines else "(No transcript captured.)"
@@ -89,7 +89,10 @@ def build_instructions(prop: dict[str, Any] | None) -> str:
             "bedroom limit they mention. Read back the top two or three "
             "results with the walking time, then ask which one they'd like to "
             "hear more about. Distances are straight-line estimates; say "
-            "'roughly' or 'about'.\n"
+            "'roughly' or 'about'. Their screen shows a map and an info panel: "
+            "when you talk about a specific listing, call show_property so it "
+            "opens for them. You can book a viewing (book_viewing) or reserve "
+            "the unit (reserve_unit) for whichever listing they choose.\n"
         )
 
     return base
@@ -138,7 +141,17 @@ class PropertyAgent(Agent):
         # ~1.3s web search runs (do NOT await, so it plays concurrently).
         #context.session.say("Let me look that up for you.")
 
-        return await perplexity_search(query=query, pincode=pincode)
+        if not os.getenv("PERPLEXITY_API_KEY"):
+            return (
+                "Web search is not available right now. For nearby supermarkets, "
+                "parks, stations, schools or gyms use find_properties_near; "
+                "otherwise say you'll check with the lettings team."
+            )
+        try:
+            return await perplexity_search(query=query, pincode=pincode)
+        except Exception as error:
+            logger.warning("web_search failed: %s", error)
+            return "Web search failed just now; say you'll check and follow up."
 
     @function_tool()
     async def find_properties_near(
@@ -169,7 +182,77 @@ class PropertyAgent(Agent):
             min_bedrooms=min_bedrooms,
             limit=max(1, min(limit, 10)),
         )
+        if rows:
+            # Pin results on the caller's map and open the top one.
+            session_store.save_search(
+                shortlist=shortlist_payload(rows),
+                focus_id=str(rows[0]["prop"].get("property_id")),
+            )
         return describe_ranking(amenity, rows)
+
+    @function_tool()
+    async def show_property(self, context: RunContext, property_id: str) -> str:
+        """Open a listing on the caller's screen and get its full details.
+
+        Call this whenever you start talking about a specific listing (for
+        example after Sam picks one from find_properties_near), so it appears
+        in their info panel and on the map.
+
+        Args:
+            property_id: The listing id, e.g. 21800300 or kelso-villa.
+        """
+        prop = get_property_by_id(property_id)
+        if not prop:
+            return f"No listing found with id {property_id}."
+        session_store.save_search(focus_id=str(prop.get("property_id")))
+        return format_property_details(prop)
+
+    @function_tool()
+    async def reserve_unit(
+        self,
+        context: RunContext,
+        customer_name: str,
+        phone: str = "",
+        email: str = "",
+        move_in_date: str = "",
+        property_id: str | None = None,
+    ) -> str:
+        """Place a holding reservation on a unit for the caller.
+
+        Use when Sam says they want to take, rent, reserve or secure the unit
+        (not just view it). Confirm their name and at least one contact detail
+        first. This records a reservation request; the lettings team confirms
+        it and takes any holding deposit, so never ask for payment details.
+
+        Args:
+            customer_name: The caller's full name.
+            phone: Contact phone number.
+            email: Contact email.
+            move_in_date: Preferred move-in date (e.g. '2026-12-01').
+            property_id: The listing to reserve; defaults to the one being discussed.
+        """
+        pid = property_id or (
+            str(self._property.get("property_id")) if self._property else None
+        )
+        if not pid or not get_property_by_id(pid):
+            return "Which property would you like to reserve? I need the listing first."
+        session_store.save_booking_details({
+            "type": "reservation",
+            "property_id": pid,
+            "date": move_in_date or todays_date,
+            "time": "",
+            "customer_name": customer_name,
+            "status": "confirmed",
+        })
+        session_store.save_customer_details(
+            {"name": customer_name, "phone": phone, "email": email}
+        )
+        logger.info("Reservation requested for %s by %s", pid, customer_name)
+        return (
+            f"Reservation request recorded for {customer_name} on listing {pid}"
+            + (f", moving in {move_in_date}" if move_in_date else "")
+            + ". Tell them the lettings team will call to confirm and explain the holding deposit."
+        )
 
     async def stt_node(self, audio, model_settings):
         """Capture the user's audio per turn and save a WAV snippet the moment
@@ -229,6 +312,7 @@ class PropertyAgent(Agent):
         date: str,
         time: str,
         customer_name: str = "Unknown",
+        property_id: str | None = None,
     ) -> str:
         """Book a viewing for the property being discussed.
 
@@ -236,8 +320,12 @@ class PropertyAgent(Agent):
             date: The date for the viewing (e.g., '2026-07-20').
             time: The time for the viewing (e.g., '14:00').
             customer_name: The name of the customer, if known.
+            property_id: Listing to view; defaults to the one being discussed.
+                Required in general search mode.
         """
-        property_id = str(self._property.get("property_id")) if self._property else None
+        property_id = property_id or (
+            str(self._property.get("property_id")) if self._property else None
+        )
         booking_data = {
             "property_id": property_id,
             "date": date,
