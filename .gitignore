@@ -49,9 +49,6 @@ KMS/
 .cursor/chat/
 .cursor/rules/*.local.mdc
 
-# Claude Code
-.claude/settings.local.json
-.claude/worktrees/
 
 # OpenAI Codex
 .codex/config.local.toml

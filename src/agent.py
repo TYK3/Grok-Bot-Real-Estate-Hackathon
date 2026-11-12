@@ -26,7 +26,7 @@ from livekit.agents import (
 from livekit.agents.llm import ImageContent
 from livekit.agents.metrics import EOUMetrics, LLMMetrics, STTMetrics, TTSMetrics
 from livekit.agents.stt import SpeechEventType
-from livekit.plugins import elevenlabs, noise_cancellation, openai, silero
+from livekit.plugins import noise_cancellation, silero, xai
 from livekit.agents import AgentSession, TurnHandlingOptions, EndpointingOptions
 from livekit.plugins import ai_coustics
 import session_store
@@ -286,22 +286,20 @@ async def property_agent(ctx: agents.JobContext) -> None:
 
     session = AgentSession(
         #vad=ai_coustics.VAD(),  # Add ai-coustics VAD to session setup
-        stt=elevenlabs.STT(
-            model_id="scribe_v2_realtime",
-            server_vad=elevenlabs.stt.VADOptions(
-            vad_threshold = 0.5,
-            vad_silence_threshold_secs = 0.4,   # ElevenLabs owns the end-of-turn timing
-            min_speech_duration_ms = 100,
-            min_silence_duration_ms = 100,
-            filter_background_audio = True,
+        # xAI for all three stages; each reads XAI_API_KEY from the environment.
+        vad=vad,
+        stt=xai.STT(language="en"),
+        llm=xai.responses.LLM(
+            model=os.getenv("XAI_TEXT_MODEL") or "grok-4.20-0309-non-reasoning"
         ),
+        tts=xai.TTS(
+            voice=os.getenv("XAI_VOICE") or "ara",
+            language="en",
+            text_normalization=True,  # say "£2,500 pcm" the way a person would
         ),
-        llm=openai.responses.LLM(model="gpt-4o-mini"),
-        tts=elevenlabs.TTS(),
         turn_handling=TurnHandlingOptions(
-        #turn_detection="vad",
-        #turn_detection=TurnDetector(), 
-        turn_detection="stt",          # Uses elevenlabs scribe_v2 endpointing signals
+        #turn_detection=TurnDetector(),
+        turn_detection="vad",          # Silero VAD decides end of turn
         endpointing=EndpointingOptions(
             mode="fixed",
             min_delay=0.2,             # Keep at 0 to avoid adding latency on top of STT decision
