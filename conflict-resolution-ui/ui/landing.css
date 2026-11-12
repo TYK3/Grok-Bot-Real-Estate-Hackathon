@@ -1,0 +1,295 @@
+/* Upload landing — first viewport before any review case exists */
+
+.landing {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 48px 24px 72px;
+  animation: fadeIn 0.35s ease;
+}
+
+.landing-hero {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.landing-hero h1 {
+  margin: 8px 0 12px;
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.landing-lead {
+  margin: 0 auto;
+  max-width: 34rem;
+  color: var(--ink2);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+.upload-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 20px;
+  display: grid;
+  gap: 18px;
+}
+
+.upload-zone {
+  border: 1.5px dashed #b7c0c8;
+  border-radius: 14px;
+  background:
+    radial-gradient(600px 180px at 50% 0%, #eef1f4 0%, transparent 70%),
+    var(--soft);
+  padding: 40px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.12s ease;
+}
+
+.upload-zone:hover,
+.upload-zone:focus-visible,
+.upload-zone.is-active {
+  border-color: #627384;
+  background: #f3f5f7;
+}
+
+.upload-zone:focus-visible {
+  outline: 2px solid #637487;
+  outline-offset: 3px;
+}
+
+.upload-glyph {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #263340;
+  color: #fff;
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+}
+
+.upload-zone h2 {
+  margin: 0 0 8px;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+}
+
+.upload-zone p {
+  margin: 0 auto 18px;
+  max-width: 28rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.upload-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.file-chips li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+}
+
+.file-chips .chip-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 220px;
+}
+
+.file-chips .chip-remove {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0 2px;
+}
+
+.file-chips .chip-remove:hover {
+  color: var(--ink);
+}
+
+.file-chips-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.file-chips-bar .subtext {
+  margin: 0;
+}
+
+.file-chips-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.link-button {
+  border: 0;
+  background: transparent;
+  color: var(--ink2);
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 0;
+}
+
+.link-button:hover {
+  color: var(--ink);
+}
+
+.upload-options {
+  display: grid;
+  gap: 12px;
+  padding: 0 4px;
+}
+
+.ai-toggle {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 0.95rem;
+  color: var(--ink2);
+  cursor: pointer;
+}
+
+.ai-toggle input {
+  margin-top: 3px;
+}
+
+.api-key-field {
+  display: grid;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.api-key-field input {
+  font: inherit;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: #fff;
+  color: var(--ink);
+}
+
+.api-key-note {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.api-key-note code {
+  font-size: 0.9em;
+}
+
+.parse-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f0f2f4;
+  color: var(--ink2);
+  font-size: 0.95rem;
+}
+
+.parse-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #c5ced6;
+  border-top-color: #263340;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.file-chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.file-chips li {
+  font-size: 12.5px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #eef1f3;
+  color: var(--ink2);
+  border: 1px solid var(--line);
+}
+
+.landing-secondary {
+  margin-top: 22px;
+}
+
+.sample-panel {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 12px 16px;
+}
+
+.sample-panel summary {
+  cursor: pointer;
+  font-weight: 650;
+  color: var(--ink2);
+}
+
+.sample-panel[open] summary {
+  margin-bottom: 10px;
+}
+
+.sample-panel select {
+  display: block;
+  width: 100%;
+  margin: 8px 0 12px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  font: inherit;
+  background: #fff;
+}
+
+body.is-landing .topbar .top-actions {
+  display: none;
+}
+
+body.is-review #view-landing {
+  display: none;
+}
+
+body.is-landing #view-review {
+  display: none !important;
+}
+
+@media (max-width: 640px) {
+  .landing { padding: 28px 16px 56px; }
+  .upload-zone { padding: 28px 16px; }
+}

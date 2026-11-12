@@ -10,6 +10,7 @@
  */
 
 import { loadFacts, normaliseFact, canonicalDocType, normaliseDate } from './resolve.js';
+import { isFactRecordExtracted, adaptFactRecordExtracted } from './fact_record_adapter.js';
 
 const TEXT_DECODER = typeof TextDecoder !== 'undefined' ? new TextDecoder('utf-8', { fatal: false }) : null;
 
@@ -77,6 +78,8 @@ export async function ingestFiles(files, options = {}) {
   const documents = [];
   const facts = [];
   const warnings = [];
+  const scenarios = [];
+  const contradictions = [];
   const seenDoc = new Set();
 
   for (const file of list) {
@@ -89,11 +92,47 @@ export async function ingestFiles(files, options = {}) {
       documents.push(d);
     }
     facts.push(...result.facts);
-    warnings.push(...result.warnings);
+    warnings.push(...(result.warnings || []));
+    if (Array.isArray(result.scenarios)) scenarios.push(...result.scenarios);
+    if (Array.isArray(result.contradictions)) contradictions.push(...result.contradictions);
+  }
+
+  // Optional AI extraction for evidence that produced no structured facts.
+  if (options.ai && !facts.length) {
+    try {
+      const { aiExtractFromFiles } = await import('./ai_extract.js');
+      const ai = await aiExtractFromFiles(list, {
+        apiKey: options.apiKey,
+        model: options.model,
+        baseUrl: options.baseUrl,
+        maxPages: options.maxPages,
+        forceImages: options.forceImages,
+      });
+      facts.push(...(ai.facts || []));
+      warnings.push(...(ai.warnings || []));
+      for (const d of ai.documents || []) {
+        const key = `${d.doc_id || d.name}::${d.name || d.title}`;
+        if (seenDoc.has(key)) continue;
+        seenDoc.add(key);
+        documents.push(
+          makeDocument({
+            ...d,
+            name: d.name || d.title || d.doc_id,
+            kind: d.kind || INGEST_KINDS.PDF,
+            objectUrl: d.object_url || d.url || null,
+          })
+        );
+      }
+      if (ai.facts?.length) {
+        warnings.push(`AI extracted ${ai.facts.length} fact(s) from uploaded evidence.`);
+      }
+    } catch (err) {
+      warnings.push(`AI extraction skipped: ${err.message}`);
+    }
   }
 
   const groups = organiseDocuments(documents, facts);
-  return { documents, facts, warnings, groups };
+  return { documents, facts, warnings, groups, scenarios, contradictions };
 }
 
 /**
@@ -228,6 +267,46 @@ export function ingestJson(textOrObj, name = 'facts.json', options = {}) {
     };
   }
 
+  // fact_record Person A contract (01_extracted.json)
+  if (isFactRecordExtracted(payload)) {
+    const adapted = adaptFactRecordExtracted(payload, {
+      manifest: options.manifest || null,
+      sampleDataBaseUrl: options.sampleDataBaseUrl || '../fact_record/sample_data',
+    });
+    const propertyIds = [...new Set(adapted.facts.map((f) => f.property_id).filter(Boolean))];
+    const documents = [
+      makeDocument({
+        name,
+        kind: INGEST_KINDS.JSON,
+        mime: 'application/json',
+        doc_type: 'extracted_facts',
+        title: adapted.label || '01_extracted',
+        property_ids: propertyIds,
+        text_preview: `fact_record contract 01_extracted · ${adapted.facts.length} facts · ${adapted.contradictions.length} contradictions`,
+        related_fact_ids: adapted.facts.map((f) => f.fact_id),
+        note: `Adapted from fact_record/contracts/01_extracted.json (${adapted.facts.length} facts, ${adapted.contradictions.length} open contradictions).`,
+      }),
+      ...adapted.documents.map((d) =>
+        makeDocument({
+          ...d,
+          name: d.name || d.title || d.doc_id,
+          kind: d.kind || INGEST_KINDS.PDF,
+          objectUrl: d.object_url || d.url || null,
+          property_ids: d.property_ids || propertyIds,
+        })
+      ),
+    ];
+    return {
+      documents,
+      facts: adapted.facts,
+      warnings: [...warnings, ...adapted.warnings],
+      scenarios: adapted.scenarios,
+      contradictions: adapted.contradictions,
+      contract: '01_extracted',
+      label: adapted.label,
+    };
+  }
+
   // Bundle: { documents: [...], facts: [...] } or Person A envelope
   const docsIn = Array.isArray(payload.documents) ? payload.documents : [];
   const facts = loadFacts(payload);
@@ -284,10 +363,10 @@ export function ingestJson(textOrObj, name = 'facts.json', options = {}) {
   }
 
   if (!facts.length) {
-    warnings.push(`${name} parsed but no facts were found (expected an array or { facts: [...] }).`);
+    warnings.push(`${name} parsed but no facts were found (expected an array, { facts: [...] }, or fact_record 01_extracted).`);
   }
 
-  return { documents, facts, warnings };
+  return { documents, facts, warnings, scenarios: payload.scenarios || [] };
 }
 
 // ---------------------------------------------------------------------------
