@@ -1,0 +1,237 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schema/extracted_fact.schema.json",
+  "title": "Extracted facts (Person A \u2192 Person B input contract)",
+  "description": "Person A hands Person B either an array of extracted facts, or an object with a 'facts' array. The loader is tolerant of missing optional fields and of a few field-name aliases (see README).",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/envelope"
+    },
+    {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/extractedFact"
+      }
+    }
+  ],
+  "$defs": {
+    "envelope": {
+      "type": "object",
+      "properties": {
+        "facts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/extractedFact"
+          }
+        },
+        "property_id": {
+          "type": "string"
+        },
+        "property_name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "facts"
+      ]
+    },
+    "extractedFact": {
+      "type": "object",
+      "required": [
+        "field",
+        "value"
+      ],
+      "properties": {
+        "property_id": {
+          "type": "string",
+          "description": "Stable id for the property, e.g. 'kelso-villa'. Used as the grouping key. Falls back to a slug of property_name."
+        },
+        "property_name": {
+          "type": "string",
+          "description": "Human-readable name and preferably the address, e.g. 'Kelso Villa, Upper Bristol Road, Bath BA1 3AU'."
+        },
+        "field": {
+          "type": "string",
+          "description": "Core fields: price, tenure, net_floor_area, gross_floor_area, energy_rating, parking. Aliases such as epc, nia, gia, asking_price are accepted and normalised.",
+          "examples": [
+            "price",
+            "tenure",
+            "net_floor_area",
+            "gross_floor_area",
+            "energy_rating",
+            "parking"
+          ]
+        },
+        "value": {
+          "description": "The extracted value. Numbers may be numeric or formatted strings ('\u00a3700,000', '1,990'). Tenure and ratings are strings."
+        },
+        "unit": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "GBP, sqft, sqm, or null. Aliases such as '\u00a3', 'sq ft', 'm\u00b2' are accepted.",
+          "examples": [
+            "GBP",
+            "sqft",
+            "sqm",
+            null
+          ]
+        },
+        "area_basis": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "net, gross, or null. Aliases: NIA, GIA, ipms, etc. Net and gross are kept as separate resolved facts and are never a conflict.",
+          "examples": [
+            "net",
+            "gross",
+            null
+          ]
+        },
+        "source": {
+          "type": "object",
+          "properties": {
+            "doc_id": {
+              "type": "string",
+              "description": "Stable document id, e.g. the PDF filename or listing id."
+            },
+            "doc_type": {
+              "type": "string",
+              "description": "brochure | listing | official_record. Aliases: land_registry, epc_register, land-registry are treated as official_record for precedence.",
+              "examples": [
+                "brochure",
+                "listing",
+                "official_record",
+                "epc_register",
+                "land_registry"
+              ]
+            },
+            "title": {
+              "type": "string"
+            },
+            "published_date": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "ISO date (YYYY-MM-DD) or datetime. Preferred date for ordering."
+            },
+            "retrieved_date": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "ISO date the fact was retrieved. Used if published_date is missing."
+            },
+            "url": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "agent": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "page": {
+          "type": [
+            "integer",
+            "string",
+            "null"
+          ],
+          "description": "1-based page number in the source document."
+        },
+        "quote": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Verbatim excerpt containing the value, used in the review UI."
+        },
+        "extraction_confidence": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Optional 0\u20131 confidence from Person A's extractor."
+        },
+        "stated_equivalent": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "When a document states two units as equivalent (e.g. '185 sq m / 2,700 sq ft'). The engine checks the arithmetic and flags a wrong conversion as UNIT_MISMATCH, not two areas.",
+          "properties": {
+            "value": {},
+            "unit": {
+              "type": "string"
+            }
+          }
+        },
+        "scope": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "development | unit. A development-wide claim is not copied onto a unit."
+        },
+        "plot": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unit_type": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "House type. Different plots or types are never merged."
+        },
+        "entity_match_confidence": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "0\u20131. Below the threshold (default 0.7), the fact is held unmatched and no conflict is raised."
+        },
+        "entity_match": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "confident": {
+              "type": "boolean"
+            },
+            "confidence": {
+              "type": "string"
+            },
+            "score": {
+              "type": "number"
+            },
+            "matched_to": {
+              "type": "string"
+            },
+            "reason": {
+              "type": "string"
+            }
+          }
+        },
+        "quote_attribution": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Whether the quote is taken from the product spec, reconstructed from a PDF transcript, or from a listing field."
+        }
+      }
+    }
+  }
+}
