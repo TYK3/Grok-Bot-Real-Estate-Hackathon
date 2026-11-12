@@ -275,10 +275,14 @@ async function extractPdfFacts(prepared,ingested){
     }
   }catch{/* service not running: fall back */}
   let result=payload?factsForUploads(payload,uploads):{facts:[],matched:[],unmatched:uploads.map(u=>u.name)};
-  if(!payload){
-    // No service: extract live in the browser (pdf.js text layer + tesseract.js OCR for scanned pages).
-    via='in-browser extraction';const t0=performance.now();let ocr=0;const facts=[],matched=[],failed=[];
-    for(const x of pdfs){
+  // PDFs the service did not cover (service down, or no OCR there) are extracted live in the browser
+  // (pdf.js text layer + tesseract.js OCR for scanned pages).
+  const withFacts=new Set(result.facts.map(f=>f.source?.doc_id));
+  const browserPdfs=pdfs.filter(x=>!withFacts.has(x.doc.doc_id));
+  if(browserPdfs.length){
+    const t0=performance.now();let ocr=0;const facts=[...result.facts],matched=[...result.matched.filter(n=>!browserPdfs.some(x=>x.p.name===n))],failed=[];
+    via=(payload?'live extractor + ':'')+'in-browser extraction';
+    for(const x of browserPdfs){
       try{
         const r=await extractPdfInBrowser(x.p.bytes,{name:x.p.name,doc_id:x.doc.doc_id},msg=>{banner.textContent=`Extracting facts… ${msg}`;});
         facts.push(...r.facts);matched.push(x.p.name);ocr+=r.ocrPages;

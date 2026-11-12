@@ -225,10 +225,11 @@ The existing **＋ Add evidence** button (or drag-and-drop) now runs Person A's 
 3. Click **＋ Add evidence** and pick the PDFs in `fact_record/sample_data/kelso-villa/` and `fact_record/sample_data/st-huberts-close/` (all 6 at once, or one development's 3).
 4. The banner shows "Extracting facts…", then the queue fills with the field groups that need review. Each candidate links to its page in the uploaded PDF.
 
-How extraction runs:
+How extraction runs (any PDF, live; no install needed):
 
-- **Live extractor (optional):** `pip install -r fact_record/requirements.txt` (plus the `tesseract` binary for scanned brochures), then `python fact_record/extraction_service/server.py`. It listens on http://localhost:8765 (`GET /health`, `POST /extract` with multipart `files`). The UI uses it when it is running and works with any PDF.
-- **Fallback (no Python needed):** if the service isn't running, the UI uses the precomputed extractor output in `data/extracted/sample_extraction.json`. It is matched to each upload by SHA-256 and then by filename, so it covers the 6 sample PDFs. Unknown PDFs are loaded as evidence only.
-- To regenerate the fallback after re-running the extractor: `python fact_record/extraction_service/convert.py <extractor out dir> conflict-resolution-ui/data/extracted/sample_extraction.json`.
+- **In the browser (default):** pdf.js reads each page's text layer. Pages with little or no text, such as scanned brochures, are rendered and OCR'd with tesseract.js, which loads from a CDN on first use, so the first run needs internet. The banner shows progress, e.g. "OCR page 2/2 of X.pdf". The rules in `src/extract_browser.js` are a port of the Python extractor's rules and cover price, rent, tenure, sale/let, net/gross floor area by floor, house-type tables, EPC, parking, bedrooms/bathrooms, en-suite fixtures and listed status. Each fact keeps its page and verbatim quote, plus the doc type, authority tier and date.
+- **Python extractor (optional, more thorough):** `pip install -r fact_record/requirements.txt`, then `python fact_record/extraction_service/server.py`, which serves :8765 (`GET /health`, `POST /extract`). When it's running the UI uses it first. Pages that already have a text layer skip OCR, and if tesseract isn't installed, scanned pages are skipped instead of crashing. Any PDF that yields no facts from the service is extracted in the browser.
+- **Last resort:** if the browser can't read a PDF at all, the UI uses the precomputed sample output in `data/extracted/sample_extraction.json`, matched by SHA-256 or filename. It covers the 6 sample PDFs only.
+- To regenerate that file: `python fact_record/extraction_service/convert.py <extractor out dir> conflict-resolution-ui/data/extracted/sample_extraction.json`.
 
 The extractor code is vendored at `fact_record/extraction` (rules + OCR, deterministic). The source repo is siyaahuja/fact-record-extraction.
