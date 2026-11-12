@@ -22,7 +22,7 @@ npm test                 # includes fact_record 01_extracted adapter tests
 npm run serve            # serves the repo root — open http://localhost:8080/conflict-resolution-ui/
 ```
 
-Open the app on the **upload landing page**. Choose or drop **one or more documents** (PDF, JSON, ZIP, CSV, TXT); they stage as chips and parse together as a single case before the review workbench opens. Optional AI extraction covers PDFs/text when Person A JSON is not included. Sample datasets remain available under “Or load a sample dataset”.
+Open the app on the **upload landing page**. Choose or drop **one or more documents** (PDF, JSON, ZIP, CSV, TXT); they stage as chips and parse together as a single case before the review workbench opens. Uploaded PDFs use Person A’s extractor (live service or precomputed sample fallback); optional OpenAI extraction covers other text when JSON is not included. Sample datasets remain available under “Or load a sample dataset”.
 
 Serve from the **repository root** so `../fact_record/` sample paths resolve:
 
@@ -221,3 +221,20 @@ src/cli.js                             Multi-input CLI
 test/*.test.js
 index.html, ui/app.css, ui/app.js      Workbench UI
 ```
+
+## Upload brochure PDFs → extracted facts → contradictions (Person A extractor)
+
+On the landing page, stage **multiple PDFs** then click **Parse**; or from an open case use **＋ Add evidence** / drag-and-drop. Person A’s extractor runs on the uploaded PDFs so facts and contradictions appear in the review queue.
+
+1. `cd conflict-resolution-ui && npm run serve`
+2. Open http://localhost:8080
+3. Click **＋ Add evidence** and pick the PDFs in `fact_record/sample_data/kelso-villa/` and `fact_record/sample_data/st-huberts-close/` (all 6 at once, or one development's 3).
+4. The banner shows "Extracting facts…", then the queue fills with the field groups that need review. Each candidate links to its page in the uploaded PDF.
+
+How extraction runs:
+
+- **Live extractor (optional):** `pip install -r fact_record/requirements.txt` (plus the `tesseract` binary for scanned brochures), then `python fact_record/extraction_service/server.py`. It listens on http://localhost:8765 (`GET /health`, `POST /extract` with multipart `files`). The UI uses it when it is running and works with any PDF.
+- **Fallback (no Python needed):** if the service isn't running, the UI uses the precomputed extractor output in `data/extracted/sample_extraction.json`. It is matched to each upload by SHA-256 and then by filename, so it covers the 6 sample PDFs. Unknown PDFs are loaded as evidence only.
+- To regenerate the fallback after re-running the extractor: `python fact_record/extraction_service/convert.py <extractor out dir> conflict-resolution-ui/data/extracted/sample_extraction.json`.
+
+The extractor code is vendored at `fact_record/extraction` (rules + OCR, deterministic). The source repo is siyaahuja/fact-record-extraction.
