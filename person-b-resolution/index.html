@@ -1,175 +1,117 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en-GB">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Fact Reconciliation Workbench — Person B</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,560;8..60,650&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#f5f7f8">
+  <meta name="description" content="Compare evidence, accept authoritative facts, and pass verified property information forward.">
+  <title>Fact Review — Person B</title>
   <link rel="stylesheet" href="ui/app.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
 </head>
 <body>
-  <a class="skip" href="#queue">Skip to discrepancy queue</a>
-
-  <header class="top">
-    <div class="brand">
-      <div class="seal" aria-hidden="true">
-        <svg viewBox="0 0 40 40" width="36" height="36">
-          <rect x="4" y="4" width="32" height="32" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/>
-          <path d="M12 20h16M20 12v16" stroke="currentColor" stroke-width="1.5" opacity="0.35"/>
-          <path d="M13 22.5l4 4 10-11" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <div class="brand-text">
-        <p class="eyebrow">Person B · Verified fact record</p>
-        <h1>Fact Reconciliation Workbench</h1>
-      </div>
-    </div>
+  <a class="skip" href="#queue">Skip to facts to review</a>
+  <header class="topbar">
+    <a class="identity" href="./" aria-label="Fact Review home">
+      <span class="logo" aria-hidden="true">✓</span>
+      <span><strong>Fact Review</strong><small>PERSON B · RECONCILIATION</small></span>
+    </a>
     <div class="top-actions">
-      <label class="reviewer-field">
-        <span>Reviewer</span>
-        <input id="reviewer" type="text" name="reviewer" autocomplete="name" placeholder="Your name" spellcheck="false">
-      </label>
-      <button type="button" class="btn" id="btn-ingest" title="PDF, JSON, ZIP, CSV">Ingest files</button>
-      <input id="file-input" type="file" accept=".json,.pdf,.zip,.csv,.tsv,.txt,application/json,application/pdf,application/zip,text/csv,text/plain" multiple hidden>
-      <button type="button" class="btn" id="btn-export-blocked" title="Export unresolved exception queue">Export blocked</button>
-      <button type="button" class="btn btn-primary" id="btn-export">Export verified record</button>
+      <span class="storage-note" title="Review state stays in this browser">◉ Local review workspace</span>
+      <button type="button" class="button secondary" id="btn-ingest">＋ Add evidence</button>
+      <input type="file" id="file-input" multiple hidden accept=".json,.pdf,.zip,.csv,.tsv,.txt,application/json,application/pdf,application/zip,text/csv,text/plain">
+      <button type="button" class="button primary" id="btn-export">↗ Export hand-off</button>
+      <details class="more-menu">
+        <summary class="button secondary" aria-label="More options">⋯</summary>
+        <div class="menu-content"><button type="button" id="btn-export-blocked">Export outstanding cases only</button></div>
+      </details>
     </div>
   </header>
 
-  <div id="example-banner" class="banner" hidden>
-    <strong>Example data.</strong>
-    Kelso Villa fixtures from the product spec — drop Person A’s JSON, PDFs or a ZIP anywhere to replace them.
-  </div>
-  <div id="error-banner" class="banner banner-error" hidden></div>
-  <div id="ingest-banner" class="banner banner-info" hidden></div>
+  <div class="banner error" id="error-banner" role="alert" hidden></div>
+  <div class="banner info" id="ingest-banner" role="status" hidden></div>
+  <div class="toast" id="notice" role="status" aria-live="polite" hidden></div>
 
-  <section class="toolbar" aria-label="Property and filters">
-    <label class="prop-select">
-      <span>Property</span>
-      <select id="property"></select>
-    </label>
-    <div class="stage-tabs" role="tablist" aria-label="Review stage">
-      <button type="button" class="stage" data-stage="review" aria-selected="true">Review required</button>
-      <button type="button" class="stage" data-stage="extracted">Extracted</button>
-      <button type="button" class="stage" data-stage="reconcile">Reconcile</button>
-      <button type="button" class="stage" data-stage="verified">Verified</button>
-      <button type="button" class="stage" data-stage="all">All fields</button>
-    </div>
-    <p class="file-meta" id="file-meta"></p>
-    <div class="toolbar-spacer"></div>
-    <label class="sample-select">
-      <span>Samples</span>
-      <select id="samples">
-        <option value="data/kelso_villa.example.json">Kelso Villa (example)</option>
-        <option value="data/edge_cases.example.json">Edge cases (example)</option>
-        <option value="data/kelso_villa.bundle.example.json">Kelso + document library</option>
-      </select>
-    </label>
-  </section>
-
-  <section id="summary" class="summary" aria-label="Classification summary"></section>
-
-  <div class="workbench" id="workbench">
-    <aside class="panel panel-queue" aria-label="Fields and documents">
-      <div class="panel-head">
-        <h2>Fields to review</h2>
-        <p class="panel-sub" id="queue-sub">Select a discrepancy</p>
+  <main class="page">
+    <section class="hero" aria-label="Property review">
+      <div>
+        <p class="eyebrow">EVIDENCE → DECISION → VERIFIED FACT</p>
+        <h1 id="property-title">Review the facts</h1>
+        <p id="property-description">A simpler way to settle conflicting details before they reach the next stage.</p>
+        <div class="sample-hint" id="example-banner" hidden><span>DEMO</span> Scenario summaries only — not verified quotations from the source PDFs.</div>
       </div>
-      <div id="queue" class="queue" role="listbox" aria-label="Discrepancy queue"></div>
-      <div class="panel-head panel-head-docs">
-        <h2>Source library</h2>
-        <p class="panel-sub">Organised by property &amp; related versions</p>
-      </div>
-      <div id="doc-library" class="doc-library"></div>
-    </aside>
-
-    <section class="panel panel-evidence" aria-label="Source evidence">
-      <div class="panel-head evidence-head">
-        <div>
-          <h2>Source evidence</h2>
-          <p class="panel-sub">Never decide without seeing the supporting quote or PDF page</p>
-        </div>
-        <div class="evidence-tools">
-          <button type="button" class="btn btn-ghost" id="btn-swap-evidence" title="Swap left and right">Swap panes</button>
-        </div>
-      </div>
-      <div class="evidence-grid" id="evidence-grid">
-        <article class="evidence-pane" id="evidence-a" data-side="a">
-          <header class="evidence-meta" id="evidence-a-meta"></header>
-          <div class="evidence-body" id="evidence-a-body">
-            <p class="muted empty-hint">Select a field to load evidence.</p>
-          </div>
-        </article>
-        <article class="evidence-pane" id="evidence-b" data-side="b">
-          <header class="evidence-meta" id="evidence-b-meta"></header>
-          <div class="evidence-body" id="evidence-b-body">
-            <p class="muted empty-hint">Second source appears here for comparison.</p>
-          </div>
-        </article>
+      <div class="property-controls">
+        <label for="property">Property</label>
+        <select id="property"></select>
+        <p id="file-meta">Loading evidence…</p>
       </div>
     </section>
 
-    <aside class="panel panel-resolve" aria-label="Resolution">
-      <div class="panel-head">
-        <h2>Resolution</h2>
-        <p class="panel-sub">Classify · choose evidence · approve</p>
-      </div>
-      <div id="resolve-panel" class="resolve-panel">
-        <p class="muted empty-hint">Pick a field from the queue.</p>
-      </div>
-    </aside>
-  </div>
+    <section class="summary" id="summary" aria-label="Review progress"></section>
+    <div class="steps" aria-label="How to review"><span><b>1</b> Choose a difference</span><i>→</i><span><b>2</b> Read both sources</span><i>→</i><span><b>3</b> Confirm a decision</span></div>
 
-  <section class="legend-wrap" aria-label="Classification legend">
-    <button type="button" class="legend-toggle" id="legend-toggle" aria-expanded="false">
-      Difference classifications
-    </button>
-    <ul id="legend" class="legend" hidden></ul>
-  </section>
+    <div class="workbench">
+      <aside class="panel queue-panel" aria-labelledby="queue-heading">
+        <div class="panel-heading">
+          <p class="step-label">STEP 01</p>
+          <h2 id="queue-heading">Differences</h2>
+          <p id="queue-sub" class="subtext">Choose one to inspect</p>
+        </div>
+        <div class="queue-tabs" role="group" aria-label="Filter cases">
+          <button type="button" class="stage" data-stage="all" aria-pressed="true">All <span id="count-all">0</span></button>
+          <button type="button" class="stage" data-stage="review" aria-pressed="false">Review <span id="count-review">0</span></button>
+          <button type="button" class="stage" data-stage="automatic" aria-pressed="false">Auto <span id="count-automatic">0</span></button>
+          <button type="button" class="stage" data-stage="verified" aria-pressed="false">Approved <span id="count-verified">0</span></button>
+        </div>
+        <div class="queue" id="queue" aria-label="Differences to review"></div>
+        <details class="source-drawer" id="source-disclosure">
+          <summary>▤ <span>Source library</span> <small id="source-count"></small></summary>
+          <p class="subtext">Files and versions used for this property</p>
+          <div class="source-library" id="doc-library"></div>
+        </details>
+      </aside>
 
-  <footer class="foot">
-    <p>
-      Person B — Fact Reconciliation Workbench.
-      Ingest PDF / JSON / ZIP / CSV · organise related documents · classify contradictions · sign off verified facts.
-      Engine: <code>src/resolve.js</code> · Ingest: <code>src/ingest.js</code>.
-      Serve with <code>python3 -m http.server</code>. Spec: <code>docs/verified-fact-record-product-spec.pdf</code>.
-    </p>
-  </footer>
+      <section class="panel compare-panel" aria-labelledby="evidence-heading">
+        <div class="panel-heading compare-heading">
+          <div><p class="step-label">STEP 02</p><h2 id="evidence-heading">Compare evidence</h2><p class="subtext" id="evidence-sub">Read what each source actually says</p></div>
+          <span class="minor-tag" id="evidence-count"></span>
+        </div>
+        <div class="guidance" id="insight" role="note"></div>
+        <div class="evidence-grid">
+          <article class="evidence-card" id="evidence-a"><header id="evidence-a-meta"></header><div class="evidence-body" id="evidence-a-body"></div></article>
+          <article class="evidence-card" id="evidence-b"><header id="evidence-b-meta"></header><div class="evidence-body" id="evidence-b-body"></div></article>
+        </div>
+        <div id="other-evidence" class="other-evidence"></div>
+      </section>
 
-  <div id="drop-overlay" class="drop-overlay" hidden>
-    <div class="drop-card">
-      <p>Drop documents to ingest</p>
-      <p class="muted">PDF · JSON · ZIP archives · CSV listing rows · text evidence</p>
+      <aside class="panel decision-panel" aria-labelledby="resolve-heading">
+        <div class="panel-heading"><p class="step-label">STEP 03</p><h2 id="resolve-heading">Make a decision</h2><p class="subtext">The rule suggests the outcome. You stay in control.</p></div>
+        <div class="reviewer-field"><label for="reviewer">Reviewed by</label><input id="reviewer" autocomplete="name" placeholder="Your name" aria-describedby="reviewer-help"><small id="reviewer-help">Required for human approvals</small></div>
+        <div id="resolve-panel" class="decision-body"><p class="empty-hint">Choose a difference to begin.</p></div>
+      </aside>
     </div>
-  </div>
 
-  <dialog id="edit-dialog" class="dialog">
+    <footer class="footer">
+      <span>Original extraction evidence stays unchanged. Unresolved cases cannot be published as verified values.</span>
+      <details><summary>How automatic rules work</summary>
+        <p>Source authority comes first; date breaks ties within a tier. Later formal price instructions can replace older marketing. True conflicts need human sign-off. Scope differences and unlabelled measurement bases are kept separately, never turned into an unqualified property fact. This demo uses your browser clock and local storage; it has no authenticated server.</p>
+        <label for="samples">Sample dataset</label><select id="samples"><option value="data/review_scenarios.example.json">Nine review scenarios (recommended)</option><option value="data/kelso_villa.example.json">Original Kelso sample</option><option value="data/edge_cases.example.json">Additional edge cases</option><option value="data/kelso_villa.bundle.example.json">Kelso source-library sample</option></select>
+      </details>
+    </footer>
+  </main>
+
+  <div id="drop-overlay" class="drop-overlay" hidden><div><span class="drop-icon">⇧</span><h2>Drop evidence to review</h2><p>PDF · JSON · ZIP · CSV · TXT</p></div></div>
+  <dialog id="edit-dialog" class="edit-dialog" aria-labelledby="edit-heading">
     <form id="edit-form" method="dialog">
-      <h2>Correct canonical value</h2>
-      <p class="muted" id="edit-field-label"></p>
-      <label>
-        <span>New value</span>
-        <input id="edit-value" type="text" required>
-      </label>
-      <label>
-        <span>Unit <em>(optional)</em></span>
-        <input id="edit-unit" type="text" placeholder="GBP, sqft, sqm, or leave blank">
-      </label>
-      <label>
-        <span>Reason <em>(required)</em></span>
-        <textarea id="edit-note" required rows="3" placeholder="Why is this the verified value?"></textarea>
-      </label>
-      <p class="dialog-error" id="edit-error" hidden></p>
-      <div class="dialog-actions">
-        <button type="button" class="btn" id="edit-cancel" value="cancel">Cancel</button>
-        <button type="submit" class="btn btn-primary">Save with reason</button>
-      </div>
+      <p class="step-label">CORRECT WITH EVIDENCE</p><h2 id="edit-heading">Enter a corrected value</h2>
+      <p id="edit-field-label" class="subtext"></p>
+      <label for="edit-value">Correct value<input id="edit-value" required></label>
+      <label for="edit-unit">Unit (if relevant)<input id="edit-unit" placeholder="GBP, sqft, sqm, or blank"></label>
+      <label for="edit-note">What evidence supports this correction?<textarea id="edit-note" rows="4" required placeholder="Explain why this is the correct value"></textarea></label>
+      <p id="edit-error" role="alert" hidden></p>
+      <div class="dialog-actions"><button type="button" class="button secondary" id="edit-cancel">Cancel</button><button type="submit" class="button primary">Save corrected fact</button></div>
     </form>
   </dialog>
-
   <script type="module" src="ui/app.js"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://example.local/schema/extracted_fact.schema.json",
-  "title": "Extracted facts (Person A \u2192 Person B input contract)",
+  "title": "Extracted facts (Person A → Person B input contract)",
   "description": "Person A hands Person B either an array of extracted facts, or an object with a 'facts' array. The loader is tolerant of missing optional fields and of a few field-name aliases (see README).",
   "oneOf": [
     {
@@ -63,14 +63,14 @@
           ]
         },
         "value": {
-          "description": "The extracted value. Numbers may be numeric or formatted strings ('\u00a3700,000', '1,990'). Tenure and ratings are strings."
+          "description": "The extracted value. Numbers may be numeric or formatted strings ('£700,000', '1,990'). Tenure and ratings are strings."
         },
         "unit": {
           "type": [
             "string",
             "null"
           ],
-          "description": "GBP, sqft, sqm, or null. Aliases such as '\u00a3', 'sq ft', 'm\u00b2' are accepted.",
+          "description": "GBP, sqft, sqm, or null. Aliases such as '£', 'sq ft', 'm²' are accepted.",
           "examples": [
             "GBP",
             "sqft",
@@ -136,6 +136,14 @@
                 "string",
                 "null"
               ]
+            },
+            "date_precision": {
+              "type": "string",
+              "description": "Optional month when only a month (not day) is known."
+            },
+            "synthetic": {
+              "type": "boolean",
+              "description": "True if this is synthetic or demo evidence."
             }
           }
         },
@@ -159,7 +167,7 @@
             "number",
             "null"
           ],
-          "description": "Optional 0\u20131 confidence from Person A's extractor."
+          "description": "Optional 0–1 confidence from Person A's extractor."
         },
         "stated_equivalent": {
           "type": [
@@ -179,7 +187,7 @@
             "string",
             "null"
           ],
-          "description": "development | unit. A development-wide claim is not copied onto a unit."
+          "description": "Development, unit, per_floor, unit_total, etc. Scope differences must not be collapsed into a unit value."
         },
         "plot": {
           "type": [
@@ -199,7 +207,7 @@
             "number",
             "null"
           ],
-          "description": "0\u20131. Below the threshold (default 0.7), the fact is held unmatched and no conflict is raised."
+          "description": "0–1. Below the threshold (default 0.7), the fact is held unmatched and no conflict is raised."
         },
         "entity_match": {
           "type": [
@@ -230,6 +238,20 @@
             "null"
           ],
           "description": "Whether the quote is taken from the product spec, reconstructed from a PDF transcript, or from a listing field."
+        },
+        "case_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Optional scenario/case identifier used to label a review comparison."
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "For dated price-change instructions, the date when the new instruction takes effect."
         }
       }
     }

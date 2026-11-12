@@ -1,6 +1,40 @@
-# Fact Reconciliation Workbench (Person B)
+# Fact Review — Person B (simplified interface)
 
-Person B’s deliverable for the Grok Bot Real Estate hackathon. A **desktop-first, evidence-first** workbench that:
+## Quick start
+
+```bash
+npm test                 # 37 checks, including all nine review scenarios
+npm run serve            # visit http://localhost:8080
+```
+
+The default home screen loads **Kelso Villa** and its seven worked comparisons. Select **59 St Huberts Close** in the property picker to see the other two. A three-column interface makes the job simple: **Choose a difference → Compare two source quotes/pages → Confirm or hold**. Source library, classification overrides, and audit history are tucked away until needed.
+
+The nine demo comparisons, in the user's stated order:
+
+| Case | Rule suggestion | Publication safety |
+|---|---|---|
+| Kelso asking price | Newer October £600,000 guide supersedes April £700,000 offers | Candidate selected automatically; reviewer confirms |
+| Kelso total area | April 185 sq m / 2,700 sq ft combined row is a **document error** | Cannot approve the printed value; correct with evidence or hold |
+| Kelso parking wording | One space per floor vs six spaces total = different scopes | Keep both automatically; no single value published |
+| Kelso net floor area | October 1,990 sq ft vs survey 1,912 sq ft = **true conflict** | Survey suggested by higher authority; reviewer confirms |
+| Kelso gross floor area | October 2,700 sq ft vs survey 2,672 sq ft = **true conflict** | Survey suggested; reviewer confirms (same-unit difference is not ignored by 2% conversion tolerance) |
+| Kelso lower ground | Brochure 468 sq ft unknown basis vs survey 461 sq ft **net** | Preserve both automatically; never infer missing basis |
+| Kelso parking total | Six vs five spaces = **true conflict** | Survey says bay six is a bin store; reviewer confirms |
+| No. 59 asking price | Formal instruction £1,395,000 effective 9 Nov replaces brochure £1,458,000 | Higher-authority instruction suggested; reviewer confirms |
+| No. 59 en-suites | Development-wide schedule vs No. 59 unit brochure = different scopes | Keep both automatically; development-wide claim never becomes a unit fact |
+
+**Automatic rules:** Source tier takes precedence over recency; date breaks ties within a tier. A later higher-authority formal price instruction can replace a brochure. Safe scope/basis differences are automatically labelled and retained without inventing a single value. True conflicts, document errors and price changes are **not** auto-published. The handoff separates `accepted_facts`, `blocked_facts` and `context_facts`.
+
+**Source integrity:** This default dataset is a **worked scenario**, not independently validated source PDFs. The user's descriptions are explicitly marked as scenario summaries, with unknown page references left blank. Upload Person A's extracted JSON and PDF files to review actual evidence. Real uploads replace the demo set, not mix with it.
+
+**Security limitation:** This is a local, dependency-free browser prototype. Reviewer names and acceptance times are saved locally, with timestamps from the browser clock; they are **not authenticated, server-issued or tamper-proof**. Add an authenticated service and trusted audit storage before production use. Keep `context_facts` out of any voice agent's publishable facts. Source PDFs render only when their file is available; highlighted quotation text works without the optional PDF.js CDN.
+
+---
+
+## Original engine and integration notes
+
+
+Original Person B implementation, extended with the nine-scenario review. A **desktop-first, evidence-first** workbench that:
 
 1. **Ingests** multiple document types — JSON extractions facts, PDF particulars, ZIP archives (including nested members), CSV/TSV listing rows, and plain-text evidence
 2. **Organises** related documents into property groups and version families (same issuer + doc type, brochure revisions, etc.)
@@ -48,7 +82,7 @@ CLI flags: `-o FILE`, `--rules config/field_rules.json`, `--as-of YYYY-MM-DD`, `
 
 ## Fact Reconciliation Workbench
 
-Open `index.html` via a local server. Three-panel layout:
+Open `index.html` via a local server. Three-panel layout (simplified interface supersedes the earlier screen):
 
 | Panel | Role |
 |---|---|

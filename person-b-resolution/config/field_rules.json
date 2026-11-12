@@ -9,41 +9,87 @@
     {
       "tier": 1,
       "name": "signed_legal",
-      "types": ["contract", "signed_legal", "lease", "sale_contract", "reservation", "reservation_agreement", "title", "current_title"],
+      "types": [
+        "contract",
+        "signed_legal",
+        "lease",
+        "sale_contract",
+        "reservation",
+        "reservation_agreement",
+        "title",
+        "current_title"
+      ],
       "notes": "Signed legal instrument: current title, lease, sale contract, reservation agreement."
     },
     {
       "tier": 2,
       "name": "official_register",
-      "types": ["official_record", "land_registry", "hmlr", "epc_register", "voa", "price_paid"],
+      "types": [
+        "official_record",
+        "land_registry",
+        "hmlr",
+        "epc_register",
+        "voa",
+        "price_paid"
+      ],
       "notes": "Current official register extract, always with the register's date. Price Paid tenure is as at the sale date and may lag a later private transaction — mark 'check this', do not auto-correct."
     },
     {
       "tier": 3,
       "name": "signed_spec",
-      "types": ["specification", "measured_survey", "design_spec", "survey", "signed_specification"],
+      "types": [
+        "specification",
+        "measured_survey",
+        "design_spec",
+        "survey",
+        "signed_specification"
+      ],
       "notes": "Latest signed specification or measured survey, with the basis stated (NIA, GIA, or other)."
     },
     {
       "tier": 4,
       "name": "price_list",
-      "types": ["price_list", "signed_price_list", "developer_instruction"],
+      "types": [
+        "price_list",
+        "signed_price_list",
+        "developer_instruction"
+      ],
       "notes": "Latest signed price list or formal developer instruction."
     },
     {
       "tier": 5,
       "name": "brochure",
-      "types": ["brochure", "particulars", "sale_particulars"],
+      "types": [
+        "brochure",
+        "particulars",
+        "sale_particulars"
+      ],
       "notes": "Latest marketing brochure or formal particulars. Recency applies within this tier (Kelso October 2026 sits above April 2026, same issuer)."
     },
     {
       "tier": 6,
       "name": "listing",
-      "types": ["listing", "portal", "web_listing", "advert", "crm", "verbal"],
+      "types": [
+        "listing",
+        "portal",
+        "web_listing",
+        "advert",
+        "crm",
+        "verbal"
+      ],
       "notes": "Lowest tier. Useful as a prompt to check, not as a value to quote."
     }
   ],
-  "material_fields": ["price", "tenure", "net_floor_area", "gross_floor_area", "floor_area"],
+  "material_fields": [
+    "price",
+    "tenure",
+    "net_floor_area",
+    "gross_floor_area",
+    "floor_area",
+    "lower_ground_floor_area",
+    "parking_total",
+    "en_suite_bathroom"
+  ],
   "fields": {
     "price": {
       "label": "Price",
@@ -84,6 +130,25 @@
     "parking": {
       "label": "Parking",
       "notes": "Lease, title or deed of grant, and the allocation schedule sit above a brochure, which sits above a listing."
+    },
+    "lower_ground_floor_area": {
+      "label": "Lower ground floor area",
+      "material": true,
+      "resolution": "Keep explicit net measurements separate from figures with an unknown basis; do not infer a single area."
+    },
+    "parking_scope": {
+      "label": "Parking (scope)",
+      "resolution": "Never convert per-floor allocations into total parking without floor count and supporting evidence; preserve both scoped statements."
+    },
+    "parking_total": {
+      "label": "Parking total",
+      "material": true,
+      "resolution": "Measured survey or current allocation evidence outranks brochure; a six-versus-five disagreement is a human-review true conflict."
+    },
+    "en_suite_bathroom": {
+      "label": "En-suite bathrooms",
+      "material": true,
+      "resolution": "Do not inherit development-wide bathroom statements into a specific unit where the unit brochure differs."
     }
   }
 }

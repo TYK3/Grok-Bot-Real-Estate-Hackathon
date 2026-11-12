@@ -182,6 +182,9 @@ const FIELD_ALIASES = {
   nia: 'net_floor_area',
   nia_sqft: 'net_floor_area',
   nia_sqm: 'net_floor_area',
+  lower_ground_area: 'lower_ground_floor_area',
+  lower_ground_floor_area: 'lower_ground_floor_area',
+  lower_ground: 'lower_ground_floor_area',
   gross_floor_area: 'gross_floor_area',
   gross_area: 'gross_floor_area',
   floor_area_gross: 'gross_floor_area',
@@ -201,6 +204,10 @@ const FIELD_ALIASES = {
   parking: 'parking',
   parking_spaces: 'parking',
   spaces: 'parking',
+  parking_scope: 'parking_scope',
+  parking_total: 'parking_total',
+  en_suite_bathroom: 'en_suite_bathroom',
+  ensuites: 'en_suite_bathroom',
 };
 
 const OFFICIAL_DOC_TYPES = new Set([
@@ -223,7 +230,7 @@ const CONTRACT_DOC_TYPES = new Set(['contract', 'signed_legal', 'lease', 'sale_c
 const SPEC_DOC_TYPES = new Set(['specification', 'measured_survey', 'design_spec', 'survey', 'signed_specification']);
 const PRICE_LIST_DOC_TYPES = new Set(['price_list', 'signed_price_list', 'developer_instruction']);
 
-const AREA_FIELDS = new Set(['net_floor_area', 'gross_floor_area', 'floor_area']);
+const AREA_FIELDS = new Set(['net_floor_area', 'gross_floor_area', 'floor_area', 'lower_ground_floor_area']);
 
 // ---------------------------------------------------------------------------
 // Normalisation helpers
@@ -550,6 +557,8 @@ export function normaliseFact(raw, index = 0, envelope = {}) {
     url: srcIn.url || raw.url || null,
     agent: srcIn.agent || raw.agent || null,
     issuer: srcIn.issuer || srcIn.agent || raw.issuer || raw.agent || null,
+    date_precision: srcIn.date_precision || raw.date_precision || null,
+    synthetic: Boolean(srcIn.synthetic || raw.synthetic),
   };
   // Preserve original doc_type string when it was a more specific official type.
   const rawType = srcIn.doc_type || srcIn.docType || srcIn.type || raw.doc_type;
@@ -576,6 +585,7 @@ export function normaliseFact(raw, index = 0, envelope = {}) {
     fact_id: raw.fact_id || raw.id || `${propertyId}:${field}:${source.doc_id}:${index}`,
     property_id: String(propertyId),
     property_name: propertyName,
+    case_id: raw.case_id || null,
     field,
     value: raw.value !== undefined ? raw.value : raw.val ?? raw.extracted_value,
     unit,
@@ -586,6 +596,7 @@ export function normaliseFact(raw, index = 0, envelope = {}) {
     extraction_confidence:
       raw.extraction_confidence ?? raw.confidence ?? raw.extractionConfidence ?? null,
     stated_equivalent: raw.stated_equivalent || raw.statedEquivalent || null,
+    effective_date: normaliseDate(raw.effective_date || raw.effective_from || null),
     scope: canonicalScope(raw.scope || raw.fact_scope || null),
     plot: raw.plot || raw.plot_id || raw.unit_id || null,
     unit_type: raw.unit_type || raw.house_type || raw.type_name || null,
@@ -645,6 +656,9 @@ export function valuesAgree(factA, factB, rules = DEFAULT_RULES) {
   const sqft = rules.sqft_per_sqm ?? SQFT_PER_SQM;
   if (a.kind === 'area' && b.kind === 'area') {
     if (a.basis && b.basis && a.basis !== b.basis) return false;
+    // A 2% tolerance is for conversion / rounding between *different units*.
+    // It must not hide a 28 sq ft gross-area discrepancy between two sources.
+    if (a.unit && a.unit === b.unit) return a.value === b.value;
     return areasAgree(a, b, tolerance, sqft);
   }
   if (a.kind === 'number' && b.kind === 'number') {
@@ -712,8 +726,9 @@ export function classifyPair(factA, factB, options = {}) {
 
   // 0. AGREE — same unit (or unitless), same basis, same value.
   const basisClash = a.kind === 'area' && b.kind === 'area' && a.basis && b.basis && a.basis !== b.basis;
+  const basisUncertain = a.kind === 'area' && b.kind === 'area' && Boolean(a.basis) !== Boolean(b.basis);
   const unitClash = a.kind === 'area' && b.kind === 'area' && a.unit && b.unit && a.unit !== b.unit;
-  if (!basisClash && !unitClash && valuesAgree(factA, factB, rules)) {
+  if (!basisClash && !basisUncertain && !unitClash && valuesAgree(factA, factB, rules)) {
     return {
       classification: CLASSIFICATIONS.AGREE,
       reason: `${labelA} and ${labelB} agree on ${displayA}.`,
@@ -722,6 +737,13 @@ export function classifyPair(factA, factB, options = {}) {
 
   // 1. UNIT_MISMATCH (including a wrong conversion — a document error, not two areas)
   if (a.kind === 'area' && b.kind === 'area') {
+    if (basisUncertain) {
+      return {
+        classification: CLASSIFICATIONS.UNIT_MISMATCH,
+        basis_uncertain: true,
+        reason: `Measurement basis is not comparable: ${labelA} states ${displayA} (${a.basis || 'unspecified basis'}), while ${labelB} states ${displayB} (${b.basis || 'unspecified basis'}). Keep both labelled with their stated basis; do not infer net or gross from an unlabelled figure.`,
+      };
+    }
     if (basisClash) {
       return {
         classification: CLASSIFICATIONS.UNIT_MISMATCH,
@@ -845,6 +867,22 @@ export function classifyPair(factA, factB, options = {}) {
   if (!valuesAgree(factA, factB, rules)) {
     const dateA = factDate(factA);
     const dateB = factDate(factB);
+    // A formal price-change instruction can replace earlier marketing from a
+    // different issuer/type: this is a version change, not a true conflict.
+    if (field === 'price' && dateA && dateB && dateA !== dateB) {
+      const newer = dateA > dateB ? factA : factB;
+      const older = newer === factA ? factB : factA;
+      const newType = canonicalDocType(sourceOf(newer).doc_type);
+      if (['developer_instruction', 'price_list', 'signed_price_list'].includes(newType) &&
+          sourceTier(newer, rules) < sourceTier(older, rules)) {
+        return {
+          classification: CLASSIFICATIONS.SUPERSEDED,
+          reason: `${sourceLabel(newer)} (${factDate(newer)}) formally updates the asking price from ${displayValue(older)} to ${displayValue(newer)}. The later, higher-authority instruction replaces the earlier marketing figure. Keep the old figure in history; a human must confirm the change.`,
+          older_fact_id: older.fact_id,
+          newer_fact_id: newer.fact_id,
+        };
+      }
+    }
     if (officialIsHistorical && (officialA || officialB) && !(officialA && officialB)) {
       const official = officialA ? factA : factB;
       const current = officialA ? factB : factA;
@@ -1073,6 +1111,13 @@ function fieldStatus(primary, options = {}) {
  * not be quoted as fact; explain briefly, escalate, take a lead.
  */
 export function voiceState(record) {
+  if (record.resolution_kind === 'scoped_context') {
+    return {
+      quotable: false,
+      confidence: 'context_only',
+      speaker_note: 'These statements refer to different scopes or measurement bases. Both are retained as evidence; neither has been promoted to a single unit-level fact.',
+    };
+  }
   const status = record.status || STATUSES.PENDING;
   const field = fieldLabel(record.field);
   const value = record.winning_display || String(record.winning_value ?? '');
@@ -1196,6 +1241,11 @@ export function resolveGroup(facts, options = {}) {
     candidates.some((c) => c.classification === CLASSIFICATIONS.OFFICIAL_RECORD_DISAGREEMENT) ||
     primary === CLASSIFICATIONS.OFFICIAL_RECORD_DISAGREEMENT;
   const status = fieldStatus(primary, { checkThis });
+  const hasDocumentError = candidates.some((c) => c.document_error);
+  const hasUncertainBasis = pairClasses.includes(CLASSIFICATIONS.UNIT_MISMATCH) &&
+    AREA_FIELDS.has(field) && facts.some((f) => !canonicalBasis(f.area_basis)) &&
+    facts.some((f) => Boolean(canonicalBasis(f.area_basis)));
+  const retainSeparately = primary === CLASSIFICATIONS.SCOPE_DIFFERENCE || hasUncertainBasis;
   const eq = AREA_FIELDS.has(field) ? preferredEquivalent(winner, candidates, rules) : null;
   const listingFlags = candidates
     .filter((c) => c.classification === CLASSIFICATIONS.STALE_LISTING || c.flag_listing_for_update)
@@ -1215,6 +1265,7 @@ export function resolveGroup(facts, options = {}) {
     property_id: winner.property_id,
     property_name: winner.property_name,
     field,
+    case_id: winner.case_id || null,
     area_basis: winner.area_basis || ((rules.fields[field] || {}).area_basis ?? null),
     winning_value: coerceWinningValue(winner),
     winning_unit: canonicalUnit(winner.unit),
@@ -1227,6 +1278,13 @@ export function resolveGroup(facts, options = {}) {
       || {}).reason || null,
     status,
     check_this: checkThis || undefined,
+    document_error: hasDocumentError || undefined,
+    basis_uncertain: hasUncertainBasis || undefined,
+    retain_separately: retainSeparately || undefined,
+    scoped_facts: retainSeparately ? candidates.map((c) => ({
+      fact_id: c.fact_id, value: c.value, unit: c.unit, area_basis: c.area_basis,
+      scope: c.scope, source_doc_id: c.source?.doc_id, quote: c.quote, page: c.page,
+    })) : undefined,
     auto_corrected: false,
     listing_update_flags: listingFlags.length ? listingFlags : undefined,
     candidates,
@@ -1270,6 +1328,7 @@ function coerceWinningValue(winner) {
 function publicFact(fact) {
   return {
     fact_id: fact.fact_id,
+    case_id: fact.case_id || null,
     property_id: fact.property_id,
     property_name: fact.property_name,
     field: fact.field,
@@ -1279,6 +1338,7 @@ function publicFact(fact) {
     source: { ...fact.source },
     page: fact.page,
     quote: fact.quote,
+    effective_date: fact.effective_date || null,
     quote_attribution: fact.quote_attribution || null,
     extraction_confidence: fact.extraction_confidence,
     stated_equivalent: fact.stated_equivalent || null,
@@ -1331,7 +1391,47 @@ export function resolveAll(input, options = {}) {
     if (a.property_id !== b.property_id) return a.property_id.localeCompare(b.property_id);
     return fieldOrder(a.field) - fieldOrder(b.field) || a.field.localeCompare(b.field);
   });
-  return { records, facts, rules };
+  return {
+    records: options.autoRetainContext ? records.map((r) => applySafeAutomaticRule(r, { now })) : records,
+    facts,
+    rules,
+  };
+}
+
+/**
+ * Safe zero-click reconciliation: only organise facts that should *not* be
+ * collapsed into a single value. This never verifies a disputed scalar,
+ * chooses a conflict winner, or makes the value quotable by a voice agent.
+ */
+export function applySafeAutomaticRule(record, options = {}) {
+  if (record.resolution_kind === 'scoped_context' ||
+      !(record.primary_classification === CLASSIFICATIONS.SCOPE_DIFFERENCE || record.basis_uncertain) ||
+      record.document_error) return record;
+  const next = structuredClone(record);
+  const timestamp = options.now || new Date().toISOString();
+  next.resolution_kind = 'scoped_context';
+  next.auto_resolved = true;
+  next.winning_value = null;
+  next.winning_unit = null;
+  next.winning_display = 'Both statements retained separately';
+  next.winning_fact_id = null;
+  next.candidates.forEach((c) => { c.is_winner = false; });
+  next.status = STATUSES.VERIFIED;
+  next.blocked = false;
+  next.audit = [...(record.audit || []), {
+    action: 'auto_retain_context',
+    accepted_by: 'rules-engine',
+    accepted_at: timestamp,
+    value: null,
+    unit: null,
+    note: record.basis_uncertain
+      ? 'Measurement basis is not stated in one source. Preserve both labelled measurements; do not declare a winner.'
+      : 'Evidence refers to different scopes. Preserve both statements; do not copy development-wide facts onto this unit.',
+    rule_applied: 'safe:auto-retain-separate-scopes-or-bases',
+    classification: next.primary_classification,
+  }];
+  next.voice = voiceState(next);
+  return next;
 }
 
 function unmatchedRecord(fact, { now, rules }) {
@@ -1429,11 +1529,23 @@ export const REVIEW_CLASSIFICATIONS = Object.freeze([
     icon: 'official',
     summary: 'Marketing disagrees with Land Registry / EPC. Mark check-this; do not auto-correct.',
   },
+  {
+    id: CLASSIFICATIONS.SCOPE_DIFFERENCE,
+    label: 'Scope difference',
+    icon: 'scope',
+    summary: 'Per-floor, total, development-wide and unit-specific statements must stay at their own scope.',
+  },
 ]);
 
 export function applyOverride(record, override) {
   if (!override || !override.accepted_by || !String(override.accepted_by).trim()) {
     throw new Error('A reviewer name (accepted_by) is required.');
+  }
+  if (record.resolution_kind === 'scoped_context' && ['accept', 'choose_candidate', 'edit'].includes(override.action)) {
+    throw new Error('Context-only evidence cannot be converted into one verified property value. Preserve each scope or basis separately.');
+  }
+  if (record.document_error && ['accept', 'choose_candidate'].includes(override.action)) {
+    throw new Error('A document conversion error cannot be approved as printed. Supply an evidenced correction or keep the case blocked.');
   }
   if (override.action === 'edit' && !(override.note && String(override.note).trim())) {
     throw new Error('A note is required when editing a value.');
@@ -1559,6 +1671,7 @@ export function applyOverride(record, override) {
 export function buildAcceptanceRecords(records, options = {}) {
   const accepted = [];
   const blocked = [];
+  const context = [];
   for (const r of records) {
     const winner = (r.candidates || []).find((c) => c.is_winner);
     const evidenceIds = [...new Set(
@@ -1566,7 +1679,8 @@ export function buildAcceptanceRecords(records, options = {}) {
         .map((c) => (c.source && c.source.doc_id) || c.fact_id)
         .filter(Boolean)
     )];
-    const lastHuman = [...(r.audit || [])].reverse().find((a) => a.accepted_by && a.accepted_by !== 'engine');
+    const lastHuman = [...(r.audit || [])].reverse().find((a) => a.accepted_by && a.accepted_by !== 'engine' && a.accepted_by !== 'rules-engine');
+    const lastAutomatic = [...(r.audit || [])].reverse().find((a) => a.action === 'auto_retain_context');
     const base = {
       property_id: r.property_id,
       field: r.field,
@@ -1581,8 +1695,17 @@ export function buildAcceptanceRecords(records, options = {}) {
       accepted_at: lastHuman ? lastHuman.accepted_at : null,
       status: r.status === STATUSES.VERIFIED ? 'accepted' : r.blocked ? 'blocked' : r.status,
       version: r.version || (r.status === STATUSES.VERIFIED ? 1 : 0),
+      resolution_kind: r.resolution_kind || 'single_fact',
+      scoped_facts: r.resolution_kind === 'scoped_context' ? r.scoped_facts || [] : undefined,
     };
-    if (r.status === STATUSES.VERIFIED && !r.blocked) accepted.push(base);
+    if (r.resolution_kind === 'scoped_context') {
+      context.push({ ...base, accepted_value: null, accepted_display: 'Separate scoped evidence only',
+        winning_fact_id: null, status: 'context_only',
+        accepted_by: lastHuman?.accepted_by || lastAutomatic?.accepted_by || null,
+        accepted_at: lastHuman?.accepted_at || lastAutomatic?.accepted_at || null,
+        reason: lastHuman?.note || lastAutomatic?.note || base.reason,
+      });
+    } else if (r.status === STATUSES.VERIFIED && !r.blocked) accepted.push(base);
     else if (r.status === STATUSES.CONFLICTING || r.blocked || r.status === STATUSES.PENDING || r.status === STATUSES.UNKNOWN) {
       blocked.push({ ...base, status: r.blocked ? 'blocked' : r.status });
     }
@@ -1594,6 +1717,7 @@ export function buildAcceptanceRecords(records, options = {}) {
     input_label: options.input_label || null,
     accepted,
     blocked,
+    context,
   };
 }
 
@@ -1620,14 +1744,17 @@ export function buildVerifiedRecord(records, options = {}) {
     const classifications = {};
     const statuses = { verified: 0, pending: 0, conflicting: 0, unknown: 0 };
     let quotable = 0;
+    let contextOnly = 0;
     for (const f of p.fields) {
       classifications[f.primary_classification] = (classifications[f.primary_classification] || 0) + 1;
       if (statuses[f.status] != null) statuses[f.status] += 1;
       if (f.voice && f.voice.quotable) quotable += 1;
+      if (f.resolution_kind === 'scoped_context') contextOnly += 1;
     }
     p.summary = {
       fields: p.fields.length,
-      verified: statuses.verified,
+      verified: statuses.verified - contextOnly,
+      context_only: contextOnly,
       pending: statuses.pending,
       conflicting: statuses.conflicting,
       unknown: statuses.unknown,
@@ -1652,6 +1779,7 @@ export function buildVerifiedRecord(records, options = {}) {
     properties,
     accepted_facts: acceptance.accepted,
     blocked_facts: acceptance.blocked,
+    context_facts: acceptance.context,
   };
 }
 
