@@ -47,9 +47,10 @@ export async function GET(
   const booking = readJson(path.join(dir, "booking.json"));
   const customer = readJson(path.join(dir, "customer.json"));
   const summary = readText(path.join(dir, "call_summary.txt"));
+  const search = readJson(path.join(dir, "search.json"));
 
   return NextResponse.json(
-    { exists: true, booking, customer, summary },
+    { exists: true, booking, customer, summary, search },
     { headers: { "Cache-Control": "no-store" } },
   );
 }

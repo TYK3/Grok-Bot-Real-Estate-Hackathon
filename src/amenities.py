@@ -142,6 +142,28 @@ def rank_properties(
     return results[:limit]
 
 
+def shortlist_payload(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Compact rows for the call screen's map and info panel."""
+    out = []
+    for r in rows:
+        p = r["prop"]
+        a = p.get("address") or {}
+        out.append({
+            "id": str(p.get("property_id")),
+            "title": a.get("display") or a.get("full"),
+            "address": a.get("full") or a.get("display"),
+            "price": p.get("price"),
+            "bedrooms": p.get("bedrooms"),
+            "property_type": p.get("property_type"),
+            "lat": a.get("latitude"),
+            "lon": a.get("longitude"),
+            "nearest": r["nearest"],
+            "metres": round(r["metres"]),
+            "walk_minutes": _walk_minutes(r["metres"]),
+        })
+    return out
+
+
 def describe_ranking(amenity: str, rows: list[dict[str, Any]]) -> str:
     if not rows:
         return f"I couldn't find any {amenity} data near our listings."
