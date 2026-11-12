@@ -6,6 +6,7 @@ import {
 } from '../src/resolve.js';
 import { ingestFiles, ingestJson, mergeFactSets, mergeDocumentSets, organiseDocuments } from '../src/ingest.js';
 import { buildDatabaseHandoff } from '../src/database_handoff.js';
+import { factsForUploads, sha256Hex } from '../src/extracted_lookup.js';
 
 const $ = (id) => document.getElementById(id);
 const STATE_KEY = 'person-b-simple-workbench-v3';
@@ -251,6 +252,42 @@ async function loadFromUrl(url,{example=true}={}) {
     warnings:ingested.warnings,scenarios:payload.scenarios || [],
   });
 }
+const EXTRACTOR_URL='http://localhost:8765/extract';
+const SAMPLE_EXTRACTION_URL='./data/extracted/sample_extraction.json';
+// Run Person A's extractor on uploaded PDFs: live service first (short timeout),
+// then the precomputed extraction for known sample PDFs (matched by hash/filename).
+async function extractPdfFacts(prepared,ingested){
+  const pdfs=prepared.map((p,i)=>({p,doc:ingested.documents.find(d=>d.kind==='pdf'&&(d.base_name===p.name||d.name===p.name))})).filter(x=>x.p.objectUrl&&x.doc);
+  if(!pdfs.length)return {facts:[],warnings:[]};
+  const banner=$('ingest-banner');banner.hidden=false;banner.textContent=`Extracting facts from ${pdfs.length} PDF${pdfs.length===1?'':'s'}…`;
+  const uploads=await Promise.all(pdfs.map(async x=>({name:x.p.name,doc_id:x.doc.doc_id,sha256:await sha256Hex(x.p.bytes)})));
+  let payload=null,via='';
+  try{
+    const form=new FormData();for(const x of pdfs)form.append('files',new Blob([x.p.bytes],{type:'application/pdf'}),x.p.name);
+    const ctl=new AbortController();const t=setTimeout(()=>ctl.abort(),2500);
+    // Short timeout only for reachability; extraction itself may take a while.
+    const health=await fetch(EXTRACTOR_URL.replace('/extract','/health'),{signal:ctl.signal});clearTimeout(t);
+    if(health.ok){
+      banner.textContent=`Extracting facts from ${pdfs.length} PDF${pdfs.length===1?'':'s'} (live extractor, OCR may take a minute)…`;
+      const r=await fetch(EXTRACTOR_URL,{method:'POST',body:form});
+      if(r.ok){payload=await r.json();via='live extractor';}
+    }
+  }catch{/* service not running: fall back */}
+  let result=payload?factsForUploads(payload,uploads):{facts:[],matched:[],unmatched:uploads.map(u=>u.name)};
+  if(!result.facts.length){
+    try{
+      const r=await fetch(SAMPLE_EXTRACTION_URL);
+      if(r.ok){result=factsForUploads(await r.json(),uploads);via='precomputed extraction';}
+    }catch{/* ignore */}
+  }
+  const warnings=[];
+  if(result.facts.length){
+    warnings.push(`Extracted ${result.facts.length} facts from ${result.matched.length} PDF${result.matched.length===1?'':'s'} (${via}).`);
+    if(result.unmatched.length)warnings.push(`No extraction for: ${result.unmatched.join(', ')} (start fact_record/extraction_service/server.py to extract new PDFs).`);
+  }
+  banner.hidden=true;
+  return {facts:ingestJson({facts:result.facts},'extractor').facts,warnings};
+}
 async function ingestUserFiles(fileList) {
   const files=[...fileList]; if (!files.length) return;
   const prepared=await Promise.all(files.map(async f=>({
@@ -258,6 +295,11 @@ async function ingestUserFiles(fileList) {
     objectUrl:(f.type==='application/pdf'||/\.pdf$/i.test(f.name))?URL.createObjectURL(f):null,
   })));
   const ingested=await ingestFiles(prepared,{keepBytes:false});
+  const extracted=await extractPdfFacts(prepared,ingested);
+  if (extracted.facts.length) {
+    ingested.facts=mergeFactSets(ingested.facts,extracted.facts);
+    ingested.warnings=[...ingested.warnings,...extracted.warnings];
+  }
   // The first real upload replaces demo data. Never mix example claims into a live case.
   const baseFacts=state.isExample?[]:state.facts;
   const baseDocs=state.isExample?[]:state.documents;

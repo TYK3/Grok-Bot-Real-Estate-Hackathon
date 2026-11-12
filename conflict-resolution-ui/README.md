@@ -215,3 +215,20 @@ src/cli.js                             Multi-input CLI
 test/*.test.js
 index.html, ui/app.css, ui/app.js      Workbench UI
 ```
+
+## Upload brochure PDFs → extracted facts → contradictions (Person A extractor)
+
+The existing **＋ Add evidence** button (or drag-and-drop) now runs Person A's extractor on uploaded PDFs, so facts and contradictions appear in the review queue straight away.
+
+1. `cd conflict-resolution-ui && npm run serve`
+2. Open http://localhost:8080
+3. Click **＋ Add evidence** and pick the PDFs in `fact_record/sample_data/kelso-villa/` and `fact_record/sample_data/st-huberts-close/` (all 6 at once, or one development's 3).
+4. The banner shows "Extracting facts…", then the queue fills with the field groups that need review. Each candidate links to its page in the uploaded PDF.
+
+How extraction runs:
+
+- **Live extractor (optional):** `pip install -r fact_record/requirements.txt` (plus the `tesseract` binary for scanned brochures), then `python fact_record/extraction_service/server.py`. It listens on http://localhost:8765 (`GET /health`, `POST /extract` with multipart `files`). The UI uses it when it is running and works with any PDF.
+- **Fallback (no Python needed):** if the service isn't running, the UI uses the precomputed extractor output in `data/extracted/sample_extraction.json`. It is matched to each upload by SHA-256 and then by filename, so it covers the 6 sample PDFs. Unknown PDFs are loaded as evidence only.
+- To regenerate the fallback after re-running the extractor: `python fact_record/extraction_service/convert.py <extractor out dir> conflict-resolution-ui/data/extracted/sample_extraction.json`.
+
+The extractor code is vendored at `fact_record/extraction` (rules + OCR, deterministic). The source repo is siyaahuja/fact-record-extraction.
