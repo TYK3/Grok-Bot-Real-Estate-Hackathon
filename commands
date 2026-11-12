@@ -1,0 +1,12 @@
+# Terminal 1 — LiveKit server (Podman)
+podman compose up
+
+# Terminal 2 — agent backend (wait for "registered worker")
+uv run python src/agent.py dev
+
+# Terminal 3 — web UI
+uv run python web/server.py
+
+
+# For launching UI
+cd client && npm run dev
