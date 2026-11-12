@@ -8,6 +8,7 @@ import { ingestFiles, ingestJson, mergeFactSets, mergeDocumentSets, organiseDocu
 import { aiExtractFromFiles } from '../src/ai_extract.js';
 import { buildDatabaseHandoff } from '../src/database_handoff.js';
 import { factsForUploads, sha256Hex } from '../src/extracted_lookup.js';
+import { extractPdfInBrowser } from '../src/extract_browser.js';
 
 const $ = (id) => document.getElementById(id);
 const STATE_KEY = 'conflict-resolution-ui-v4';
@@ -540,7 +541,7 @@ async function extractPdfFacts(prepared,ingested){
   let payload=null,via='';
   try{
     const form=new FormData();for(const x of pdfs)form.append('files',new Blob([x.p.bytes],{type:'application/pdf'}),x.p.name);
-    const ctl=new AbortController();const t=setTimeout(()=>ctl.abort(),2500);
+    const ctl=new AbortController();const t=setTimeout(()=>ctl.abort(),1500);
     // Short timeout only for reachability; extraction itself may take a while.
     const health=await fetch(EXTRACTOR_URL.replace('/extract','/health'),{signal:ctl.signal});clearTimeout(t);
     if(health.ok){
@@ -550,16 +551,28 @@ async function extractPdfFacts(prepared,ingested){
     }
   }catch{/* service not running: fall back */}
   let result=payload?factsForUploads(payload,uploads):{facts:[],matched:[],unmatched:uploads.map(u=>u.name)};
-  if(!result.facts.length){
-    try{
-      const r=await fetch(SAMPLE_EXTRACTION_URL);
-      if(r.ok){result=factsForUploads(await r.json(),uploads);via='precomputed extraction';}
-    }catch{/* ignore */}
+  if(!payload){
+    // No service: extract live in the browser (pdf.js text layer + tesseract.js OCR for scanned pages).
+    via='in-browser extraction';const t0=performance.now();let ocr=0;const facts=[],matched=[],failed=[];
+    for(const x of pdfs){
+      try{
+        const r=await extractPdfInBrowser(x.p.bytes,{name:x.p.name,doc_id:x.doc.doc_id},msg=>{banner.textContent=`Extracting facts… ${msg}`;});
+        facts.push(...r.facts);matched.push(x.p.name);ocr+=r.ocrPages;
+        x.doc.doc_type=r.doc_type;if(r.published_date)x.doc.published_date=r.published_date;
+        if(!x.doc.property_ids.includes(r.property_id))x.doc.property_ids.push(r.property_id);
+      }catch(e){console.error(e);failed.push(x);}
+    }
+    result={facts,matched,unmatched:[]};
+    via+=` in ${((performance.now()-t0)/1000).toFixed(0)}s, ${ocr} page${ocr===1?'':'s'} OCR'd`;
+    if(failed.length){
+      // Last resort: precomputed sample extraction for files the browser could not read.
+      try{const r=await fetch(SAMPLE_EXTRACTION_URL);if(r.ok){const fb=factsForUploads(await r.json(),uploads.filter(u=>failed.some(f=>f.p.name===u.name)));result.facts.push(...fb.facts);result.matched.push(...fb.matched);result.unmatched=failed.map(f=>f.p.name).filter(n=>!fb.matched.includes(n));}}catch{/* ignore */}
+    }
   }
   const warnings=[];
   if(result.facts.length){
     warnings.push(`Extracted ${result.facts.length} facts from ${result.matched.length} PDF${result.matched.length===1?'':'s'} (${via}).`);
-    if(result.unmatched.length)warnings.push(`No extraction for: ${result.unmatched.join(', ')} (start fact_record/extraction_service/server.py to extract new PDFs).`);
+    if(result.unmatched.length)warnings.push(`No facts extracted from: ${result.unmatched.join(', ')}.`);
   }
   banner.hidden=true;
   return {facts:ingestJson({facts:result.facts},'extractor').facts,warnings};
