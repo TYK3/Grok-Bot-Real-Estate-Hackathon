@@ -2,23 +2,27 @@ import Link from "next/link";
 import { ArrowUpRight, BedDouble, Bath, Sofa, MapPin, Phone } from "lucide-react";
 
 import { PropertyImage } from "@/components/PropertyImage";
+import { VerifiedFactsBadge } from "@/components/VerifiedFacts";
 import type { Property } from "@/lib/property-types";
-import { primaryImage } from "@/lib/property-types";
+import { isVerifiedListing, primaryImage } from "@/lib/property-types";
 import {
   bathsLabel,
   bedsLabel,
   priceLabel,
+  receptionLabel,
   shortAddress,
   titleFor,
   capitalise,
 } from "@/lib/format";
 
 export function PropertyCard({ listing }: { listing: Property }) {
+  const verified = isVerifiedListing(listing);
+  const reception = receptionLabel(listing);
   return (
     <article className="group overflow-hidden rounded-lg border border-[#d9dee5] bg-white transition-colors hover:border-[#b8c0ca]">
       <div className="grid min-h-full md:grid-cols-[minmax(260px,34%)_minmax(0,1fr)]">
         <Link
-          href={`/property/${listing.property_id}`}
+          href={`/property/${encodeURIComponent(String(listing.property_id))}`}
           className="relative block aspect-[16/10] md:aspect-auto"
         >
           <PropertyImage
@@ -38,9 +42,13 @@ export function PropertyCard({ listing }: { listing: Property }) {
           <div className="min-w-0">
             <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#e95650]">
-                  {listing.status ?? "To let"}
-                </p>
+                {verified ? (
+                  <VerifiedFactsBadge />
+                ) : (
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#e95650]">
+                    {listing.status ?? "To let"}
+                  </p>
+                )}
                 <p className="mt-1 text-2xl font-semibold text-[#13294b]">
                   {priceLabel(listing)}
                 </p>
@@ -70,13 +78,13 @@ export function PropertyCard({ listing }: { listing: Property }) {
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 border-y border-[#e4e7eb] py-3">
             <Stat icon={<BedDouble />} value={bedsLabel(listing)} />
             <Stat icon={<Bath />} value={bathsLabel(listing)} />
-            <Stat icon={<Sofa />} value={`${listing.reception_rooms ?? 0} reception`} />
+            {reception ? <Stat icon={<Sofa />} value={reception} /> : null}
           </div>
 
           <div className="mt-auto flex flex-wrap items-center justify-between gap-3">
             {listing.key_features && listing.key_features.length > 0 ? (
               <div className="flex min-w-0 flex-wrap gap-1.5">
-                {listing.key_features.slice(0, 2).map((feature) => (
+                {[...new Set(listing.key_features)].slice(0, 2).map((feature) => (
                   <span
                     key={feature}
                     className="rounded-full border border-[#d9dee5] bg-[#f7f6f3] px-2.5 py-1 text-xs text-[#4f5f70]"
@@ -91,14 +99,14 @@ export function PropertyCard({ listing }: { listing: Property }) {
 
             <div className="flex items-center gap-2">
               <Link
-                href={`/property/${listing.property_id}`}
+                href={`/property/${encodeURIComponent(String(listing.property_id))}`}
                 className="inline-flex h-9 items-center gap-1.5 rounded-md border border-[#13294b] px-3 text-sm font-semibold text-[#13294b] transition-colors hover:bg-[#13294b] hover:text-white"
               >
                 View details
                 <ArrowUpRight className="size-3.5" />
               </Link>
               <Link
-                href={`/call/${listing.property_id}`}
+                href={`/call/${encodeURIComponent(String(listing.property_id))}`}
                 className="inline-flex h-9 items-center gap-1.5 rounded-md bg-[#e95650] px-3 text-sm font-semibold text-white transition-colors hover:bg-[#d94c46]"
               >
                 <Phone className="size-3.5" />

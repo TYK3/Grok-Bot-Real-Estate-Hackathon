@@ -8,7 +8,9 @@ import {
   bedsLabel,
   capitalise,
   fullAddress,
+  priceHeading,
   priceLabel,
+  receptionLabel,
   titleFor,
 } from "@/lib/format";
 
@@ -28,12 +30,15 @@ export default async function CallPage({
     title: titleFor(property),
     address: fullAddress(property),
     price: priceLabel(property),
+    priceHeading: priceHeading(property),
     beds: bedsLabel(property),
     baths: bathsLabel(property),
-    receptions: String(property.reception_rooms ?? 0),
+    receptions: receptionLabel(property)
+      ? String(property.reception_rooms ?? 0)
+      : "Not stated",
     furnishing: capitalise(property.furnishing) || "N/A",
     image: primaryImage(property),
-    features: property.key_features ?? [],
+    features: [...new Set(property.key_features ?? [])],
     branchName: property.branch?.name,
   };
 

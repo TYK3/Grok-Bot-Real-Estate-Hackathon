@@ -15,14 +15,17 @@ import {
 import { PropertyGallery } from "@/components/PropertyGallery";
 import { PropertyImage } from "@/components/PropertyImage";
 import { SiteHeader } from "@/components/SiteHeader";
+import { VerifiedFacts, VerifiedFactsBadge } from "@/components/VerifiedFacts";
 import { getPropertyById } from "@/lib/properties";
-import { propertyPhotos } from "@/lib/property-types";
+import { isVerifiedListing, propertyPhotos } from "@/lib/property-types";
 import {
   bathsLabel,
   bedsLabel,
   capitalise,
   fullAddress,
+  priceHeading,
   priceLabel,
+  receptionLabel,
   titleFor,
 } from "@/lib/format";
 
@@ -36,6 +39,8 @@ export default async function PropertyDetailPage({
   const { id } = await params;
   const property = getPropertyById(id);
   if (!property) notFound();
+  const reception = receptionLabel(property);
+  const features = [...new Set(property.key_features ?? [])];
 
   const floorplan = isFeatureEnabled(process.env.PROPERTY_SHOW_FLOORPLAN)
     ? property.floorplans?.find(Boolean) ?? null
@@ -65,6 +70,11 @@ export default async function PropertyDetailPage({
             />
 
             <div className="border-b border-[#d9dee5] pb-6">
+              {isVerifiedListing(property) ? (
+                <div className="mb-3">
+                  <VerifiedFactsBadge />
+                </div>
+              ) : null}
               <h1
                 className="font-heading max-w-4xl text-4xl leading-tight sm:text-5xl"
               >
@@ -78,10 +88,7 @@ export default async function PropertyDetailPage({
             <div className="flex flex-wrap items-center gap-x-7 gap-y-4 border-b border-[#d9dee5] pb-6">
               <Fact icon={<BedDouble />} value={bedsLabel(property)} />
               <Fact icon={<Bath />} value={bathsLabel(property)} />
-              <Fact
-                icon={<Sofa />}
-                value={`${property.reception_rooms ?? 0} reception`}
-              />
+              {reception ? <Fact icon={<Sofa />} value={reception} /> : null}
               {property.furnishing ? (
                 <Fact
                   icon={<Building2 />}
@@ -89,6 +96,8 @@ export default async function PropertyDetailPage({
                 />
               ) : null}
             </div>
+
+            <VerifiedFacts property={property} />
 
             {property.description ? (
               <section className="border-b border-[#d9dee5] pb-8">
@@ -99,11 +108,11 @@ export default async function PropertyDetailPage({
               </section>
             ) : null}
 
-            {property.key_features && property.key_features.length > 0 ? (
+            {features.length > 0 && !isVerifiedListing(property) ? (
               <section className="border-b border-[#d9dee5] pb-8">
                 <SectionTitle>Key features</SectionTitle>
                 <div className="mt-3 flex flex-wrap gap-2">
-                  {property.key_features.map((f) => (
+                  {features.map((f) => (
                     <span
                       key={f}
                       className="rounded-full border border-[#d9dee5] bg-white px-3 py-1 text-xs text-[#4f5f70]"
@@ -145,7 +154,7 @@ export default async function PropertyDetailPage({
             <div className="space-y-5 rounded-lg border border-[#d9dee5] bg-white p-5">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#697586]">
-                  Rent
+                  {priceHeading(property)}
                 </p>
                 <p
                   className="mt-1 text-3xl font-semibold text-[#13294b]"
@@ -177,7 +186,7 @@ export default async function PropertyDetailPage({
               </dl>
 
               <Link
-                href={`/call/${property.property_id}`}
+                href={`/call/${encodeURIComponent(String(property.property_id))}`}
                 aria-label="Talk to 24/7 live agent"
                 className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-md bg-[#13294b] px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#1c365e]"
               >

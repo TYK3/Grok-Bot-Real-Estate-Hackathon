@@ -17,6 +17,7 @@ export type CallProperty = {
   title: string;
   address: string;
   price: string;
+  priceHeading?: string;
   beds: string;
   baths: string;
   receptions: string;
@@ -81,7 +82,7 @@ export function PropertyCallPanel({
       <div className="space-y-5 p-4">
         <div className="flex items-center justify-between gap-2 rounded-lg border border-[#f1c7c4] bg-[#fff5f4] px-3 py-2.5">
           <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[#e95650]">
-            Rent
+            {property.priceHeading ?? "Rent"}
           </span>
           <span className="text-lg font-semibold text-[#13294b]">
             {property.price}

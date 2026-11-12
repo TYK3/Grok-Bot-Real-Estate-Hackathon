@@ -56,8 +56,11 @@ export function PropertyGrid({ listings }: { listings: Property[] }) {
         sorted.sort((a, b) => (b.bedrooms ?? 0) - (a.bedrooms ?? 0));
         break;
       default:
-        sorted.sort((a, b) =>
-          (b.live_date ?? "").localeCompare(a.live_date ?? ""),
+        // Verified listings stay on top, then most recent first.
+        sorted.sort(
+          (a, b) =>
+            Number(Boolean(b.verified_fields)) - Number(Boolean(a.verified_fields)) ||
+            (b.live_date ?? "").localeCompare(a.live_date ?? ""),
         );
     }
     return sorted;
