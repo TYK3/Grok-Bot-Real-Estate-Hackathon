@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7f8">
+  <meta name="description" content="Compare evidence, accept authoritative facts, and pass verified property information forward.">
+  <title>Fact Review — Person B</title>
+  <link rel="stylesheet" href="ui/app.css">
+  <link rel="stylesheet" href="ui/theme-neutral.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#queue">Skip to facts to review</a>
+  <header class="topbar">
+    <a class="identity" href="./" aria-label="Fact Review home">
+      <span class="logo" aria-hidden="true">✓</span>
+      <span><strong>Fact Review</strong><small>PERSON B · RECONCILIATION</small></span>
+    </a>
+    <div class="top-actions">
+      <span class="storage-note" title="Review state stays in this browser">◉ Local review workspace</span>
+      <button type="button" class="button secondary" id="btn-ingest">＋ Add evidence</button>
+      <input type="file" id="file-input" multiple hidden accept=".json,.pdf,.zip,.csv,.tsv,.txt,application/json,application/pdf,application/zip,text/csv,text/plain">
+      <button type="button" class="button primary" id="btn-export">Export for database</button>
+      <details class="more-menu">
+        <summary class="button secondary" aria-label="More options">⋯</summary>
+        <div class="menu-content"><button type="button" id="btn-export-archive">Export full review archive</button><button type="button" id="btn-export-blocked">Export outstanding cases only</button></div>
+      </details>
+    </div>
+  </header>
+
+  <div class="banner error" id="error-banner" role="alert" hidden></div>
+  <div class="banner info" id="ingest-banner" role="status" hidden></div>
+  <div class="toast" id="notice" role="status" aria-live="polite" hidden></div>
+
+  <main class="page">
+    <section class="hero" aria-label="Property review">
+      <div>
+        <p class="eyebrow">EVIDENCE → DECISION → VERIFIED FACT</p>
+        <h1 id="property-title">Review the facts</h1>
+        <p id="property-description">A simpler way to settle conflicting details before they reach the next stage.</p>
+        <div class="sample-hint" id="example-banner" hidden><span>DEMO</span> Scenario summaries only — not verified quotations from the source PDFs.</div>
+      </div>
+      <div class="property-controls">
+        <label for="property">Property</label>
+        <select id="property"></select>
+        <p id="file-meta">Loading evidence…</p>
+      </div>
+    </section>
+
+    <section class="summary" id="summary" aria-label="Review progress"></section>
+    <div class="steps" aria-label="How to review"><span><b>1</b> Choose a difference</span><i>→</i><span><b>2</b> Read both sources</span><i>→</i><span><b>3</b> Confirm a decision</span></div>
+
+    <div class="workbench">
+      <aside class="panel queue-panel" aria-labelledby="queue-heading">
+        <div class="panel-heading">
+          <p class="step-label">STEP 01</p>
+          <h2 id="queue-heading">Differences</h2>
+          <p id="queue-sub" class="subtext">Choose one to inspect</p>
+        </div>
+        <div class="queue-tabs" role="group" aria-label="Filter cases">
+          <button type="button" class="stage" data-stage="all" aria-pressed="true">All <span id="count-all">0</span></button>
+          <button type="button" class="stage" data-stage="review" aria-pressed="false">Review <span id="count-review">0</span></button>
+          <button type="button" class="stage" data-stage="automatic" aria-pressed="false">Auto <span id="count-automatic">0</span></button>
+          <button type="button" class="stage" data-stage="verified" aria-pressed="false">Approved <span id="count-verified">0</span></button>
+        </div>
+        <div class="queue" id="queue" aria-label="Differences to review"></div>
+        <details class="source-drawer" id="source-disclosure">
+          <summary>▤ <span>Source library</span> <small id="source-count"></small></summary>
+          <p class="subtext">Files and versions used for this property</p>
+          <div class="source-library" id="doc-library"></div>
+        </details>
+      </aside>
+
+      <section class="panel compare-panel" aria-labelledby="evidence-heading">
+        <div class="panel-heading compare-heading">
+          <div><p class="step-label">STEP 02</p><h2 id="evidence-heading">Compare evidence</h2><p class="subtext" id="evidence-sub">Read what each source actually says</p></div>
+          <span class="minor-tag" id="evidence-count"></span>
+        </div>
+        <div class="guidance" id="insight" role="note"></div>
+        <div class="evidence-grid">
+          <article class="evidence-card" id="evidence-a"><header id="evidence-a-meta"></header><div class="evidence-body" id="evidence-a-body"></div></article>
+          <article class="evidence-card" id="evidence-b"><header id="evidence-b-meta"></header><div class="evidence-body" id="evidence-b-body"></div></article>
+        </div>
+        <div id="other-evidence" class="other-evidence"></div>
+      </section>
+
+      <aside class="panel decision-panel" aria-labelledby="resolve-heading">
+        <div class="panel-heading"><p class="step-label">STEP 03</p><h2 id="resolve-heading">Make a decision</h2><p class="subtext">The rule suggests the outcome. You stay in control.</p></div>
+        <div class="reviewer-field"><label for="reviewer">Reviewed by</label><input id="reviewer" autocomplete="name" placeholder="Your name" aria-describedby="reviewer-help"><small id="reviewer-help">Required for human approvals</small></div>
+        <div id="resolve-panel" class="decision-body"><p class="empty-hint">Choose a difference to begin.</p></div>
+      </aside>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-info"><span>Original evidence is preserved. Only accepted facts enter the canonical database; contextual and unresolved claims remain separate.</span><a href="examples/database-handoff.example.json" target="_blank" rel="noopener noreferrer">View illustrative database JSON (not production evidence)</a></div>
+      <details><summary>How automatic rules work</summary>
+        <p>Source authority comes first; date breaks ties within a tier. Later formal price instructions can replace older marketing. True conflicts need human sign-off. Scope differences and unlabelled measurement bases are kept separately, never turned into an unqualified property fact. This demo uses your browser clock and local storage; it has no authenticated server.</p>
+        <label for="samples">Sample dataset</label><select id="samples"><option value="data/review_scenarios.example.json">Nine review scenarios (recommended)</option><option value="data/kelso_villa.example.json">Original Kelso sample</option><option value="data/edge_cases.example.json">Additional edge cases</option><option value="data/kelso_villa.bundle.example.json">Kelso source-library sample</option></select>
+      </details>
+    </footer>
+  </main>
+
+  <div id="drop-overlay" class="drop-overlay" hidden><div><span class="drop-icon">⇧</span><h2>Drop evidence to review</h2><p>PDF · JSON · ZIP · CSV · TXT</p></div></div>
+  <dialog id="edit-dialog" class="edit-dialog" aria-labelledby="edit-heading">
+    <form id="edit-form" method="dialog">
+      <p class="step-label">CORRECT WITH EVIDENCE</p><h2 id="edit-heading">Enter a corrected value</h2>
+      <p id="edit-field-label" class="subtext"></p>
+      <label for="edit-value">Correct value<input id="edit-value" required></label>
+      <label for="edit-unit">Unit (if relevant)<input id="edit-unit" placeholder="GBP, sqft, sqm, or blank"></label>
+      <label for="edit-note">What evidence supports this correction?<textarea id="edit-note" rows="4" required placeholder="Explain why this is the correct value"></textarea></label>
+      <p id="edit-error" role="alert" hidden></p>
+      <div class="dialog-actions"><button type="button" class="button secondary" id="edit-cancel">Cancel</button><button type="submit" class="button primary">Save corrected fact</button></div>
+    </form>
+  </dialog>
+  <script type="module" src="ui/app.js"></script>
+</body>
+</html>

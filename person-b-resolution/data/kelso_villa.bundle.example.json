@@ -1,0 +1,234 @@
+{
+  "example": true,
+  "label": "Kelso Villa — facts + document library bundle",
+  "_comment": "Same Person A facts as kelso_villa.example.json, plus an explicit documents[] library so the workbench can organise related brochure versions and listing rows without waiting for file uploads.",
+  "documents": [
+    {
+      "doc_id": "20018480",
+      "name": "20018480.pdf",
+      "kind": "pdf",
+      "doc_type": "brochure",
+      "title": "Carter Jonas particulars — Kelso Villa (April 2026)",
+      "published_date": "2026-04-13",
+      "issuer": "Carter Jonas",
+      "property_ids": ["kelso-villa"],
+      "object_url": "https://drive.google.com/file/d/1LYKhJm6JoVX_pn333SGiDe90PHK8LqU4/view",
+      "note": "April brochure — superseded on price; wrong sq m ↔ sq ft conversion on NIA line."
+    },
+    {
+      "doc_id": "20020159",
+      "name": "20020159.pdf",
+      "kind": "pdf",
+      "doc_type": "brochure",
+      "title": "Carter Jonas particulars — Kelso Villa (October 2026)",
+      "published_date": "2026-10-16",
+      "issuer": "Carter Jonas",
+      "property_ids": ["kelso-villa"],
+      "object_url": "https://drive.google.com/file/d/1J7OJAg9VDDlyPZZhyJqNvgglzxbY8WW3/view",
+      "note": "October brochure — candidate asking price £600,000; correct NIA 1,990 sq ft / 185 sq m; GIA 2,700 sq ft."
+    },
+    {
+      "doc_id": "carterjonas-98889981",
+      "name": "listing-april-row.json",
+      "kind": "json",
+      "doc_type": "listing",
+      "title": "Carter Jonas listing row (still at the April price)",
+      "published_date": "2026-04-13",
+      "issuer": "Carter Jonas",
+      "property_ids": ["kelso-villa"]
+    },
+    {
+      "doc_id": "carterjonas-f8692efa",
+      "name": "listing-october-row.json",
+      "kind": "json",
+      "doc_type": "listing",
+      "title": "Carter Jonas listing row (October listing, still at £700,000)",
+      "published_date": "2026-10-16",
+      "issuer": "Carter Jonas",
+      "property_ids": ["kelso-villa"]
+    }
+  ],
+  "facts": [
+    {
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa, Upper Bristol Road, Bath BA1 3AU",
+      "field": "price",
+      "value": 700000,
+      "unit": "GBP",
+      "source": {
+        "doc_id": "20018480",
+        "doc_type": "brochure",
+        "title": "Carter Jonas particulars — Kelso Villa (April 2026)",
+        "published_date": "2026-04-13",
+        "retrieved_date": "2026-11-12",
+        "agent": "Carter Jonas",
+        "issuer": "Carter Jonas",
+        "url": "https://drive.google.com/file/d/1LYKhJm6JoVX_pn333SGiDe90PHK8LqU4/view"
+      },
+      "page": 2,
+      "quote": "Alternatively Freehold offers will be considered at £700,000, subject to existing tenancies.",
+      "extraction_confidence": 0.95,
+      "entity_match_confidence": 1.0
+    },
+    {
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa, Upper Bristol Road, Bath BA1 3AU",
+      "field": "price",
+      "value": 600000,
+      "unit": "GBP",
+      "source": {
+        "doc_id": "20020159",
+        "doc_type": "brochure",
+        "title": "Carter Jonas particulars — Kelso Villa (October 2026)",
+        "published_date": "2026-10-16",
+        "retrieved_date": "2026-11-12",
+        "agent": "Carter Jonas",
+        "issuer": "Carter Jonas",
+        "url": "https://drive.google.com/file/d/1J7OJAg9VDDlyPZZhyJqNvgglzxbY8WW3/view"
+      },
+      "page": 2,
+      "quote": "£600,000 Guide Price. Freehold offers will be considered for the whole building at £600,000, subject to existing tenancies.",
+      "extraction_confidence": 0.97,
+      "entity_match_confidence": 1.0
+    },
+    {
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa, Upper Bristol Road, Bath BA1 3AU",
+      "field": "price",
+      "value": 700000,
+      "unit": "GBP",
+      "source": {
+        "doc_id": "carterjonas-98889981",
+        "doc_type": "listing",
+        "title": "Carter Jonas listing row (still at the April price)",
+        "published_date": "2026-04-13",
+        "retrieved_date": "2026-10-24",
+        "agent": "Carter Jonas",
+        "issuer": "Carter Jonas"
+      },
+      "quote": "Guide price £700,000.",
+      "extraction_confidence": 0.9,
+      "entity_match_confidence": 1.0
+    },
+    {
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa, Upper Bristol Road, Bath BA1 3AU",
+      "field": "price",
+      "value": 700000,
+      "unit": "GBP",
+      "source": {
+        "doc_id": "carterjonas-f8692efa",
+        "doc_type": "listing",
+        "title": "Carter Jonas listing row (October listing, still at £700,000 — contradicts its own brochure)",
+        "published_date": "2026-10-16",
+        "retrieved_date": "2026-10-24",
+        "agent": "Carter Jonas",
+        "issuer": "Carter Jonas"
+      },
+      "quote": "Guide price £700,000.",
+      "extraction_confidence": 0.9,
+      "entity_match_confidence": 1.0
+    },
+    {
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa, Upper Bristol Road, Bath BA1 3AU",
+      "field": "net_floor_area",
+      "value": 185,
+      "unit": "sqm",
+      "area_basis": "net",
+      "stated_equivalent": { "value": 2700, "unit": "sqft" },
+      "source": {
+        "doc_id": "20018480",
+        "doc_type": "brochure",
+        "title": "Carter Jonas particulars — Kelso Villa (April 2026)",
+        "published_date": "2026-04-13",
+        "retrieved_date": "2026-11-12",
+        "agent": "Carter Jonas",
+        "issuer": "Carter Jonas"
+      },
+      "page": 2,
+      "quote": "Total (ALL FLOORS): 185 sq m / 2,700 sq ft",
+      "extraction_confidence": 0.8,
+      "entity_match_confidence": 1.0
+    },
+    {
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa, Upper Bristol Road, Bath BA1 3AU",
+      "field": "net_floor_area",
+      "value": 1990,
+      "unit": "sqft",
+      "area_basis": "net",
+      "stated_equivalent": { "value": 185, "unit": "sqm" },
+      "source": {
+        "doc_id": "20020159",
+        "doc_type": "brochure",
+        "title": "Carter Jonas particulars — Kelso Villa (October 2026)",
+        "published_date": "2026-10-16",
+        "retrieved_date": "2026-11-12",
+        "agent": "Carter Jonas",
+        "issuer": "Carter Jonas"
+      },
+      "page": 1,
+      "quote": "1,990 sq ft (185m2) net offices (2,700 sq ft GIA)",
+      "extraction_confidence": 0.96,
+      "entity_match_confidence": 1.0
+    },
+    {
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa, Upper Bristol Road, Bath BA1 3AU",
+      "field": "gross_floor_area",
+      "value": 2700,
+      "unit": "sqft",
+      "area_basis": "gross",
+      "source": {
+        "doc_id": "20020159",
+        "doc_type": "brochure",
+        "title": "Carter Jonas particulars — Kelso Villa (October 2026)",
+        "published_date": "2026-10-16",
+        "retrieved_date": "2026-11-12",
+        "agent": "Carter Jonas",
+        "issuer": "Carter Jonas"
+      },
+      "page": 1,
+      "quote": "1,990 sq ft (185m2) net offices (2,700 sq ft GIA)",
+      "extraction_confidence": 0.95,
+      "entity_match_confidence": 1.0
+    },
+    {
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa, Upper Bristol Road, Bath BA1 3AU",
+      "field": "tenure",
+      "value": "Leasehold",
+      "source": {
+        "doc_id": "carterjonas-98889981",
+        "doc_type": "listing",
+        "title": "Carter Jonas listing row — tenure extracted as leasehold",
+        "published_date": "2026-04-13",
+        "retrieved_date": "2026-10-24",
+        "agent": "Carter Jonas",
+        "issuer": "Carter Jonas"
+      },
+      "quote": "tenure=leasehold",
+      "extraction_confidence": 0.88,
+      "entity_match_confidence": 1.0
+    },
+    {
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa, Upper Bristol Road, Bath BA1 3AU",
+      "field": "tenure",
+      "value": "Freehold",
+      "source": {
+        "doc_id": "carterjonas-f8692efa",
+        "doc_type": "listing",
+        "title": "Carter Jonas listing row — tenure extracted as freehold",
+        "published_date": "2026-10-16",
+        "retrieved_date": "2026-10-24",
+        "agent": "Carter Jonas",
+        "issuer": "Carter Jonas"
+      },
+      "quote": "tenure=freehold",
+      "extraction_confidence": 0.88,
+      "entity_match_confidence": 1.0
+    }
+  ]
+}

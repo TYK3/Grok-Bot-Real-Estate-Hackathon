@@ -1,0 +1,452 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/schema/verified_record.schema.json",
+  "title": "Verified fact record (Person B → next stage)",
+  "description": "Export produced by the review UI or by `node src/cli.js input.json`. Contains resolved facts, candidate classifications, and a full append-only audit trail.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "properties"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "generated_at": {
+      "type": "string",
+      "description": "ISO-8601 timestamp."
+    },
+    "generated_by": {
+      "type": "string"
+    },
+    "input_label": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "rules": {
+      "type": "object",
+      "description": "The field-rule config applied."
+    },
+    "properties": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/propertyRecord"
+      }
+    },
+    "accepted_facts": {
+      "type": "array",
+      "description": "Immutable downstream acceptance rows for verified fields only.",
+      "items": {
+        "$ref": "#/$defs/acceptanceRecord"
+      }
+    },
+    "blocked_facts": {
+      "type": "array",
+      "description": "Exception queue: conflicting, pending, unknown, or explicitly escalated fields.",
+      "items": {
+        "$ref": "#/$defs/acceptanceRecord"
+      }
+    },
+    "documents": {
+      "type": "array",
+      "description": "Optional document library produced by multi-format ingest."
+    },
+    "context_facts": {
+      "type": "array",
+      "description": "Safely organised scope/basis comparisons. Never treat these as single-valued publishable unit facts.",
+      "items": {
+        "$ref": "#/$defs/acceptanceRecord"
+      }
+    }
+  },
+  "$defs": {
+    "propertyRecord": {
+      "type": "object",
+      "required": [
+        "property_id",
+        "fields"
+      ],
+      "properties": {
+        "property_id": {
+          "type": "string"
+        },
+        "property_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "summary": {
+          "type": "object",
+          "properties": {
+            "fields": {
+              "type": "integer"
+            },
+            "needs_review": {
+              "type": "integer"
+            },
+            "auto_resolved": {
+              "type": "integer"
+            },
+            "accepted": {
+              "type": "integer"
+            },
+            "classifications": {
+              "type": "object"
+            }
+          }
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/resolvedField"
+          }
+        }
+      }
+    },
+    "resolvedField": {
+      "type": "object",
+      "required": [
+        "field",
+        "winning_value",
+        "rule_applied",
+        "status",
+        "candidates",
+        "audit"
+      ],
+      "properties": {
+        "property_id": {
+          "type": "string"
+        },
+        "property_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "field": {
+          "type": "string"
+        },
+        "area_basis": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "winning_value": {},
+        "winning_unit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "winning_display": {
+          "type": "string"
+        },
+        "equivalent": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "For areas, the same value in the other unit, e.g. {\"sqm\": 185, \"sqft\": 1990}."
+        },
+        "rule_applied": {
+          "type": "string"
+        },
+        "primary_classification": {
+          "type": "string",
+          "enum": [
+            "AGREE",
+            "TRUE_CONFLICT",
+            "SUPERSEDED",
+            "UNIT_MISMATCH",
+            "STALE_LISTING",
+            "OFFICIAL_RECORD_DISAGREEMENT",
+            "SCOPE_DIFFERENCE",
+            "PLOT_OR_TYPE",
+            "UNMATCHED"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "verified",
+            "pending",
+            "conflicting",
+            "unknown"
+          ],
+          "description": "verified = signed off, or settled by a rule with no review required (voice may quote). pending = a candidate is proposed but not signed off (material supersession, unit mismatch, stale listing). conflicting = true conflict or official-record mismatch, human sign-off required, voice must not quote. unknown = no source or no confident entity match."
+        },
+        "candidates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/classifiedCandidate"
+          }
+        },
+        "audit": {
+          "type": "array",
+          "description": "Append-only. Human overrides are pushed; earlier entries are never overwritten.",
+          "items": {
+            "$ref": "#/$defs/auditEntry"
+          }
+        },
+        "resolution_kind": {
+          "type": "string",
+          "enum": [
+            "single_fact",
+            "scoped_context"
+          ]
+        },
+        "auto_resolved": {
+          "type": "boolean"
+        },
+        "scoped_facts": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "document_error": {
+          "type": "boolean"
+        },
+        "basis_uncertain": {
+          "type": "boolean"
+        },
+        "case_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "classifiedCandidate": {
+      "type": "object",
+      "required": [
+        "value",
+        "classification",
+        "reason",
+        "is_winner"
+      ],
+      "properties": {
+        "property_id": {
+          "type": "string"
+        },
+        "field": {
+          "type": "string"
+        },
+        "value": {},
+        "unit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "area_basis": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "type": "object"
+        },
+        "page": {
+          "type": [
+            "integer",
+            "string",
+            "null"
+          ]
+        },
+        "quote": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "extraction_confidence": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "classification": {
+          "type": "string",
+          "enum": [
+            "AGREE",
+            "TRUE_CONFLICT",
+            "SUPERSEDED",
+            "UNIT_MISMATCH",
+            "STALE_LISTING",
+            "OFFICIAL_RECORD_DISAGREEMENT",
+            "SCOPE_DIFFERENCE",
+            "PLOT_OR_TYPE",
+            "UNMATCHED",
+            "WINNER"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        },
+        "is_winner": {
+          "type": "boolean"
+        }
+      }
+    },
+    "auditEntry": {
+      "type": "object",
+      "required": [
+        "action",
+        "accepted_by",
+        "accepted_at"
+      ],
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": [
+            "auto_resolve",
+            "accept",
+            "choose_candidate",
+            "edit",
+            "escalate",
+            "auto_retain_context"
+          ]
+        },
+        "accepted_by": {
+          "type": "string",
+          "description": "'engine' or the reviewer name."
+        },
+        "accepted_at": {
+          "type": "string",
+          "description": "ISO-8601 timestamp."
+        },
+        "value": {},
+        "unit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "note": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rule_applied": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "candidate_doc_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "classification": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "version": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      }
+    },
+    "acceptanceRecord": {
+      "type": "object",
+      "required": [
+        "property_id",
+        "field",
+        "classification",
+        "status",
+        "version"
+      ],
+      "properties": {
+        "property_id": {
+          "type": "string"
+        },
+        "field": {
+          "type": "string"
+        },
+        "classification": {
+          "type": "string"
+        },
+        "accepted_value": {},
+        "accepted_display": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "winning_fact_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rule_id": {
+          "type": "string"
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "accepted_by": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "accepted_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "accepted",
+            "blocked",
+            "pending",
+            "conflicting",
+            "unknown",
+            "verified",
+            "context_only"
+          ]
+        },
+        "version": {
+          "type": "integer"
+        },
+        "resolution_kind": {
+          "type": "string"
+        },
+        "scoped_facts": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

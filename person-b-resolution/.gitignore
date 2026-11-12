@@ -1,0 +1,5 @@
+.DS_Store
+node_modules/
+resolved.json
+verified.json
+*.log
