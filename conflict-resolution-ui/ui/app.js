@@ -7,6 +7,7 @@ import {
 import { ingestFiles, ingestJson, mergeFactSets, mergeDocumentSets, organiseDocuments, detectKind, decodeText } from '../src/ingest.js';
 import { aiExtractFromFiles } from '../src/ai_extract.js';
 import { buildDatabaseHandoff } from '../src/database_handoff.js';
+import { factsForUploads, sha256Hex } from '../src/extracted_lookup.js';
 
 const $ = (id) => document.getElementById(id);
 const STATE_KEY = 'conflict-resolution-ui-v4';
@@ -343,6 +344,44 @@ async function prepareUploadFiles(files) {
     objectUrl: (f.type === 'application/pdf' || /\.pdf$/i.test(f.name)) ? URL.createObjectURL(f) : null,
   })));
 }
+async function enrichIngestedFacts(prepared, ingested, { requireAiKey = false, statusLabel = '' } = {}) {
+  let facts = ingested.facts || [];
+  let documents = ingested.documents || [];
+  let warnings = [...(ingested.warnings || [])];
+
+  // Prefer Person A's extractor / precomputed sample for uploaded PDFs.
+  const extracted = await extractPdfFacts(prepared, { ...ingested, facts, documents, warnings });
+  if (extracted.facts.length) {
+    facts = mergeFactSets(facts, extracted.facts);
+    warnings = [...warnings, ...(extracted.warnings || [])];
+  }
+
+  // Optional OpenAI path when JSON + extractor still produced no facts.
+  if (needsAiAssist(prepared, { facts, documents, warnings })) {
+    const apiKey = readApiKey();
+    if (!apiKey) {
+      if (requireAiKey) {
+        throw new Error(
+          'These files need AI extraction (or upload Person A JSON). Enter an OpenAI API key, or include a .json extraction.'
+        );
+      }
+    } else {
+      if (statusLabel) setParseStatus(true, statusLabel);
+      const aiReady = prepared.map((f) => {
+        const kind = detectKind(f.name, f.mime, f.bytes);
+        if (kind === 'text' || kind === 'csv') return { ...f, text: decodeText(f.bytes), kind };
+        return { ...f, kind };
+      });
+      const ai = await aiExtractFromFiles(aiReady, { apiKey });
+      warnings = [...warnings, ...(ai.warnings || [])];
+      facts = mergeFactSets(facts, ai.facts);
+      documents = mergeDocumentSets(documents, ai.documents);
+    }
+  }
+
+  return { facts, documents, warnings };
+}
+
 async function parsePendingFiles({ append = false } = {}) {
   const files = [...state.pendingFiles];
   if (!files.length) {
@@ -354,32 +393,11 @@ async function parsePendingFiles({ append = false } = {}) {
   try {
     const prepared = await prepareUploadFiles(files);
     setParseStatus(true, 'Extracting structured facts…');
-    let ingested = await ingestFiles(prepared, { keepBytes: false });
-    let warnings = [...(ingested.warnings || [])];
-
-    if (needsAiAssist(prepared, ingested)) {
-      const apiKey = readApiKey();
-      if (!apiKey) {
-        throw new Error(
-          'These files need AI extraction (or upload Person A JSON). Enter an OpenAI API key, or include a .json extraction.'
-        );
-      }
-      setParseStatus(true, `Running AI extraction on ${files.length} document${files.length === 1 ? '' : 's'}…`);
-      const aiReady = prepared.map((f) => {
-        const kind = detectKind(f.name, f.mime, f.bytes);
-        if (kind === 'text' || kind === 'csv') {
-          return { ...f, text: decodeText(f.bytes), kind };
-        }
-        return { ...f, kind };
-      });
-      const ai = await aiExtractFromFiles(aiReady, { apiKey });
-      warnings = [...warnings, ...(ai.warnings || [])];
-      ingested = {
-        facts: mergeFactSets(ingested.facts, ai.facts),
-        documents: mergeDocumentSets(ingested.documents, ai.documents),
-        warnings,
-      };
-    }
+    const baseIngested = await ingestFiles(prepared, { keepBytes: false });
+    const ingested = await enrichIngestedFacts(prepared, baseIngested, {
+      requireAiKey: true,
+      statusLabel: `Running AI extraction on ${files.length} document${files.length === 1 ? '' : 's'}…`,
+    });
 
     const replaceDemo = state.isExample || state.view === 'landing' || !append;
     const baseFacts = replaceDemo ? [] : state.facts;
@@ -406,8 +424,8 @@ async function parsePendingFiles({ append = false } = {}) {
       showReview();
       render();
       showWarnings([
-        ...warnings,
-        'Documents loaded as evidence, but no facts were extracted. Add Person A JSON or enable AI extraction with an API key.',
+        ...ingested.warnings,
+        'Documents loaded as evidence, but no facts were extracted. Add Person A JSON, start the extraction service, or enable AI extraction with an API key.',
       ]);
       return;
     }
@@ -416,7 +434,7 @@ async function parsePendingFiles({ append = false } = {}) {
     applyDataset(facts, {
       label,
       documents,
-      warnings,
+      warnings: ingested.warnings,
       example: false,
     });
     notify(`${files.length} document${files.length === 1 ? '' : 's'} parsed · ${state.records.length} field group${state.records.length === 1 ? '' : 's'} ready.`);
@@ -510,6 +528,42 @@ async function loadFromUrl(url,{example=true}={}) {
     scenarios: ingested.scenarios || payload.scenarios || [],
   });
 }
+const EXTRACTOR_URL='http://localhost:8765/extract';
+const SAMPLE_EXTRACTION_URL='./data/extracted/sample_extraction.json';
+// Run Person A's extractor on uploaded PDFs: live service first (short timeout),
+// then the precomputed extraction for known sample PDFs (matched by hash/filename).
+async function extractPdfFacts(prepared,ingested){
+  const pdfs=prepared.map((p,i)=>({p,doc:ingested.documents.find(d=>d.kind==='pdf'&&(d.base_name===p.name||d.name===p.name))})).filter(x=>x.p.objectUrl&&x.doc);
+  if(!pdfs.length)return {facts:[],warnings:[]};
+  const banner=$('ingest-banner');banner.hidden=false;banner.textContent=`Extracting facts from ${pdfs.length} PDF${pdfs.length===1?'':'s'}…`;
+  const uploads=await Promise.all(pdfs.map(async x=>({name:x.p.name,doc_id:x.doc.doc_id,sha256:await sha256Hex(x.p.bytes)})));
+  let payload=null,via='';
+  try{
+    const form=new FormData();for(const x of pdfs)form.append('files',new Blob([x.p.bytes],{type:'application/pdf'}),x.p.name);
+    const ctl=new AbortController();const t=setTimeout(()=>ctl.abort(),2500);
+    // Short timeout only for reachability; extraction itself may take a while.
+    const health=await fetch(EXTRACTOR_URL.replace('/extract','/health'),{signal:ctl.signal});clearTimeout(t);
+    if(health.ok){
+      banner.textContent=`Extracting facts from ${pdfs.length} PDF${pdfs.length===1?'':'s'} (live extractor, OCR may take a minute)…`;
+      const r=await fetch(EXTRACTOR_URL,{method:'POST',body:form});
+      if(r.ok){payload=await r.json();via='live extractor';}
+    }
+  }catch{/* service not running: fall back */}
+  let result=payload?factsForUploads(payload,uploads):{facts:[],matched:[],unmatched:uploads.map(u=>u.name)};
+  if(!result.facts.length){
+    try{
+      const r=await fetch(SAMPLE_EXTRACTION_URL);
+      if(r.ok){result=factsForUploads(await r.json(),uploads);via='precomputed extraction';}
+    }catch{/* ignore */}
+  }
+  const warnings=[];
+  if(result.facts.length){
+    warnings.push(`Extracted ${result.facts.length} facts from ${result.matched.length} PDF${result.matched.length===1?'':'s'} (${via}).`);
+    if(result.unmatched.length)warnings.push(`No extraction for: ${result.unmatched.join(', ')} (start fact_record/extraction_service/server.py to extract new PDFs).`);
+  }
+  banner.hidden=true;
+  return {facts:ingestJson({facts:result.facts},'extractor').facts,warnings};
+}
 async function ingestUserFiles(fileList) {
   const files = [...(fileList || [])];
   if (!files.length) return;
@@ -521,41 +575,41 @@ async function ingestUserFiles(fileList) {
   setParseStatus(true, `Reading ${files.length} document${files.length === 1 ? '' : 's'}…`);
   try {
     const prepared = await prepareUploadFiles(files);
-    let ingested = await ingestFiles(prepared, { keepBytes: false });
-    let warnings = [...(ingested.warnings || [])];
-    if (needsAiAssist(prepared, ingested)) {
-      const apiKey = readApiKey();
-      if (!apiKey) {
-        throw new Error('Enter an OpenAI API key to extract facts from these documents, or upload Person A JSON.');
-      }
-      const aiReady = prepared.map((f) => {
-        const kind = detectKind(f.name, f.mime, f.bytes);
-        if (kind === 'text' || kind === 'csv') return { ...f, text: decodeText(f.bytes), kind };
-        return { ...f, kind };
-      });
-      const ai = await aiExtractFromFiles(aiReady, { apiKey });
-      warnings = [...warnings, ...(ai.warnings || [])];
-      ingested = {
-        facts: mergeFactSets(ingested.facts, ai.facts),
-        documents: mergeDocumentSets(ingested.documents, ai.documents),
-        warnings,
-      };
-    }
+    const baseIngested = await ingestFiles(prepared, { keepBytes: false });
+    const ingested = await enrichIngestedFacts(prepared, baseIngested, {
+      requireAiKey: false,
+      statusLabel: `Running AI extraction on ${files.length} document${files.length === 1 ? '' : 's'}…`,
+    });
+    // The first real upload replaces demo data. Never mix example claims into a live case.
     const baseFacts = state.isExample ? [] : state.facts;
     const baseDocs = state.isExample ? [] : state.documents;
     const facts = mergeFactSets(baseFacts, ingested.facts);
     const documents = mergeDocumentSets(baseDocs, ingested.documents);
     const label = [...new Set([state.isExample ? '' : state.inputLabel, ...files.map((f) => f.name)].filter(Boolean))].join(' + ');
     if (!facts.length) {
-      state.isExample = false;
+      state.facts = [];
+      state.records = [];
       state.documents = documents;
-      state.groups = organiseDocuments(documents, facts);
+      state.groups = organiseDocuments(documents, []);
+      state.scenarios = [];
+      state.propertyId = null;
+      state.selectedKey = null;
+      state.isExample = false;
       state.inputLabel = label;
+      state.rawFingerprint = '';
       render();
-      showWarnings([...warnings, 'Files loaded as evidence. Add Person A’s extracted JSON or enable AI extraction to create facts.']);
+      showWarnings([
+        ...ingested.warnings,
+        'Files loaded as evidence. Add Person A’s extracted JSON, start the extraction service, or enable AI extraction to create facts.',
+      ]);
       return;
     }
-    applyDataset(facts, { label, documents, warnings, example: false });
+    applyDataset(facts, {
+      label,
+      documents,
+      warnings: ingested.warnings,
+      example: false,
+    });
     notify(`${files.length} document${files.length === 1 ? '' : 's'} added · ${state.records.length} field groups ready.`);
   } finally {
     setParseStatus(false);
