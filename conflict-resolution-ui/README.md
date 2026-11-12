@@ -18,11 +18,17 @@ Browser-local reviewer names and timestamps are **not authenticated**. Productio
 ## Quick start
 
 ```bash
-npm test                 # 37 checks, including all nine review scenarios
-npm run serve            # visit http://localhost:8080
+npm test                 # includes fact_record 01_extracted adapter tests
+npm run serve            # serves the repo root — open http://localhost:8080/conflict-resolution-ui/
 ```
 
-The default home screen loads **Kelso Villa** and its seven worked comparisons. Select **59 St Huberts Close** in the property picker to see the other two. A three-column interface makes the job simple: **Choose a difference → Compare two source quotes/pages → Confirm or hold**. Source library, classification overrides, and audit history are tucked away until needed.
+Open the app on the **upload landing page**. Choose or drop **one or more documents** (PDF, JSON, ZIP, CSV, TXT); they stage as chips and parse together as a single case before the review workbench opens. Optional AI extraction covers PDFs/text when Person A JSON is not included. Sample datasets remain available under “Or load a sample dataset”.
+
+Serve from the **repository root** so `../fact_record/` sample paths resolve:
+
+`http://localhost:8080/conflict-resolution-ui/`
+
+A three-column workbench then makes the job simple: **Choose a difference → Compare two source quotes/pages → Confirm or hold**. Source library, classification overrides, and audit history are tucked away until needed.
 
 The nine demo comparisons, in the user's stated order:
 

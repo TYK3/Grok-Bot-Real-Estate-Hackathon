@@ -4,21 +4,32 @@ import {
   highlightSpans, fieldLabel, displayValue, factDate, sourceTier,
   REVIEW_CLASSIFICATIONS, CLASSIFICATIONS,
 } from '../src/resolve.js';
-import { ingestFiles, ingestJson, mergeFactSets, mergeDocumentSets, organiseDocuments } from '../src/ingest.js';
+import { ingestFiles, ingestJson, mergeFactSets, mergeDocumentSets, organiseDocuments, detectKind, decodeText } from '../src/ingest.js';
+import { aiExtractFromFiles } from '../src/ai_extract.js';
 import { buildDatabaseHandoff } from '../src/database_handoff.js';
 
 const $ = (id) => document.getElementById(id);
-const STATE_KEY = 'person-b-simple-workbench-v3';
-const DEFAULT_DATA = 'data/review_scenarios.example.json';
+const STATE_KEY = 'conflict-resolution-ui-v4';
+const API_KEY_STORE = 'conflict-resolution-ui-openai-key';
+const MANIFEST_URL = '../fact_record/sample_data/manifest.json';
 const FIELD_LABELS = {
   price: 'Asking price',
   floor_area: 'Total floor area',
   net_floor_area: 'Net floor area',
   gross_floor_area: 'Gross floor area',
   lower_ground_floor_area: 'Lower ground floor area',
+  parking: 'Parking',
   parking_scope: 'Parking · how it is counted',
   parking_total: 'Parking · total spaces',
   en_suite_bathroom: 'En-suite bathrooms',
+  energy_rating: 'Energy rating (EPC)',
+  tenure: 'Tenure',
+  bedrooms: 'Bedrooms',
+  bathrooms: 'Bathrooms',
+  rent: 'Rent',
+  availability: 'Availability',
+  transaction_type: 'Transaction type',
+  listed_status: 'Listed status',
 };
 const CLASS_LABELS = {
   AGREE: 'Sources agree', TRUE_CONFLICT: 'True conflict', SUPERSEDED: 'Newer version',
@@ -27,11 +38,14 @@ const CLASS_LABELS = {
   PLOT_OR_TYPE: 'Plot / type variation', UNMATCHED: 'Unmatched entity', WINNER: 'Suggested',
 };
 const state = {
+  view: 'landing', // 'landing' | 'review'
   reviewer: '', facts: [], records: [], documents: [], groups: [], rules: null,
   scenarios: [], inputLabel: '', dataUrl: '', isExample: false, rawFingerprint: '',
   propertyId: null, selectedKey: null, stage: 'all', selectedCandidateId: null,
   selectedClassification: null, reason: '', focusedDocId: null,
   editingKey: null, warnings: [],
+  pendingFiles: [], // File objects staged on the landing page (multi-doc)
+  parsing: false,
 };
 let noticeTimeout;
 
@@ -212,6 +226,223 @@ function showWarnings(warnings = []) {
   const node = $('ingest-banner'); node.hidden = !warnings.length;
   node.textContent = warnings.join(' · ');
 }
+function showLanding() {
+  state.view = 'landing';
+  document.body.classList.add('is-landing');
+  document.body.classList.remove('is-review');
+  const landing = $('view-landing');
+  const review = $('view-review');
+  const actions = $('review-actions');
+  if (landing) landing.hidden = false;
+  if (review) review.hidden = true;
+  if (actions) actions.hidden = true;
+  renderPendingFiles();
+}
+function showReview() {
+  state.view = 'review';
+  document.body.classList.remove('is-landing');
+  document.body.classList.add('is-review');
+  const landing = $('view-landing');
+  const review = $('view-review');
+  const actions = $('review-actions');
+  if (landing) landing.hidden = true;
+  if (review) review.hidden = false;
+  if (actions) actions.hidden = false;
+}
+function fileKey(file) {
+  return `${file.name}::${file.size}::${file.lastModified || 0}`;
+}
+function addPendingFiles(fileList) {
+  const incoming = [...(fileList || [])];
+  if (!incoming.length) return;
+  const seen = new Set(state.pendingFiles.map(fileKey));
+  let added = 0;
+  for (const file of incoming) {
+    const key = fileKey(file);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    state.pendingFiles.push(file);
+    added += 1;
+  }
+  renderPendingFiles();
+  if (added) flashError('');
+  else if (incoming.length) notify('Those files are already in the upload list.');
+}
+function removePendingFile(index) {
+  state.pendingFiles.splice(index, 1);
+  renderPendingFiles();
+}
+function clearPendingFiles() {
+  state.pendingFiles = [];
+  renderPendingFiles();
+}
+function renderPendingFiles() {
+  const panel = $('file-chips-panel');
+  const list = $('file-chips');
+  const label = $('file-chips-label');
+  const parseBtn = $('btn-parse');
+  const count = state.pendingFiles.length;
+  if (!panel || !list) return;
+  panel.hidden = count === 0;
+  if (label) label.textContent = `${count} document${count === 1 ? '' : 's'} ready`;
+  list.innerHTML = state.pendingFiles.map((file, i) => `
+    <li>
+      <span class="chip-name" title="${esc(file.name)}">${esc(file.name)}</span>
+      <button type="button" class="chip-remove" data-remove-index="${i}" aria-label="Remove ${esc(file.name)}">×</button>
+    </li>`).join('');
+  if (parseBtn) {
+    parseBtn.hidden = count === 0;
+    const countNode = $('parse-count');
+    const plural = $('parse-plural');
+    if (countNode) countNode.textContent = String(count);
+    if (plural) plural.textContent = count === 1 ? '' : 's';
+    parseBtn.disabled = state.parsing;
+  }
+}
+function setParseStatus(active, text = 'Parsing documents…') {
+  state.parsing = active;
+  const status = $('parse-status');
+  const statusText = $('parse-status-text');
+  if (status) status.hidden = !active;
+  if (statusText) statusText.textContent = text;
+  const parseBtn = $('btn-parse');
+  if (parseBtn) parseBtn.disabled = active || !state.pendingFiles.length;
+  const choose = $('btn-choose-files');
+  if (choose) choose.disabled = active;
+}
+function readApiKey() {
+  const input = $('api-key');
+  const fromInput = input?.value?.trim() || '';
+  if (fromInput) {
+    try { localStorage.setItem(API_KEY_STORE, fromInput); } catch { /* optional */ }
+    return fromInput;
+  }
+  try { return localStorage.getItem(API_KEY_STORE) || ''; } catch { return ''; }
+}
+function loadStoredApiKey() {
+  const input = $('api-key');
+  if (!input) return;
+  try {
+    const saved = localStorage.getItem(API_KEY_STORE);
+    if (saved) input.value = saved;
+  } catch { /* optional */ }
+}
+function needsAiAssist(prepared, ingested) {
+  if (!($('ai-enabled')?.checked)) return false;
+  if (ingested.facts?.length) return false;
+  return prepared.some((f) => {
+    const kind = detectKind(f.name, f.mime, f.bytes);
+    return kind === 'pdf' || kind === 'text' || kind === 'csv';
+  });
+}
+async function prepareUploadFiles(files) {
+  return Promise.all(files.map(async (f) => ({
+    name: f.name,
+    mime: f.type,
+    bytes: new Uint8Array(await f.arrayBuffer()),
+    objectUrl: (f.type === 'application/pdf' || /\.pdf$/i.test(f.name)) ? URL.createObjectURL(f) : null,
+  })));
+}
+async function parsePendingFiles({ append = false } = {}) {
+  const files = [...state.pendingFiles];
+  if (!files.length) {
+    flashError('Choose one or more documents to parse.');
+    return;
+  }
+  setParseStatus(true, `Reading ${files.length} document${files.length === 1 ? '' : 's'}…`);
+  flashError('');
+  try {
+    const prepared = await prepareUploadFiles(files);
+    setParseStatus(true, 'Extracting structured facts…');
+    let ingested = await ingestFiles(prepared, { keepBytes: false });
+    let warnings = [...(ingested.warnings || [])];
+
+    if (needsAiAssist(prepared, ingested)) {
+      const apiKey = readApiKey();
+      if (!apiKey) {
+        throw new Error(
+          'These files need AI extraction (or upload Person A JSON). Enter an OpenAI API key, or include a .json extraction.'
+        );
+      }
+      setParseStatus(true, `Running AI extraction on ${files.length} document${files.length === 1 ? '' : 's'}…`);
+      const aiReady = prepared.map((f) => {
+        const kind = detectKind(f.name, f.mime, f.bytes);
+        if (kind === 'text' || kind === 'csv') {
+          return { ...f, text: decodeText(f.bytes), kind };
+        }
+        return { ...f, kind };
+      });
+      const ai = await aiExtractFromFiles(aiReady, { apiKey });
+      warnings = [...warnings, ...(ai.warnings || [])];
+      ingested = {
+        facts: mergeFactSets(ingested.facts, ai.facts),
+        documents: mergeDocumentSets(ingested.documents, ai.documents),
+        warnings,
+      };
+    }
+
+    const replaceDemo = state.isExample || state.view === 'landing' || !append;
+    const baseFacts = replaceDemo ? [] : state.facts;
+    const baseDocs = replaceDemo ? [] : state.documents;
+    const facts = mergeFactSets(baseFacts, ingested.facts);
+    const documents = mergeDocumentSets(baseDocs, ingested.documents);
+    const label = [...new Set([
+      replaceDemo ? '' : state.inputLabel,
+      ...files.map((f) => f.name),
+    ].filter(Boolean))].join(' + ');
+
+    if (!facts.length) {
+      state.facts = [];
+      state.records = [];
+      state.documents = documents;
+      state.groups = organiseDocuments(documents, []);
+      state.scenarios = [];
+      state.propertyId = null;
+      state.selectedKey = null;
+      state.isExample = false;
+      state.inputLabel = label;
+      state.rawFingerprint = '';
+      state.pendingFiles = [];
+      showReview();
+      render();
+      showWarnings([
+        ...warnings,
+        'Documents loaded as evidence, but no facts were extracted. Add Person A JSON or enable AI extraction with an API key.',
+      ]);
+      return;
+    }
+
+    state.pendingFiles = [];
+    applyDataset(facts, {
+      label,
+      documents,
+      warnings,
+      example: false,
+    });
+    notify(`${files.length} document${files.length === 1 ? '' : 's'} parsed · ${state.records.length} field group${state.records.length === 1 ? '' : 's'} ready.`);
+  } finally {
+    setParseStatus(false);
+    renderPendingFiles();
+  }
+}
+async function resetToLanding() {
+  state.facts = [];
+  state.records = [];
+  state.documents = [];
+  state.groups = [];
+  state.scenarios = [];
+  state.propertyId = null;
+  state.selectedKey = null;
+  state.inputLabel = '';
+  state.dataUrl = '';
+  state.isExample = false;
+  state.rawFingerprint = '';
+  state.warnings = [];
+  state.pendingFiles = [];
+  flashError('');
+  showWarnings([]);
+  showLanding();
+}
 function requireReviewer() {
   const name = state.reviewer.trim();
   if (!name) { $('reviewer').focus(); throw new Error('Enter your name under “Reviewed by” to record this decision.'); }
@@ -233,47 +464,102 @@ function applyDataset(facts, {label,example=false,dataUrl='',documents=[],warnin
   state.dataUrl = dataUrl;
   state.warnings = warnings;
   state.propertyId = saved?.propertyId && state.records.some((r)=>r.property_id===saved.propertyId)
-    ? saved.propertyId : (propertyList().find(p=>p.id==='kelso-villa') || propertyList()[0])?.id || null;
+    ? saved.propertyId
+    : (
+      propertyList().find((p) => p.id === 'kelso-villa-ba1-3au:whole')
+      || propertyList().find((p) => p.id === 'kelso-villa')
+      || propertyList()[0]
+    )?.id || null;
   state.stage = saved?.stage || 'all';
   state.selectedKey = saved?.selectedKey || null;
-  ensureSelection(); persist(); render(); showWarnings(warnings);
+  ensureSelection();
+  persist();
+  showReview();
+  render();
+  showWarnings(warnings);
 }
 async function loadFromUrl(url,{example=true}={}) {
   const response = await fetch(url);
   if (!response.ok) throw new Error(`Could not load ${url} (${response.status})`);
   const payload = await response.json();
-  const ingested = ingestJson(payload,url);
+  let manifest = null;
+  const looksLikeFactRecord = payload?.contract === '01_extracted' || payload?.developments;
+  if (looksLikeFactRecord) {
+    try {
+      const mRes = await fetch(MANIFEST_URL);
+      if (mRes.ok) manifest = await mRes.json();
+    } catch {
+      /* optional — PDFs still work if object URLs are absent */
+    }
+  }
+  const ingested = ingestJson(payload, url, {
+    manifest,
+    sampleDataBaseUrl: '../fact_record/sample_data',
+  });
   const facts = ingested.facts.length ? ingested.facts : loadFacts(payload);
   const bundled = Array.isArray(payload.documents) ? payload.documents : [];
   applyDataset(facts,{
-    label:payload.label || url,example:Boolean(payload.example || example),dataUrl:url,
-    documents:mergeDocumentSets(ingested.documents,bundled.map((d)=>({...d,name:d.name||d.title}))),
-    warnings:ingested.warnings,scenarios:payload.scenarios || [],
+    label: ingested.label || payload.label || url,
+    example: Boolean(payload.example || example || looksLikeFactRecord),
+    dataUrl: url,
+    documents: mergeDocumentSets(
+      ingested.documents,
+      bundled.map((d) => ({ ...d, name: d.name || d.title }))
+    ),
+    warnings: ingested.warnings,
+    scenarios: ingested.scenarios || payload.scenarios || [],
   });
 }
 async function ingestUserFiles(fileList) {
-  const files=[...fileList]; if (!files.length) return;
-  const prepared=await Promise.all(files.map(async f=>({
-    name:f.name,mime:f.type,bytes:new Uint8Array(await f.arrayBuffer()),
-    objectUrl:(f.type==='application/pdf'||/\.pdf$/i.test(f.name))?URL.createObjectURL(f):null,
-  })));
-  const ingested=await ingestFiles(prepared,{keepBytes:false});
-  // The first real upload replaces demo data. Never mix example claims into a live case.
-  const baseFacts=state.isExample?[]:state.facts;
-  const baseDocs=state.isExample?[]:state.documents;
-  const facts=mergeFactSets(baseFacts,ingested.facts);
-  const documents=mergeDocumentSets(baseDocs,ingested.documents);
-  if (!facts.length) {
-    state.facts=[];state.records=[];state.documents=documents;state.groups=organiseDocuments(documents,[]);
-    state.scenarios=[];state.propertyId=null;state.selectedKey=null;state.isExample=false;
-    state.inputLabel=files.map(f=>f.name).join(', ');state.rawFingerprint='';
-    render();showWarnings([...ingested.warnings,'Files loaded as evidence. Add Person A’s extracted JSON to create facts to review.']);return;
+  const files = [...(fileList || [])];
+  if (!files.length) return;
+  if (state.view === 'landing') {
+    addPendingFiles(files);
+    return;
   }
-  applyDataset(facts,{
-    label:[...new Set([state.isExample?'':state.inputLabel,...files.map(f=>f.name)].filter(Boolean))].join(' + '),
-    documents,warnings:ingested.warnings,example:false,
-  });
-  notify(`${files.length} file${files.length===1?'':'s'} added. ${state.records.length} field groups ready.`);
+  // Review mode: parse this multi-file batch immediately and merge into the open case.
+  setParseStatus(true, `Reading ${files.length} document${files.length === 1 ? '' : 's'}…`);
+  try {
+    const prepared = await prepareUploadFiles(files);
+    let ingested = await ingestFiles(prepared, { keepBytes: false });
+    let warnings = [...(ingested.warnings || [])];
+    if (needsAiAssist(prepared, ingested)) {
+      const apiKey = readApiKey();
+      if (!apiKey) {
+        throw new Error('Enter an OpenAI API key to extract facts from these documents, or upload Person A JSON.');
+      }
+      const aiReady = prepared.map((f) => {
+        const kind = detectKind(f.name, f.mime, f.bytes);
+        if (kind === 'text' || kind === 'csv') return { ...f, text: decodeText(f.bytes), kind };
+        return { ...f, kind };
+      });
+      const ai = await aiExtractFromFiles(aiReady, { apiKey });
+      warnings = [...warnings, ...(ai.warnings || [])];
+      ingested = {
+        facts: mergeFactSets(ingested.facts, ai.facts),
+        documents: mergeDocumentSets(ingested.documents, ai.documents),
+        warnings,
+      };
+    }
+    const baseFacts = state.isExample ? [] : state.facts;
+    const baseDocs = state.isExample ? [] : state.documents;
+    const facts = mergeFactSets(baseFacts, ingested.facts);
+    const documents = mergeDocumentSets(baseDocs, ingested.documents);
+    const label = [...new Set([state.isExample ? '' : state.inputLabel, ...files.map((f) => f.name)].filter(Boolean))].join(' + ');
+    if (!facts.length) {
+      state.isExample = false;
+      state.documents = documents;
+      state.groups = organiseDocuments(documents, facts);
+      state.inputLabel = label;
+      render();
+      showWarnings([...warnings, 'Files loaded as evidence. Add Person A’s extracted JSON or enable AI extraction to create facts.']);
+      return;
+    }
+    applyDataset(facts, { label, documents, warnings, example: false });
+    notify(`${files.length} document${files.length === 1 ? '' : 's'} added · ${state.records.length} field groups ready.`);
+  } finally {
+    setParseStatus(false);
+  }
 }
 function downloadJson(obj,filename){
   const url=URL.createObjectURL(new Blob([JSON.stringify(obj,null,2)],{type:'application/json'}));
@@ -356,7 +642,9 @@ function submitEdit(event){
 }
 
 function renderHeader(){
+  if (state.view !== 'review') return;
   const props=propertyList();const select=$('property');
+  if (!select) return;
   select.innerHTML=props.map(p=>`<option value="${esc(p.id)}" ${p.id===state.propertyId?'selected':''}>${esc(p.name)}</option>`).join('');
   select.disabled=props.length===0;
   const prop=props.find(p=>p.id===state.propertyId);
@@ -370,8 +658,11 @@ function renderHeader(){
   for(const button of document.querySelectorAll('.stage')){
     button.setAttribute('aria-pressed',String(button.dataset.stage===state.stage));
   }
-  const options=[...$('samples').options];
-  $('samples').value=options.some(o=>o.value===state.dataUrl)?state.dataUrl:DEFAULT_DATA;
+  const samples=$('samples');
+  if (samples && state.dataUrl) {
+    const options=[...samples.options];
+    if (options.some(o=>o.value===state.dataUrl)) samples.value=state.dataUrl;
+  }
 }
 function renderSummary(){
   const records=activePropertyRecords();
@@ -548,11 +839,46 @@ function renderResolve(){
 function render(){renderHeader();renderSummary();renderQueue();renderDocLibrary();renderEvidence();renderResolve();}
 
 function wire(){
-  $('btn-ingest').addEventListener('click',()=>$('file-input').click());
+  $('btn-ingest')?.addEventListener('click',()=>$('file-input').click());
+  $('btn-choose-files')?.addEventListener('click',(e)=>{e.stopPropagation();$('file-input').click();});
+  $('btn-parse')?.addEventListener('click',async (e)=>{
+    e.stopPropagation();
+    try{await parsePendingFiles();flashError('');}
+    catch(err){flashError(err.message);}
+  });
+  $('btn-clear-files')?.addEventListener('click',()=>clearPendingFiles());
+  $('btn-new-case')?.addEventListener('click',()=>resetToLanding());
+  $('btn-home')?.addEventListener('click',(e)=>{
+    if (state.view === 'review') {
+      e.preventDefault();
+      resetToLanding();
+    }
+  });
+  $('file-chips')?.addEventListener('click',(e)=>{
+    const btn=e.target.closest('[data-remove-index]');
+    if(!btn)return;
+    removePendingFile(Number(btn.dataset.removeIndex));
+  });
+  $('upload-zone')?.addEventListener('click',(e)=>{
+    if(e.target.closest('button'))return;
+    $('file-input').click();
+  });
+  $('upload-zone')?.addEventListener('keydown',(e)=>{
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();$('file-input').click();}
+  });
   $('file-input').addEventListener('change',async e=>{
     if(!e.target.files?.length)return;
-    try{await ingestUserFiles(e.target.files);flashError('');}catch(err){flashError(`Could not read these files: ${err.message}`);}e.target.value='';
+    try{
+      if(state.view==='landing'){
+        addPendingFiles(e.target.files);
+      }else{
+        await ingestUserFiles(e.target.files,{append:true});
+      }
+      flashError('');
+    }catch(err){flashError(`Could not read these files: ${err.message}`);}
+    e.target.value='';
   });
+  $('api-key')?.addEventListener('change',()=>readApiKey());
   $('btn-export').addEventListener('click',exportRecord);
   $('btn-export-archive').addEventListener('click',exportArchive);
   $('btn-export-blocked').addEventListener('click',exportBlocked);
@@ -574,10 +900,13 @@ function wire(){
     const button=e.target.closest('[data-other-cand]');if(!button)return;
     state.selectedCandidateId=button.dataset.otherCand;renderEvidence();renderResolve();
   });
-  $('samples').addEventListener('change',async e=>{
-    try{await loadFromUrl(e.target.value,{example:true});flashError('');}
+  $('btn-load-sample')?.addEventListener('click',async ()=>{
+    const url=$('samples')?.value;
+    if(!url){flashError('Choose a sample dataset first.');return;}
+    try{await loadFromUrl(url,{example:true});flashError('');notify('Sample loaded into the review workbench.');}
     catch(err){flashError(err.message);}
   });
+  $('samples')?.addEventListener('change',()=>flashError(''));
   $('edit-form').addEventListener('submit',submitEdit);
   $('edit-cancel').addEventListener('click',()=>$('edit-dialog').close());
   const overlay=$('drop-overlay');let depth=0;
@@ -585,18 +914,33 @@ function wire(){
   document.addEventListener('dragenter',e=>{if(!isFile(e))return;e.preventDefault();depth++;overlay.hidden=false;});
   document.addEventListener('dragover',e=>{if(!isFile(e))return;e.preventDefault();e.dataTransfer.dropEffect='copy';});
   document.addEventListener('dragleave',()=>{depth=Math.max(0,depth-1);if(depth===0)overlay.hidden=true;});
-  document.addEventListener('drop',async e=>{if(!isFile(e))return;e.preventDefault();depth=0;overlay.hidden=true;
-    try{await ingestUserFiles(e.dataTransfer.files);flashError('');}catch(err){flashError(err.message);}
+  document.addEventListener('drop',async e=>{
+    if(!isFile(e))return;
+    e.preventDefault();depth=0;overlay.hidden=true;
+    try{
+      if(state.view==='landing'){
+        addPendingFiles(e.dataTransfer.files);
+        flashError('');
+      }else{
+        await ingestUserFiles(e.dataTransfer.files,{append:true});
+        flashError('');
+      }
+    }catch(err){flashError(err.message);}
   });
 }
 async function boot(){
+  loadStoredApiKey();
   wire();
+  showLanding();
   try{
     const response=await fetch('config/field_rules.json');
     if(response.ok)state.rules=await response.json();
   }catch{/* original defaults remain valid offline */}
-  const params=new URLSearchParams(location.search),data=params.get('data')||DEFAULT_DATA;
-  try{await loadFromUrl(data,{example:/example\.json$/.test(data)});flashError('');}
-  catch(err){flashError(`Could not load ${data}: ${err.message}. Add evidence files or serve this folder using npm run serve.`);render();}
+  const params=new URLSearchParams(location.search);
+  const data=params.get('data');
+  if(data){
+    try{await loadFromUrl(data,{example:/example\.json$/.test(data)});flashError('');}
+    catch(err){flashError(`Could not load ${data}: ${err.message}`);showLanding();}
+  }
 }
 boot();
