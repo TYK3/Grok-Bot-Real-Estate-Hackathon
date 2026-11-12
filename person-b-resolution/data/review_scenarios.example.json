@@ -1,0 +1,531 @@
+{
+  "label": "Nine review scenarios · Kelso Villa and 59 St Huberts Close",
+  "example": true,
+  "scenario_note": "Illustrative facts transcribed from user-provided scenario descriptions. Synthetic survey, instruction and finishes schedule are not independently verified; PDF page references are not supplied.",
+  "scenarios": [
+    {
+      "id": "kelso-price",
+      "title": "Price · newer version",
+      "expected_classification": "SUPERSEDED",
+      "recommended_action": "Human confirmation required"
+    },
+    {
+      "id": "kelso-document-error",
+      "title": "Total floor area · document error",
+      "expected_classification": "UNIT_MISMATCH",
+      "recommended_action": "Block mixed measurement row"
+    },
+    {
+      "id": "kelso-parking-scope",
+      "title": "Parking · scope difference",
+      "expected_classification": "SCOPE_DIFFERENCE",
+      "recommended_action": "Retain per-floor and total statements"
+    },
+    {
+      "id": "kelso-net",
+      "title": "Net floor area · true conflict",
+      "expected_classification": "TRUE_CONFLICT",
+      "recommended_action": "Survey is higher authority; human sign-off"
+    },
+    {
+      "id": "kelso-gross",
+      "title": "Gross floor area · true conflict",
+      "expected_classification": "TRUE_CONFLICT",
+      "recommended_action": "Survey is higher authority; human sign-off"
+    },
+    {
+      "id": "kelso-lower-ground",
+      "title": "Lower ground · basis mismatch",
+      "expected_classification": "UNIT_MISMATCH",
+      "recommended_action": "Keep both; label unknown vs net"
+    },
+    {
+      "id": "kelso-parking-total",
+      "title": "Parking total · true conflict",
+      "expected_classification": "TRUE_CONFLICT",
+      "recommended_action": "Survey says bay 6 became a bin store"
+    },
+    {
+      "id": "sthuberts-price",
+      "title": "Price · solicitor instruction",
+      "expected_classification": "SUPERSEDED",
+      "recommended_action": "Later higher-tier formal instruction wins; human sign-off"
+    },
+    {
+      "id": "sthuberts-ensuite",
+      "title": "En-suites · scope difference",
+      "expected_classification": "SCOPE_DIFFERENCE",
+      "recommended_action": "Never apply development-wide generalisation to No. 59"
+    }
+  ],
+  "documents": [
+    {
+      "doc_type": "brochure",
+      "title": "Kelso Villa · April brochure",
+      "published_date": "2026-04-01",
+      "date_precision": "month",
+      "issuer": "Carter Jonas",
+      "doc_id": "kv-apr",
+      "kind": "source",
+      "property_id": "kelso-villa",
+      "name": "Kelso Villa · April brochure"
+    },
+    {
+      "doc_type": "brochure",
+      "title": "Kelso Villa · October brochure",
+      "published_date": "2026-10-01",
+      "date_precision": "month",
+      "issuer": "Carter Jonas",
+      "doc_id": "kv-oct",
+      "kind": "source",
+      "property_id": "kelso-villa",
+      "name": "Kelso Villa · October brochure"
+    },
+    {
+      "doc_type": "measured_survey",
+      "title": "Kelso Villa · synthetic measured survey",
+      "published_date": null,
+      "issuer": "Synthetic test survey",
+      "synthetic": true,
+      "doc_id": "kv-survey",
+      "kind": "source",
+      "property_id": "kelso-villa",
+      "name": "Kelso Villa · synthetic measured survey"
+    },
+    {
+      "doc_type": "brochure",
+      "title": "59 St Huberts Close · brochure",
+      "published_date": "2026-10-01",
+      "date_precision": "month",
+      "issuer": "Sales particulars",
+      "doc_id": "59-brochure",
+      "kind": "source",
+      "property_id": "59-st-huberts-close",
+      "name": "59 St Huberts Close · brochure"
+    },
+    {
+      "doc_type": "developer_instruction",
+      "title": "59 St Huberts Close · synthetic price-change instruction",
+      "published_date": "2026-11-09",
+      "issuer": "Solicitor",
+      "synthetic": true,
+      "doc_id": "59-price",
+      "kind": "source",
+      "property_id": "59-st-huberts-close",
+      "name": "59 St Huberts Close · synthetic price-change instruction"
+    },
+    {
+      "doc_type": "specification",
+      "title": "St Huberts Close · synthetic finishes schedule",
+      "published_date": null,
+      "issuer": "Development schedule",
+      "synthetic": true,
+      "doc_id": "59-finishes",
+      "kind": "source",
+      "property_id": "59-st-huberts-close",
+      "name": "St Huberts Close · synthetic finishes schedule"
+    }
+  ],
+  "facts": [
+    {
+      "fact_id": "kelso-price__kv-apr__1",
+      "case_id": "kelso-price",
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa",
+      "field": "price",
+      "value": 700000,
+      "source": {
+        "doc_type": "brochure",
+        "title": "Kelso Villa · April brochure",
+        "published_date": "2026-04-01",
+        "date_precision": "month",
+        "issuer": "Carter Jonas",
+        "doc_id": "kv-apr"
+      },
+      "page": null,
+      "quote": "April brochure: £700,000 offers.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1.0,
+      "unit": "GBP"
+    },
+    {
+      "fact_id": "kelso-price__kv-oct__2",
+      "case_id": "kelso-price",
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa",
+      "field": "price",
+      "value": 600000,
+      "source": {
+        "doc_type": "brochure",
+        "title": "Kelso Villa · October brochure",
+        "published_date": "2026-10-01",
+        "date_precision": "month",
+        "issuer": "Carter Jonas",
+        "doc_id": "kv-oct"
+      },
+      "page": null,
+      "quote": "October brochure: £600,000 guide price.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1.0,
+      "unit": "GBP"
+    },
+    {
+      "fact_id": "kelso-document-error__kv-apr__1",
+      "case_id": "kelso-document-error",
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa",
+      "field": "floor_area",
+      "value": 185,
+      "source": {
+        "doc_type": "brochure",
+        "title": "Kelso Villa · April brochure",
+        "published_date": "2026-04-01",
+        "date_precision": "month",
+        "issuer": "Carter Jonas",
+        "doc_id": "kv-apr"
+      },
+      "page": null,
+      "quote": "April total row: 185 sq m / 2,700 sq ft.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1.0,
+      "unit": "sqm",
+      "stated_equivalent": {
+        "value": 2700,
+        "unit": "sqft"
+      }
+    },
+    {
+      "fact_id": "kelso-document-error__kv-apr__2",
+      "case_id": "kelso-document-error",
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa",
+      "field": "floor_area",
+      "value": 2700,
+      "source": {
+        "doc_type": "brochure",
+        "title": "Kelso Villa · April brochure",
+        "published_date": "2026-04-01",
+        "date_precision": "month",
+        "issuer": "Carter Jonas",
+        "doc_id": "kv-apr"
+      },
+      "page": null,
+      "quote": "April total row: 185 sq m / 2,700 sq ft.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1.0,
+      "unit": "sqft",
+      "stated_equivalent": {
+        "value": 185,
+        "unit": "sqm"
+      }
+    },
+    {
+      "fact_id": "kelso-parking-scope__kv-apr__1",
+      "case_id": "kelso-parking-scope",
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa",
+      "field": "parking_scope",
+      "value": 1,
+      "source": {
+        "doc_type": "brochure",
+        "title": "Kelso Villa · April brochure",
+        "published_date": "2026-04-01",
+        "date_precision": "month",
+        "issuer": "Carter Jonas",
+        "doc_id": "kv-apr"
+      },
+      "page": null,
+      "quote": "April brochure: one parking space per floor.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1.0,
+      "scope": "per_floor"
+    },
+    {
+      "fact_id": "kelso-parking-scope__kv-oct__2",
+      "case_id": "kelso-parking-scope",
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa",
+      "field": "parking_scope",
+      "value": 6,
+      "source": {
+        "doc_type": "brochure",
+        "title": "Kelso Villa · October brochure",
+        "published_date": "2026-10-01",
+        "date_precision": "month",
+        "issuer": "Carter Jonas",
+        "doc_id": "kv-oct"
+      },
+      "page": null,
+      "quote": "October brochure: six spaces in total.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1.0,
+      "scope": "unit_total"
+    },
+    {
+      "fact_id": "kelso-net__kv-oct__1",
+      "case_id": "kelso-net",
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa",
+      "field": "net_floor_area",
+      "value": 1990,
+      "source": {
+        "doc_type": "brochure",
+        "title": "Kelso Villa · October brochure",
+        "published_date": "2026-10-01",
+        "date_precision": "month",
+        "issuer": "Carter Jonas",
+        "doc_id": "kv-oct"
+      },
+      "page": null,
+      "quote": "October net area: 1,990 sq ft (185 sq m).",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1.0,
+      "unit": "sqft",
+      "area_basis": "net",
+      "stated_equivalent": {
+        "value": 185,
+        "unit": "sqm"
+      }
+    },
+    {
+      "fact_id": "kelso-net__kv-survey__2",
+      "case_id": "kelso-net",
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa",
+      "field": "net_floor_area",
+      "value": 1912,
+      "source": {
+        "doc_type": "measured_survey",
+        "title": "Kelso Villa · synthetic measured survey",
+        "published_date": null,
+        "issuer": "Synthetic test survey",
+        "synthetic": true,
+        "doc_id": "kv-survey"
+      },
+      "page": null,
+      "quote": "Synthetic measured survey net area: 1,912 sq ft (177.6 sq m).",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1.0,
+      "unit": "sqft",
+      "area_basis": "net",
+      "stated_equivalent": {
+        "value": 177.6,
+        "unit": "sqm"
+      }
+    },
+    {
+      "fact_id": "kelso-gross__kv-oct__1",
+      "case_id": "kelso-gross",
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa",
+      "field": "gross_floor_area",
+      "value": 2700,
+      "source": {
+        "doc_type": "brochure",
+        "title": "Kelso Villa · October brochure",
+        "published_date": "2026-10-01",
+        "date_precision": "month",
+        "issuer": "Carter Jonas",
+        "doc_id": "kv-oct"
+      },
+      "page": null,
+      "quote": "October gross area: 2,700 sq ft.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1.0,
+      "unit": "sqft",
+      "area_basis": "gross"
+    },
+    {
+      "fact_id": "kelso-gross__kv-survey__2",
+      "case_id": "kelso-gross",
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa",
+      "field": "gross_floor_area",
+      "value": 2672,
+      "source": {
+        "doc_type": "measured_survey",
+        "title": "Kelso Villa · synthetic measured survey",
+        "published_date": null,
+        "issuer": "Synthetic test survey",
+        "synthetic": true,
+        "doc_id": "kv-survey"
+      },
+      "page": null,
+      "quote": "Synthetic measured survey gross area: 2,672 sq ft.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1.0,
+      "unit": "sqft",
+      "area_basis": "gross"
+    },
+    {
+      "fact_id": "kelso-lower-ground__kv-apr__1",
+      "case_id": "kelso-lower-ground",
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa",
+      "field": "lower_ground_floor_area",
+      "value": 468,
+      "source": {
+        "doc_type": "brochure",
+        "title": "Kelso Villa · April brochure",
+        "published_date": "2026-04-01",
+        "date_precision": "month",
+        "issuer": "Carter Jonas",
+        "doc_id": "kv-apr"
+      },
+      "page": null,
+      "quote": "April brochure lower ground: 468 sq ft (basis not stated).",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1.0,
+      "unit": "sqft"
+    },
+    {
+      "fact_id": "kelso-lower-ground__kv-survey__2",
+      "case_id": "kelso-lower-ground",
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa",
+      "field": "lower_ground_floor_area",
+      "value": 461,
+      "source": {
+        "doc_type": "measured_survey",
+        "title": "Kelso Villa · synthetic measured survey",
+        "published_date": null,
+        "issuer": "Synthetic test survey",
+        "synthetic": true,
+        "doc_id": "kv-survey"
+      },
+      "page": null,
+      "quote": "Synthetic measured survey lower ground: 461 sq ft net.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1.0,
+      "unit": "sqft",
+      "area_basis": "net"
+    },
+    {
+      "fact_id": "kelso-parking-total__kv-oct__1",
+      "case_id": "kelso-parking-total",
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa",
+      "field": "parking_total",
+      "value": 6,
+      "source": {
+        "doc_type": "brochure",
+        "title": "Kelso Villa · October brochure",
+        "published_date": "2026-10-01",
+        "date_precision": "month",
+        "issuer": "Carter Jonas",
+        "doc_id": "kv-oct"
+      },
+      "page": null,
+      "quote": "October brochure: six parking spaces in total.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1.0,
+      "scope": "unit_total"
+    },
+    {
+      "fact_id": "kelso-parking-total__kv-survey__2",
+      "case_id": "kelso-parking-total",
+      "property_id": "kelso-villa",
+      "property_name": "Kelso Villa",
+      "field": "parking_total",
+      "value": 5,
+      "source": {
+        "doc_type": "measured_survey",
+        "title": "Kelso Villa · synthetic measured survey",
+        "published_date": null,
+        "issuer": "Synthetic test survey",
+        "synthetic": true,
+        "doc_id": "kv-survey"
+      },
+      "page": null,
+      "quote": "Synthetic measured survey: five parking spaces; bay 6 is now a bin store.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1.0,
+      "scope": "unit_total"
+    },
+    {
+      "fact_id": "sthuberts-price__59-brochure__1",
+      "case_id": "sthuberts-price",
+      "property_id": "59-st-huberts-close",
+      "property_name": "59 St Huberts Close",
+      "field": "price",
+      "value": 1458000,
+      "source": {
+        "doc_type": "brochure",
+        "title": "59 St Huberts Close · brochure",
+        "published_date": "2026-10-01",
+        "date_precision": "month",
+        "issuer": "Sales particulars",
+        "doc_id": "59-brochure"
+      },
+      "page": null,
+      "quote": "No. 59 brochure: £1,458,000.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1.0,
+      "unit": "GBP"
+    },
+    {
+      "fact_id": "sthuberts-price__59-price__2",
+      "case_id": "sthuberts-price",
+      "property_id": "59-st-huberts-close",
+      "property_name": "59 St Huberts Close",
+      "field": "price",
+      "value": 1395000,
+      "source": {
+        "doc_type": "developer_instruction",
+        "title": "59 St Huberts Close · synthetic price-change instruction",
+        "published_date": "2026-11-09",
+        "issuer": "Solicitor",
+        "synthetic": true,
+        "doc_id": "59-price"
+      },
+      "page": null,
+      "quote": "Synthetic solicitor price-change instruction: £1,395,000 effective 9 November 2026.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1.0,
+      "unit": "GBP",
+      "effective_date": "2026-11-09"
+    },
+    {
+      "fact_id": "sthuberts-ensuite__59-finishes__1",
+      "case_id": "sthuberts-ensuite",
+      "property_id": "59-st-huberts-close",
+      "property_name": "59 St Huberts Close",
+      "field": "en_suite_bathroom",
+      "value": "Walk-in showers in every en-suite; no baths",
+      "source": {
+        "doc_type": "specification",
+        "title": "St Huberts Close · synthetic finishes schedule",
+        "published_date": null,
+        "issuer": "Development schedule",
+        "synthetic": true,
+        "doc_id": "59-finishes"
+      },
+      "page": null,
+      "quote": "Synthetic close-wide finishes schedule: every en-suite has a walk-in shower and no bath.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1.0,
+      "scope": "development"
+    },
+    {
+      "fact_id": "sthuberts-ensuite__59-brochure__2",
+      "case_id": "sthuberts-ensuite",
+      "property_id": "59-st-huberts-close",
+      "property_name": "59 St Huberts Close",
+      "field": "en_suite_bathroom",
+      "value": "Principal en-suite bathroom",
+      "source": {
+        "doc_type": "brochure",
+        "title": "59 St Huberts Close · brochure",
+        "published_date": "2026-10-01",
+        "date_precision": "month",
+        "issuer": "Sales particulars",
+        "doc_id": "59-brochure"
+      },
+      "page": null,
+      "quote": "No. 59 brochure: principal en-suite bathroom.",
+      "quote_attribution": "Scenario summary provided by user — not a verified PDF quotation",
+      "extraction_confidence": 1.0,
+      "scope": "unit"
+    }
+  ]
+}
