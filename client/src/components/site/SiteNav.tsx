@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Heart, Moon, Sun } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { BrandLogo } from "./BrandLogo";
 import { useShortlist } from "./shortlist";
 import { useTheme } from "./theme";
 
@@ -29,11 +30,8 @@ export function SiteNav() {
         className="mx-auto flex h-14 max-w-7xl items-center gap-2 rounded-full border px-1.5 pl-4 shadow-[var(--re-shadow)] backdrop-blur-xl sm:px-2"
         style={{ background: "var(--re-glass)", borderColor: "var(--re-line)" }}
       >
-        <Link href="/" aria-label="Hamptons home" className="mr-1 flex shrink-0 items-center gap-2 text-[17px] font-medium tracking-tight">
-          <svg viewBox="0 0 40 40" className="size-6" aria-hidden>
-            <path d="M20 5 4 18.5h4.2V35h9.3v-9.6h5V35h9.3V18.5H36Z" fill="var(--re-accent)" />
-          </svg>
-          <span>Hamptons</span>
+        <Link href="/" aria-label="Call Test Guard home" className="mr-1 flex shrink-0 items-center">
+          <BrandLogo />
         </Link>
 
         <div className="hidden items-center md:flex">

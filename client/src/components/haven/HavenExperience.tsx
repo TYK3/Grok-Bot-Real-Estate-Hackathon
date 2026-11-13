@@ -16,6 +16,7 @@ import { BadgePoundSterling, CalendarCheck, FileText, KeyRound, MapPin, Mic, Pho
 
 import "@livekit/components-styles";
 
+import { HavenAvatar } from "./HavenAvatar";
 import { HavenStage } from "./HavenStage";
 import type { HavenPreviews, StageData, StageKind } from "@/lib/haven-types";
 import type { ListingSummary } from "@/lib/listing-summary";
@@ -272,12 +273,12 @@ function Orb({ state }: { state: CallState }) {
         />
       ))}
       <motion.span
-        className="grid size-28 place-items-center rounded-full"
-        style={{ background: "var(--re-pill-strong)", color: "var(--re-accent-ink)", boxShadow: "0 20px 50px -18px var(--re-pill-glow)" }}
+        className="grid size-32 place-items-center rounded-full"
+        style={{ background: "#1a2e25", boxShadow: "inset 0 0 0 2px var(--re-accent), 0 20px 50px -18px var(--re-pill-glow)" }}
         animate={{ scale: busy ? [1, 1.06, 1] : 1 }}
         transition={{ duration: 1, repeat: busy ? Infinity : 0 }}
       >
-        <span className="re-serif text-5xl italic">H</span>
+        <HavenAvatar size={96} mood={busy ? "thinking" : "idle"} track />
       </motion.span>
     </div>
   );
@@ -303,7 +304,10 @@ function LiveConsole() {
 
   return (
     <div className="flex h-full w-full min-h-0 flex-col items-center gap-3">
-      <div className="grid size-28 shrink-0 place-items-center rounded-full" style={{ background: "var(--re-surface-2)" }}>
+      <div className="grid size-24 shrink-0 place-items-center rounded-full" style={{ background: "#1a2e25", boxShadow: "inset 0 0 0 2px var(--re-accent)" }}>
+        <HavenAvatar size={72} mood={state === "speaking" ? "speaking" : state === "thinking" ? "thinking" : "listening"} />
+      </div>
+      <div className="shrink-0">
         <BarVisualizer
           state={state}
           barCount={5}

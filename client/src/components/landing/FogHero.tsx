@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Search } from "lucide-react";
 
+import { BrandMark } from "@/components/site/BrandLogo";
+
 import { readTheme, setTheme } from "@/components/site/theme";
 
 const IMG = (file: string, w: number, q: number) =>
@@ -262,15 +264,10 @@ export function FogHero({ count, districts }: { count: number; districts: number
 
       <div className="ui">
         <header className="bar">
-          <Link className="logo" href="/" aria-label="Hamptons AI Lettings home">
-            <svg viewBox="0 0 40 40" aria-hidden="true">
-              <path
-                d="M20 5 4 18.5h4.2V35h9.3v-9.6h5V35h9.3V18.5H36Z"
-                style={{ fill: "color-mix(in srgb,#6d8f2a calc((1 - var(--k))*100%),#d8ee8e)" }}
-              />
-            </svg>
+          <Link className="logo" href="/" aria-label="Call Test Guard home">
+            <BrandMark />
             <span>
-              Hamptons <small>AI lettings</small>
+              Call Test <i className="re-serif">Guard</i>
             </span>
           </Link>
           <ul className="links">
