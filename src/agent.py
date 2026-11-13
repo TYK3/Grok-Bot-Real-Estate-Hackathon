@@ -15,6 +15,7 @@ from livekit.agents import (
     ChatContext,
     ChatMessage,
     CloseEvent,
+    EndpointingOptions,
     FunctionCall,
     FunctionCallOutput,
     MetricsCollectedEvent,
@@ -27,10 +28,10 @@ from livekit.agents import (
 from livekit.agents.llm import ImageContent
 from livekit.agents.metrics import EOUMetrics, LLMMetrics, STTMetrics, TTSMetrics
 from livekit.agents.stt import SpeechEventType
-from livekit.plugins import noise_cancellation, openai, silero, xai
-from livekit.agents import AgentSession, TurnHandlingOptions, EndpointingOptions
-from livekit.plugins import ai_coustics
+from livekit.plugins import openai, silero, xai
+
 import session_store
+from amenities import describe_ranking, rank_properties, shortlist_payload
 from properties import (
     PROPERTIES,
     format_property_details,
@@ -38,8 +39,7 @@ from properties import (
     get_property_images,
 )
 from web_search import perplexity_search
-from amenities import describe_ranking, rank_properties, shortlist_payload
-from datetime import datetime
+
 todays_date = datetime.now().strftime("%Y-%m-%d")
 
 load_dotenv(".env")
@@ -75,7 +75,11 @@ def format_transcript(history: llm.ChatContext) -> str:
 
 
 def build_instructions(prop: dict[str, Any] | None) -> str:
-    base = open("src/prompts/v2.md", "r").read() + "# Context - Today's Date is: " + todays_date
+    # Resolve next to this file and read as UTF-8: the prompt has non-ASCII text, and
+    # Windows' default code page would garble it or fail when run from another folder.
+    prompt_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "prompts", "v2.md")
+    with open(prompt_path, encoding="utf-8") as f:
+        base = f.read() + "# Context - Today's Date is: " + todays_date
 
     if prop:
         base += "=== PROPERTY DETAILS ===\n" + format_property_details(prop)
@@ -118,7 +122,7 @@ class PropertyAgent(Agent):
         context: RunContext,
         query: str,
         pincode: str | None = None,
-   
+
     ) -> str:
         """Search the web for up-to-date local-area information.
 

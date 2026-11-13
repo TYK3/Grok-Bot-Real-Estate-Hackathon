@@ -51,12 +51,12 @@ export default async function PropertyDetailPage({
     : null;
 
   return (
-    <main className="min-h-screen bg-[#f7f6f3] pb-28 text-[#13294b]">
+    <main className="min-h-screen bg-[var(--re-bg)] pb-28 text-[var(--re-ink)]">
       <SiteNav />
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 pt-5 sm:px-6 lg:px-8">
         <Link
           href="/explore"
-          className="inline-flex items-center gap-1.5 text-sm text-[#697586] transition-colors hover:text-[#e95650]"
+          className="inline-flex items-center gap-1.5 text-sm text-[var(--re-muted)] transition-colors hover:text-[#e95650]"
         >
           <ArrowLeft className="size-4" />
           All homes
@@ -78,7 +78,7 @@ export default async function PropertyDetailPage({
               alt={titleFor(property)}
             />
 
-            <div className="border-b border-[#d9dee5] pb-6">
+            <div className="border-b border-[var(--re-line)] pb-6">
               {isVerifiedListing(property) ? (
                 <div className="mb-3">
                   <VerifiedFactsBadge />
@@ -89,12 +89,12 @@ export default async function PropertyDetailPage({
               >
                 {titleFor(property)}
               </h1>
-              <p className="mt-3 text-base leading-relaxed text-[#697586]">
+              <p className="mt-3 text-base leading-relaxed text-[var(--re-muted)]">
                 {fullAddress(property)}
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-x-7 gap-y-4 border-b border-[#d9dee5] pb-6">
+            <div className="flex flex-wrap items-center gap-x-7 gap-y-4 border-b border-[var(--re-line)] pb-6">
               <Fact icon={<BedDouble />} value={bedsLabel(property)} />
               <Fact icon={<Bath />} value={bathsLabel(property)} />
               {reception ? <Fact icon={<Sofa />} value={reception} /> : null}
@@ -109,22 +109,22 @@ export default async function PropertyDetailPage({
             <VerifiedFacts property={property} />
 
             {property.description ? (
-              <section className="border-b border-[#d9dee5] pb-8">
+              <section className="border-b border-[var(--re-line)] pb-8">
                 <SectionTitle>About this property</SectionTitle>
-                <p className="mt-4 max-w-3xl whitespace-pre-line text-base leading-8 text-[#4f5f70]">
+                <p className="mt-4 max-w-3xl whitespace-pre-line text-base leading-8 text-[var(--re-muted)]">
                   {property.description}
                 </p>
               </section>
             ) : null}
 
             {features.length > 0 && !isVerifiedListing(property) ? (
-              <section className="border-b border-[#d9dee5] pb-8">
+              <section className="border-b border-[var(--re-line)] pb-8">
                 <SectionTitle>Key features</SectionTitle>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {features.map((f) => (
                     <span
                       key={f}
-                      className="rounded-full border border-[#d9dee5] bg-white px-3 py-1 text-xs text-[#4f5f70]"
+                      className="rounded-full border border-[var(--re-line)] bg-[var(--re-surface)] px-3 py-1 text-xs text-[var(--re-muted)]"
                     >
                       {f}
                     </span>
@@ -134,24 +134,24 @@ export default async function PropertyDetailPage({
             ) : null}
 
             {floorplan ? (
-              <section className="border-b border-[#d9dee5] pb-8">
+              <section className="border-b border-[var(--re-line)] pb-8">
                 <SectionTitle>Floor plan</SectionTitle>
                 <PropertyImage
                   src={floorplan}
                   alt="Floor plan"
-                  className="mt-4 aspect-[4/3] w-full rounded-lg border border-[#d9dee5] bg-white"
+                  className="mt-4 aspect-[4/3] w-full rounded-lg border border-[var(--re-line)] bg-[var(--re-surface)]"
                   imgClassName="object-contain"
                 />
               </section>
             ) : null}
 
             {epc ? (
-              <section className="border-b border-[#d9dee5] pb-8">
+              <section className="border-b border-[var(--re-line)] pb-8">
                 <SectionTitle>EPC</SectionTitle>
                 <PropertyImage
                   src={epc}
                   alt="EPC certificate"
-                  className="mt-4 aspect-[4/3] w-full rounded-lg border border-[#d9dee5] bg-white"
+                  className="mt-4 aspect-[4/3] w-full rounded-lg border border-[var(--re-line)] bg-[var(--re-surface)]"
                   imgClassName="object-contain"
                 />
               </section>
@@ -160,19 +160,19 @@ export default async function PropertyDetailPage({
 
           {/* Sidebar */}
           <aside className="lg:sticky lg:top-24 lg:h-fit">
-            <div className="space-y-5 rounded-lg border border-[#d9dee5] bg-white p-5">
+            <div className="space-y-5 rounded-lg border border-[var(--re-line)] bg-[var(--re-surface)] p-5">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#697586]">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--re-muted)]">
                   {priceHeading(property)}
                 </p>
                 <p
-                  className="mt-1 text-3xl font-semibold text-[#13294b]"
+                  className="mt-1 text-3xl font-semibold text-[var(--re-ink)]"
                 >
                   {priceLabel(property)}
                 </p>
               </div>
 
-              <dl className="space-y-3 border-t border-[#d9dee5] pt-4 text-sm">
+              <dl className="space-y-3 border-t border-[var(--re-line)] pt-4 text-sm">
                 <Row
                   icon={<Banknote />}
                   label="Deposit"
@@ -197,7 +197,7 @@ export default async function PropertyDetailPage({
               <Link
                 href={`/call/${encodeURIComponent(String(property.property_id))}`}
                 aria-label="Talk to 24/7 live agent"
-                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-md bg-[#13294b] px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#1c365e]"
+                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-md bg-[var(--re-ink)] px-4 text-sm font-semibold text-[var(--re-bg)] shadow-sm transition-colors hover:opacity-90"
               >
                 <span className="grid size-7 shrink-0 place-items-center rounded-full bg-[#16a34a] text-white">
                   <PhoneCall className="size-4" />
@@ -206,17 +206,17 @@ export default async function PropertyDetailPage({
               </Link>
 
               {property.branch ? (
-                <div className="border-t border-[#d9dee5] pt-4 text-sm text-[#697586]">
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#8a95a3]">
+                <div className="border-t border-[var(--re-line)] pt-4 text-sm text-[var(--re-muted)]">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--re-muted)]">
                     Call branch
                   </p>
                   {property.branch.name ? (
-                    <p className="mt-2 font-medium text-[#13294b]">
+                    <p className="mt-2 font-medium text-[var(--re-ink)]">
                       {property.branch.name}
                     </p>
                   ) : null}
                   {property.branch.phone ? (
-                    <p className="mt-1 text-[#4f5f70]">
+                    <p className="mt-1 text-[var(--re-muted)]">
                       {property.branch.phone}
                     </p>
                   ) : null}
@@ -246,8 +246,8 @@ function Fact({
   value: string;
 }) {
   return (
-    <div className="flex items-center gap-2 text-sm text-[#13294b]">
-      <span className="text-[#697586] [&_svg]:size-4">{icon}</span>
+    <div className="flex items-center gap-2 text-sm text-[var(--re-ink)]">
+      <span className="text-[var(--re-muted)] [&_svg]:size-4">{icon}</span>
       <span className="font-medium">{value}</span>
     </div>
   );
@@ -265,11 +265,11 @@ function Row({
   if (!value) return null;
   return (
     <div className="flex items-center justify-between gap-3">
-      <dt className="flex items-center gap-2 text-[#697586]">
-        <span className="text-[#8a95a3] [&_svg]:size-3.5">{icon}</span>
+      <dt className="flex items-center gap-2 text-[var(--re-muted)]">
+        <span className="text-[var(--re-muted)] [&_svg]:size-3.5">{icon}</span>
         {label}
       </dt>
-      <dd className="text-right font-medium text-[#13294b]">{value}</dd>
+      <dd className="text-right font-medium text-[var(--re-ink)]">{value}</dd>
     </div>
   );
 }

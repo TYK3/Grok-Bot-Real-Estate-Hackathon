@@ -84,18 +84,18 @@ export function VerifiedFacts({ property }: { property: Property }) {
   ).length;
 
   return (
-    <section className="border-b border-[#d9dee5] pb-8">
+    <section className="border-b border-[var(--re-line)] pb-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#e95650]">
           Verified facts
         </h2>
-        <p className="text-xs text-[#697586]">
+        <p className="text-xs text-[var(--re-muted)]">
           {verified} verified · {pending} pending · every value cites its source
           document
         </p>
       </div>
 
-      <dl className="mt-4 divide-y divide-[#e4e7eb] rounded-lg border border-[#d9dee5] bg-white">
+      <dl className="mt-4 divide-y divide-[var(--re-line)] rounded-lg border border-[var(--re-line)] bg-[var(--re-surface)]">
         {rows.map(([key, label]) => {
           const f = fields[key];
           const status = f.verification_status;
@@ -105,16 +105,16 @@ export function VerifiedFacts({ property }: { property: Property }) {
               key={key}
               className="grid gap-1 px-4 py-3 sm:grid-cols-[170px_minmax(0,1fr)] sm:gap-4"
             >
-              <dt className="text-sm text-[#697586]">{label}</dt>
+              <dt className="text-sm text-[var(--re-muted)]">{label}</dt>
               <dd className="min-w-0 text-sm">
                 {status === "verified" ? (
                   <>
-                    <p className="flex items-start gap-1.5 font-medium text-[#13294b]">
+                    <p className="flex items-start gap-1.5 font-medium text-[var(--re-ink)]">
                       <CircleCheck className="mt-0.5 size-4 shrink-0 text-[#16a34a]" />
                       <span className="break-words">{text ?? "Verified"}</span>
                     </p>
                     {f.citation ? (
-                      <p className="mt-1 flex items-start gap-1.5 pl-[22px] text-xs text-[#697586]">
+                      <p className="mt-1 flex items-start gap-1.5 pl-[22px] text-xs text-[var(--re-muted)]">
                         <FileText className="mt-0.5 size-3.5 shrink-0" />
                         <span className="min-w-0 break-words">
                           {sourceLine(f.citation)}
@@ -132,12 +132,12 @@ export function VerifiedFacts({ property }: { property: Property }) {
                   <ul className="space-y-1.5">
                     {f.claims.map((c, i) => (
                       <li key={i}>
-                        <p className="flex items-start gap-1.5 font-medium text-[#13294b]">
+                        <p className="flex items-start gap-1.5 font-medium text-[var(--re-ink)]">
                           <CircleCheck className="mt-0.5 size-4 shrink-0 text-[#16a34a]" />
                           <span className="break-words">
                             {c.display}
                             {c.scope ? (
-                              <span className="font-normal text-[#697586]">
+                              <span className="font-normal text-[var(--re-muted)]">
                                 {" "}
                                 · {c.scope.replace(/_/g, " ")}
                               </span>
@@ -145,7 +145,7 @@ export function VerifiedFacts({ property }: { property: Property }) {
                           </span>
                         </p>
                         {c.citation && sourceLine(c.citation) ? (
-                          <p className="mt-0.5 flex items-start gap-1.5 pl-[22px] text-xs text-[#697586]">
+                          <p className="mt-0.5 flex items-start gap-1.5 pl-[22px] text-xs text-[var(--re-muted)]">
                             <FileText className="mt-0.5 size-3.5 shrink-0" />
                             <span className="min-w-0 break-words">{sourceLine(c.citation)}</span>
                           </p>
@@ -154,12 +154,12 @@ export function VerifiedFacts({ property }: { property: Property }) {
                     ))}
                   </ul>
                 ) : status === "pending_verification" ? (
-                  <p className="flex items-start gap-1.5 font-medium text-[#b45309]">
+                  <p className="flex items-start gap-1.5 font-medium text-[var(--re-warm)]">
                     <Clock3 className="mt-0.5 size-4 shrink-0" />
                     <span>
                       Pending verification
                       {f.blocked_by?.length ? (
-                        <span className="font-normal text-[#697586]">
+                        <span className="font-normal text-[var(--re-muted)]">
                           {" "}
                           · documents disagree (open contradiction{" "}
                           {f.blocked_by.join(", ")})
@@ -168,7 +168,7 @@ export function VerifiedFacts({ property }: { property: Property }) {
                     </span>
                   </p>
                 ) : (
-                  <p className="flex items-start gap-1.5 text-[#8a95a3]">
+                  <p className="flex items-start gap-1.5 text-[var(--re-muted)]">
                     <CircleDashed className="mt-0.5 size-4 shrink-0" />
                     Not stated in the documents
                   </p>

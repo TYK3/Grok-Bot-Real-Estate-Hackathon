@@ -9,6 +9,19 @@
   <link rel="stylesheet" href="ui/app.css">
   <link rel="stylesheet" href="ui/theme-neutral.css">
   <link rel="stylesheet" href="ui/landing.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
+  <link rel="stylesheet" href="ui/theme-site.css">
+  <script>
+    // Follow the listing site's Morning/Night setting (same origin when served at /review).
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('re-theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') t = window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.dataset.theme = t;
+    })();
+  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
 </head>
 <body>
@@ -16,8 +29,12 @@
   <header class="topbar">
     <a class="identity" href="./" aria-label="Fact Review home" id="btn-home">
       <span class="logo" aria-hidden="true">✓</span>
-      <span><strong>Fact Review</strong><small>CONFLICT RESOLUTION</small></span>
+      <span><strong>Fact Review</strong><small>AGENT WORKBENCH</small></span>
     </a>
+    <div class="top-links">
+      <a class="site-link" href="/facts" id="link-site">← Public fact checks</a>
+      <button type="button" class="theme-toggle" id="btn-theme" aria-label="Switch light or dark theme">◐</button>
+    </div>
     <div class="top-actions" id="review-actions" hidden>
       <span class="storage-note" title="Review state stays in this browser">◉ Local review workspace</span>
       <button type="button" class="button secondary" id="btn-ingest">＋ Add evidence</button>
@@ -125,6 +142,17 @@
     </section>
 
     <section class="summary" id="summary" aria-label="Review progress"></section>
+
+    <nav class="view-tabs" role="tablist" aria-label="Workbench views">
+      <button type="button" role="tab" class="view-tab" data-tab="review" aria-selected="true">Review <small>compare &amp; decide</small></button>
+      <button type="button" role="tab" class="view-tab" data-tab="board" aria-selected="false">Board <small>what is being worked on</small></button>
+      <button type="button" role="tab" class="view-tab" data-tab="data" aria-selected="false">Data <small>every record &amp; fact</small></button>
+    </nav>
+
+    <section id="tab-board" class="board" aria-label="Work board" hidden></section>
+    <section id="tab-data" class="data-view" aria-label="All data" hidden></section>
+
+    <div id="tab-review">
     <div class="steps" aria-label="How to review">
       <span><b>1</b> Choose a difference</span><i>→</i>
       <span><b>2</b> Read both sources</span><i>→</i>
@@ -182,6 +210,7 @@
         </div>
         <div id="resolve-panel" class="decision-body"><p class="empty-hint">Choose a difference to begin.</p></div>
       </aside>
+    </div>
     </div>
 
     <footer class="footer">

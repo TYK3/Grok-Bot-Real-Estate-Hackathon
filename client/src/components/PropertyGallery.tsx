@@ -17,14 +17,14 @@ export function PropertyGallery({
 }) {
   if (!images.length) {
     return (
-      <div className="flex aspect-[16/10] w-full items-center justify-center rounded-lg border border-[#d9dee5] bg-[#eef0f2] text-[#8a95a3]">
+      <div className="flex aspect-[16/10] w-full items-center justify-center rounded-lg border border-[var(--re-line)] bg-[var(--re-surface-2)] text-[var(--re-muted)]">
         <ImageOff className="size-10" />
       </div>
     );
   }
 
   return (
-    <div className="overflow-hidden rounded-lg border border-[#d9dee5] bg-white">
+    <div className="overflow-hidden rounded-lg border border-[var(--re-line)] bg-[var(--re-surface)]">
       <Swiper
         modules={[Navigation, Pagination]}
         navigation

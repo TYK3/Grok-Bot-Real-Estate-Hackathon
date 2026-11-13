@@ -165,14 +165,14 @@ export function CallExperience({ property }: { property: CallProperty }) {
 
   return (
     <RoomContext.Provider value={room}>
-      <div className="relative min-h-screen w-full bg-[#f7f6f3] text-[#13294b]">
+      <div className="relative min-h-screen w-full bg-[var(--re-bg)] text-[var(--re-ink)]">
         {error ? (
           <div
             role="alert"
-            className="fixed left-1/2 top-5 z-50 w-[min(90vw,420px)] -translate-x-1/2 rounded-md border border-red-500/25 bg-white/95 px-4 py-3 text-sm shadow-lg backdrop-blur"
+            className="fixed left-1/2 top-5 z-50 w-[min(90vw,420px)] -translate-x-1/2 rounded-md border border-red-500/25 bg-[var(--re-surface)] px-4 py-3 text-sm shadow-lg backdrop-blur"
           >
             <p className="font-medium">Connection issue</p>
-            <p className="mt-1 text-[#697586]">{error}</p>
+            <p className="mt-1 text-[var(--re-muted)]">{error}</p>
           </div>
         ) : null}
 
@@ -180,7 +180,7 @@ export function CallExperience({ property }: { property: CallProperty }) {
           <div
             role="status"
             aria-live="polite"
-            className="fixed right-4 top-16 z-50 w-[min(calc(100vw-2rem),420px)] rounded-lg border border-[#bde7c9] bg-white p-4 shadow-2xl shadow-[#13294b]/15 sm:right-6"
+            className="fixed right-4 top-16 z-50 w-[min(calc(100vw-2rem),420px)] rounded-lg border border-[#bde7c9] bg-[var(--re-surface)] p-4 shadow-2xl shadow-[var(--re-ink)]/15 sm:right-6"
           >
             <div className="flex items-start gap-3">
               <span className="grid size-11 shrink-0 place-items-center rounded-full bg-[#ecfdf3] text-[#16a34a]">
@@ -190,10 +190,10 @@ export function CallExperience({ property }: { property: CallProperty }) {
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#16a34a]">
                   Booking confirmed
                 </p>
-                <p className="mt-1 text-sm font-semibold text-[#13294b]">
+                <p className="mt-1 text-sm font-semibold text-[var(--re-ink)]">
                   Viewing booked for {bookingToast.slot}
                 </p>
-                <p className="mt-1 text-xs leading-relaxed text-[#697586]">
+                <p className="mt-1 text-xs leading-relaxed text-[var(--re-muted)]">
                   {bookingToast.customerName
                     ? `${bookingToast.customerName}'s viewing slot has been saved.`
                     : "This viewing slot has been saved during the call."}
@@ -203,7 +203,7 @@ export function CallExperience({ property }: { property: CallProperty }) {
                 type="button"
                 aria-label="Dismiss booking confirmation"
                 onClick={() => setBookingToast(null)}
-                className="grid size-7 shrink-0 place-items-center rounded-full text-[#8a95a3] transition-colors hover:bg-[#eef0f2] hover:text-[#13294b]"
+                className="grid size-7 shrink-0 place-items-center rounded-full text-[var(--re-muted)] transition-colors hover:bg-[var(--re-surface-2)] hover:text-[var(--re-ink)]"
               >
                 <X className="size-4" />
               </button>
@@ -215,7 +215,7 @@ export function CallExperience({ property }: { property: CallProperty }) {
           <button
             type="button"
             onClick={handleEndCall}
-            className="inline-flex items-center gap-1.5 rounded-md border border-[#d9dee5] bg-white px-3 py-1.5 text-sm text-[#4f5f70] shadow-sm transition-colors hover:border-[#13294b] hover:text-[#13294b]"
+            className="inline-flex items-center gap-1.5 rounded-md border border-[var(--re-line)] bg-[var(--re-surface)] px-3 py-1.5 text-sm text-[var(--re-muted)] shadow-sm transition-colors hover:border-[var(--re-ink)] hover:text-[var(--re-ink)]"
           >
             <ArrowLeft className="size-4" />
             Back
@@ -229,8 +229,8 @@ export function CallExperience({ property }: { property: CallProperty }) {
             aria-pressed={showChat}
             className={`inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-sm transition-colors ${
               showChat
-                ? "border-[#13294b] bg-[#13294b] text-white"
-                : "border-[#d9dee5] bg-white text-[#4f5f70] hover:border-[#13294b] hover:text-[#13294b]"
+                ? "border-[var(--re-ink)] bg-[var(--re-ink)] text-[var(--re-bg)]"
+                : "border-[var(--re-line)] bg-[var(--re-surface)] text-[var(--re-muted)] hover:border-[var(--re-ink)] hover:text-[var(--re-ink)]"
             }`}
           >
             <MessageSquare className="size-4" />
@@ -266,12 +266,12 @@ export function CallExperience({ property }: { property: CallProperty }) {
                 onEndCall={handleEndCall}
               />
             ) : (
-              <div className="flex h-[calc(100dvh-8rem)] w-full max-w-2xl flex-col items-center justify-center gap-10 rounded-lg border border-[#d9dee5] bg-white px-6 py-10 text-center shadow-sm">
+              <div className="flex h-[calc(100dvh-8rem)] w-full max-w-2xl flex-col items-center justify-center gap-10 rounded-lg border border-[var(--re-line)] bg-[var(--re-surface)] px-6 py-10 text-center shadow-sm">
                 <div className="space-y-2">
                   <h1 className="font-heading text-4xl leading-tight sm:text-5xl">
                     {property.title}
                   </h1>
-                  <p className="text-lg text-[#697586]">
+                  <p className="text-lg text-[var(--re-muted)]">
                     {callState === "error"
                       ? "Could not connect. Please try again."
                       : callState === "ended"
@@ -279,9 +279,9 @@ export function CallExperience({ property }: { property: CallProperty }) {
                         : "Connecting..."}
                   </p>
                 </div>
-                <div className="relative grid size-64 place-items-center overflow-hidden rounded-full border border-[#d9dee5] bg-[#f7f6f3] shadow-inner">
+                <div className="relative grid size-64 place-items-center overflow-hidden rounded-full border border-[var(--re-line)] bg-[var(--re-bg)] shadow-inner">
                   <div className="absolute inset-3 animate-pulse rounded-full border border-[#e95650]/30" />
-                  <div className="grid size-28 place-items-center rounded-full bg-[#13294b] text-white">
+                  <div className="grid size-28 place-items-center rounded-full bg-[var(--re-ink)] text-[var(--re-bg)]">
                     <PhoneCall className="size-12" />
                   </div>
                 </div>
@@ -304,7 +304,7 @@ export function CallExperience({ property }: { property: CallProperty }) {
         <RoomAudioRenderer />
         <StartAudio
           label="Click to enable audio"
-          className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 rounded-md border border-[#d9dee5] bg-white px-4 py-2 text-sm text-[#13294b] shadow-sm"
+          className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 rounded-md border border-[var(--re-line)] bg-[var(--re-surface)] px-4 py-2 text-sm text-[var(--re-ink)] shadow-sm"
         />
       </div>
     </RoomContext.Provider>

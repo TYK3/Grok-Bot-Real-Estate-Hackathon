@@ -75,15 +75,13 @@ def save_customer_details(customer_data: dict[str, Any]) -> None:
 
 def save_call_summary(summary_text: str) -> None:
     path = os.path.join(_session_dir(), SUMMARY_FILENAME)
-    with _lock:
-        with open(path, "w", encoding="utf-8") as f:
-            f.write(summary_text)
+    with _lock, open(path, "w", encoding="utf-8") as f:
+        f.write(summary_text)
 
 def save_transcript(transcript_text: str) -> None:
     path = os.path.join(_session_dir(), TRANSCRIPT_FILENAME)
-    with _lock:
-        with open(path, "w", encoding="utf-8") as f:
-            f.write(transcript_text)
+    with _lock, open(path, "w", encoding="utf-8") as f:
+        f.write(transcript_text)
 
 def get_session_dir() -> str:
     return _session_dir()
