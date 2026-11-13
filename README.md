@@ -1,4 +1,4 @@
-<h1 align="center">🏠 Verified Fact Record: <em>every property fact, with its receipt</em></h1>
+<h1 align="center">🏠 Ground Truth: <em>every property fact, with its receipt</em></h1>
 
 <p align="center">
   <b>Drop in the brochures. Get one verified record per home, a listing that never shows a disputed number, and a Grok voice agent that cites the page.</b><br>
@@ -6,7 +6,8 @@
 </p>
 
 <p align="center">
-  <a href="https://www.youtube.com/watch?v=clWr3SJiLjw"><img alt="Watch the demo video" src="https://img.shields.io/badge/🎬%20watch%20the%20demo-YouTube-FF0000?style=for-the-badge&labelColor=111111"></a>
+  <a href="https://ground-truth-rosy-five.vercel.app"><img alt="Try it live" src="https://img.shields.io/badge/▲%20try%20it%20live-Vercel-000000?style=for-the-badge&labelColor=111111"></a>
+  <a href="https://www.youtube.com/watch?v=ltC55T0_cqk"><img alt="Watch the demo video" src="https://img.shields.io/badge/🎬%20watch%20the%20demo-YouTube-FF0000?style=for-the-badge&labelColor=111111"></a>
 </p>
 
 <p align="center">
@@ -24,17 +25,17 @@
 ## 🎬 Demo video
 
 <p align="center">
-  <a href="https://www.youtube.com/watch?v=clWr3SJiLjw" title="Watch the Verified Fact Record demo on YouTube">
-    <img src="https://i.ytimg.com/vi/clWr3SJiLjw/hqdefault.jpg" alt="Verified Fact Record demo video: click to watch on YouTube" width="70%">
+  <a href="https://www.youtube.com/watch?v=ltC55T0_cqk" title="Watch the Ground Truth demo on YouTube">
+    <img src="https://i.ytimg.com/vi/ltC55T0_cqk/hqdefault.jpg" alt="Ground Truth demo video: click to watch on YouTube" width="70%">
   </a>
-  <br><b>▶️ <a href="https://www.youtube.com/watch?v=clWr3SJiLjw">Watch the demo on YouTube</a></b>
+  <br><b>▶️ <a href="https://www.youtube.com/watch?v=ltC55T0_cqk">Watch the demo on YouTube</a></b>
 </p>
 
 | 📄 Reads the documents | ⚖️ Catches the contradictions | 🎙️ Speaks only what is verified |
 |---|---|---|
 | Brochures, surveys and price instructions become facts, each with document, page, verbatim quote, date and issuer | Price changes, area errors, scope and basis differences and official-record mismatches are flagged and sent to a human, never silently picked | The site and the Grok voice agent publish verified facts only, cite the source when asked, and use safe wording for anything still disputed |
 
-> **One-paragraph description.** Property facts disagree. The April brochure for Kelso Villa says £700,000 and prints 185 sq m as 2,700 sq ft; the October brochure says £600,000; the measured survey says the net area is 1,912 sq ft and that bay six is a bin store, not a parking space. Portals and chatbots repeat whichever number they saw first. **Verified Fact Record** extracts every fact with its receipt, classifies each disagreement, lets a reviewer confirm or hold it in a workbench, and publishes one versioned record per unit to Supabase. A buyer-facing site shows only verified values ("Pending verification" otherwise), and a voice agent built on xAI Grok answers from the same record, cites the document and page, books viewings, reserves units, and helps callers find homes near supermarkets, parks and stations on a live map.
+> **One-paragraph description.** Property facts disagree. The April brochure for Kelso Villa says £700,000 and prints 185 sq m as 2,700 sq ft; the October brochure says £600,000; the measured survey says the net area is 1,912 sq ft and that bay six is a bin store, not a parking space. Portals and chatbots repeat whichever number they saw first. **Ground Truth** extracts every fact with its receipt, classifies each disagreement, lets a reviewer confirm or hold it in a workbench, and publishes one versioned record per unit to Supabase. A buyer-facing site shows only verified values ("Pending verification" otherwise), and a voice agent built on xAI Grok answers from the same record, cites the document and page, books viewings, reserves units, and helps callers find homes near supermarkets, parks and stations on a live map.
 
 <details open>
 <summary><b>📑 Contents</b> (click to collapse)</summary>
@@ -42,7 +43,7 @@
 | | |
 |---|---|
 | 🎬 [Demo video](#-demo-video) | 🏗️ [Architecture](#️-architecture) |
-| 🚀 [The MVP](#-the-mvp) · 🤯 [Wow factors](#-wow-factors) | |
+| 🚀 [The MVP](#-the-mvp) · 🤯 [Wow factors](#-wow-factors) | 👀 [See it in action](#-see-it-in-action) |
 | 🧭 [Judges: a 2-minute tour](#-judges-a-2-minute-tour) | 📊 [Measured results](#-measured-results) |
 | 🎯 [The problem](#-the-problem) | 🏆 [How it meets the judging criteria](#-how-it-meets-the-judging-criteria) |
 | 📚 [The demo documents and contradictions](#-the-demo-documents-and-contradictions) | 🙏 [Team, credits and data](#-team-credits-and-data) |
@@ -50,6 +51,68 @@
 | 🎙️ [The voice agent](#️-the-voice-agent) | 🚧 [Known limits](#-known-limits) |
 
 </details>
+
+---
+
+## 👀 See it in action
+
+Real recordings of the running site (Kelso Villa sample data). Each GIF loops.
+
+### For the agency: check the facts
+
+<table>
+<tr>
+<td width="50%" valign="top">
+<b>1. Review workbench</b> · <code>/review</code><br>
+<sub>Load the Kelso Villa documents, open the parking conflict (6 vs 5 spaces) with both source pages side by side, then confirm October's £600,000 price. The Board shows what is waiting, ready to sign off, and approved.</sub><br><br>
+<img src="docs/gifs/review.gif" alt="Review workbench: loading Kelso Villa, comparing parking evidence and confirming the price" width="100%">
+</td>
+<td width="50%" valign="top">
+<b>2. Public fact checks</b> · <code>/facts</code><br>
+<sub>What is still being checked (parking, sale or let), what is on the listing now, and every correction with its before, after and who checked it.</sub><br><br>
+<img src="docs/gifs/facts.gif" alt="Fact checks page: open contradictions and corrected facts with before and after" width="100%">
+</td>
+</tr>
+</table>
+
+### For the renter: get straight answers
+
+<table>
+<tr>
+<td width="50%" valign="top">
+<b>3. Landing page</b> · <code>/</code><br>
+<sub>Featured homes, the live market in numbers, and three ways in: explore, ask Haven, book a viewing.</sub><br><br>
+<img src="docs/gifs/home.gif" alt="Landing page scrolling through featured homes and market numbers" width="100%">
+</td>
+<td width="50%" valign="top">
+<b>4. Explore homes</b> · <code>/explore</code><br>
+<sub>58 homes to let across East London. Filter to 2 beds and the list and map update together.</sub><br><br>
+<img src="docs/gifs/explore.gif" alt="Explore page: filtering to two bedrooms with the list and map side by side" width="100%">
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+<b>5. A verified listing</b> · <code>/property/kelso-villa</code><br>
+<sub>Only verified facts. Tap the price to see its receipt (Carter Jonas, 16 Oct 2026, page 2). Parking is still disputed, so it says <i>Under review</i>.</sub><br><br>
+<img src="docs/gifs/property.gif" alt="Kelso Villa property page: tapping the price shows its source document and page" width="100%">
+</td>
+<td width="50%" valign="top">
+<b>6. Haven, the voice agent</b> · <code>/haven</code><br>
+<sub>What Haven can do on a call: find homes near a park, check a price against the area, answer tenancy questions from the agreement, and book a viewing.</sub><br><br>
+<img src="docs/gifs/haven.gif" alt="Haven page: switching between nearby search, price check, agreement Q&A and booking" width="100%">
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+<b>7. Market dashboard</b> · <code>/market</code><br>
+<sub>Rent distribution, rent by bedrooms, new listings per week and property mix, all calculated from the current listings, then the panel where viewings booked by voice appear and a sortable table of every home.</sub><br><br>
+<img src="docs/gifs/market.gif" alt="Market dashboard scrolling through rent charts and booked viewings" width="100%">
+</td>
+<td width="50%" valign="top">
+<sub>The GIFs are recorded by <code>demo-video/gifs/record.mjs</code>, which drives the site in headless Chrome. To refresh them, start the site and run <code>node gifs/record.mjs</code> from <code>demo-video/</code>.</sub>
+</td>
+</tr>
+</table>
 
 ---
 
@@ -85,7 +148,7 @@ One loop, working end to end on real and synthetic documents:
 
 | Step | Do this | You'll see |
 |:---:|---|---|
-| **1** | Open **http://localhost:3000** (see [Run it yourself](#️-run-it-yourself)) | The landing page, featured homes, and three ways in: explore, ask the AI agent, book a viewing |
+| **1** | Open **https://ground-truth-rosy-five.vercel.app** (live, without voice calls) or **http://localhost:3000** (see [Run it yourself](#️-run-it-yourself)) | The landing page, featured homes, and three ways in: explore, ask the AI agent, book a viewing |
 | **2** | Open **Kelso Villa** | A **Verified facts** panel: price, tenure, areas and EPC each with issuer, document, date, page and quote; parking and sale-or-let show **Pending verification** with their contradiction id |
 | **3** | Click **Talk to 24/7 Live Agent** and ask about parking, then the price and its source | The safe wording for parking, and the price with its citation |
 | **4** | Go back and press **Start a call** under *Ask the AI agent* | The agent on the left, a map and info panel on the right |
@@ -114,7 +177,7 @@ A property is described by a brochure, then a newer brochure, a measured survey,
 | Copy the latest brochure to the portal | Fast | Inherits its mistakes; older claims stay live elsewhere |
 | A negotiator checks by eye | Judgement | Slow, no audit trail, not repeatable |
 | A generic AI chatbot on the listing | Always on | Picks one number, cannot say which document it came from, invents when unsure |
-| **Verified Fact Record** | **Every fact with a receipt, conflicts held for a human, a voice agent that cites** | See [Known limits](#-known-limits) |
+| **Ground Truth** | **Every fact with a receipt, conflicts held for a human, a voice agent that cites** | See [Known limits](#-known-limits) |
 
 ---
 
@@ -284,7 +347,38 @@ pip install -r fact_record/requirements.txt
 python fact_record/extraction_service/server.py
 ```
 
-Apply `supabase/migrations/` to a Supabase project and set the `SUPABASE_*` values below. Without them, the site and agent read the JSON contracts.
+Supabase is optional. Without it, the site and agent read the JSON contracts in `fact_record/contracts`. Connect it when you want reviews saved in the workbench to reach the site and the voice agent.
+
+<details>
+<summary><b>🗄️ Set up Supabase (about 5 minutes)</b></summary>
+
+1. **Create a project** at [supabase.com](https://supabase.com) (the free tier is enough).
+2. **Create the tables.** Open **SQL Editor** in the dashboard and run the two migrations in this order, pasting each file's contents and clicking **Run**:
+   1. `supabase/migrations/20261112000000_fact_record.sql`, which creates the tables and the write functions
+   2. `supabase/migrations/20261112010000_published_fact_state.sql`, which creates the read function used by the site and agent
+
+   If you use the Supabase CLI, `supabase link` followed by `supabase db push` runs both.
+3. **Copy the keys.** In **Project Settings → API**, copy the Project URL, the `anon` public key and the `service_role` secret key.
+4. **Put them in the env files:**
+
+   | File | `SUPABASE_URL` | `SUPABASE_ANON_KEY` | `SUPABASE_SERVICE_ROLE_KEY` |
+   |---|---|---|---|
+   | `.env` (repo root: agent and extraction service) | ✅ | ✅ | ✅ |
+   | `client/.env` (website) | ✅ | ✅ | ❌ never |
+
+   The `service_role` key can write to every table, so keep it out of `client/` and out of git. The `anon` key can only read published facts.
+5. **Restart** the agent, the site and the extraction service so they pick up the new values.
+6. **Check it works:**
+   - `curl http://localhost:8765/health` should return `"supabase": true`. This only confirms the keys are set; the sample load below proves the connection.
+   - To load the bundled sample review, set `SUPABASE_ALLOW_EXAMPLE=true` in `.env`, then run:
+     ```bash
+     python fact_record/extraction_service/supabase_sink.py conflict-resolution-ui/examples/database-handoff.example.json
+     ```
+   - Within about 30 seconds, open `/property/kelso-villa`. The disputed stated floor area shows **Pending verification**, and the reviewed values show their source citation.
+
+After that, the **Save to Supabase** button in the review workbench (`/review`) writes your decisions straight to the database. If Supabase can't be reached, the site and agent fall back to the JSON contracts, so a bad key never takes the demo down.
+
+</details>
 
 **4. Optional: refresh the map data**
 

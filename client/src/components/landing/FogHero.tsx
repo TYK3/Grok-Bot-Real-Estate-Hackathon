@@ -44,7 +44,7 @@ void main(){
   float haze=S*(.3+.46*d);
   float a=clamp(max(rest,max(rise*.97,haze)),0.,1.);
   vec3 dayA=vec3(.97,.93,.84),dayB=vec3(.79,.78,.71);
-  vec3 nitA=vec3(.40,.45,.57),nitB=vec3(.15,.19,.29);
+  vec3 nitA=vec3(.36,.45,.41),nitB=vec3(.10,.17,.14);
   vec3 c=mix(mix(dayB,dayA,d*1.15),mix(nitB,nitA,d*1.1),K);
   float porch=exp(-dot((uv-vec2(.72,.74))*vec2(1.7,2.6),(uv-vec2(.72,.74))*vec2(1.7,2.6))*3.2);
   c=mix(c,vec3(.86,.55,.27),K*porch*.42*(1.-S));
@@ -218,9 +218,14 @@ export function FogHero({ count, districts }: { count: number; districts: number
     });
     io.observe(hero);
 
+    // The nav's theme toggle switches the hero too, with the same fog transition.
+    const onTheme = (e: Event) => pickRef.current((e as CustomEvent<string>).detail === "light" ? 0 : 1);
+    window.addEventListener("re-theme-change", onTheme);
+
     return () => {
       cancelAnimationFrame(raf);
       io.disconnect();
+      window.removeEventListener("re-theme-change", onTheme);
       window.removeEventListener("resize", size);
     };
   }, []);
@@ -261,31 +266,8 @@ export function FogHero({ count, districts }: { count: number; districts: number
       <canvas ref={canvasRef} className="fog" aria-hidden="true" />
 
       <div className="ui">
-        <header className="bar">
-          <Link className="logo" href="/" aria-label="Hamptons AI Lettings home">
-            <svg viewBox="0 0 40 40" aria-hidden="true">
-              <path
-                d="M20 5 4 18.5h4.2V35h9.3v-9.6h5V35h9.3V18.5H36Z"
-                style={{ fill: "color-mix(in srgb,#6d8f2a calc((1 - var(--k))*100%),#d8ee8e)" }}
-              />
-            </svg>
-            <span>
-              Hamptons <small>AI lettings</small>
-            </span>
-          </Link>
-          <ul className="links">
-            <li><Link href="/explore">Homes</Link></li>
-            <li><Link href="/explore?view=map">Map</Link></li>
-            <li><Link href="/market">Market</Link></li>
-            <li><Link href="/facts">Fact checks</Link></li>
-            <li><Link href="/explore?saved=1">Shortlist</Link></li>
-            <li><a href="#how">How it works</a></li>
-          </ul>
-          <div className="side">
-            <Link href="/market#viewings">Viewings</Link>
-            <Link className="cta" href="/explore">Find your home</Link>
-          </div>
-        </header>
+        {/* room for the shared SiteNav, which floats over the hero */}
+        <div className="barspace" aria-hidden="true" />
 
         <h1>
           <span className="l1">Homes that feel right</span>
@@ -317,7 +299,7 @@ export function FogHero({ count, districts }: { count: number; districts: number
             </button>
           </div>
           <p className="cap">
-            {count} homes to let across {districts} East London postcodes. Compare them, ask our AI agent
+            {count} homes to let across {districts} East London postcodes. Compare them, ask Haven, our AI agent,
             <br />
             about floor plans, commutes and the neighbourhood, then book a viewing by voice.
           </p>

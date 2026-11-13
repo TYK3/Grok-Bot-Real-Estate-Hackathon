@@ -1,5 +1,7 @@
 # sample_data
 
+<p align="center"><img src="../../docs/gifs/review.gif" alt="Review workbench comparing Kelso Villa facts from the sample documents" width="80%"><br><sub>These documents in use: the Kelso Villa brochures and survey loaded into the review workbench, with the conflicting parking pages side by side.</sub></p>
+
 Demo documents for the verified fact record, at most three per development (real brochures included). Synthetic PDFs are fictional (people, firms, reference numbers) and carry `synthetic: true` in their PDF Subject/Keywords plus a small 'Demo document' footer.
 
 - `kelso-villa/`: 2 real Carter Jonas brochures (scanned, no text layer: needs OCR/vision) + synthetic measured survey + preview PNG + `contradictions.md`.

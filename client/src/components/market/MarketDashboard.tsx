@@ -49,8 +49,8 @@ export function MarketDashboard({ listings: all }: { listings: ListingSummary[] 
   const [bookings, setBookings] = useState<Booking[] | null>(null);
 
   const c = theme === "dark"
-    ? { accent: "#d8ee8e", accentDim: "rgba(216,238,142,.28)", ink: "#eef1f6", muted: "#93a0b4", grid: "rgba(255,255,255,.07)", surface: "#111c33" }
-    : { accent: "#4f6b1c", accentDim: "rgba(79,107,28,.25)", ink: "#14202f", muted: "#6b7480", grid: "rgba(20,32,47,.08)", surface: "#ffffff" };
+    ? { accent: "#dcbc78", accentDim: "rgba(220,188,120,.28)", ink: "#efeee6", muted: "#9aa69e", grid: "rgba(239,238,230,.07)", surface: "#12221b" }
+    : { accent: "#8a6420", accentDim: "rgba(138,100,32,.25)", ink: "#17261f", muted: "#67706a", grid: "rgba(23,38,31,.08)", surface: "#fffdf8" };
 
   useEffect(() => {
     fetch("/api/bookings")
@@ -333,7 +333,7 @@ export function MarketDashboard({ listings: all }: { listings: ListingSummary[] 
       </div>
 
       {/* Viewings */}
-      <Panel id="viewings" className="mt-3 scroll-mt-24" title="Booked viewings" note="Booked by voice through the AI agent">
+      <Panel id="viewings" className="mt-3 scroll-mt-24" title="Booked viewings" note="Booked by voice through Haven">
         {bookings === null ? (
           <div className="h-16 animate-pulse rounded-xl" style={{ background: "var(--re-surface-2)" }} />
         ) : bookings.length === 0 ? (
@@ -462,7 +462,7 @@ function Kpi({ label, value, sub }: { label: string; value: string; sub: string 
 
 function FilterChip({ children, onClear }: { children: React.ReactNode; onClear: () => void }) {
   return (
-    <span className="inline-flex h-8 items-center gap-1.5 rounded-full pl-3 pr-1.5 text-sm font-medium" style={{ background: "var(--re-accent-soft)", color: "#1c2316" }}>
+    <span className="inline-flex h-8 items-center gap-1.5 rounded-full pl-3 pr-1.5 text-sm font-medium" style={{ background: "var(--re-accent-soft)", color: "#2b2210" }}>
       {children}
       <button type="button" onClick={onClear} aria-label="Remove filter" className="rounded-full p-1 hover:bg-black/10">
         <X className="size-3.5" />

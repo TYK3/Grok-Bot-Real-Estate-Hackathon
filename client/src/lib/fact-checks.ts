@@ -20,6 +20,7 @@ export type CheckFact = {
   tier: number | null;
   page: number | null;
   quote: string | null;
+  scope: string;
   status: string;
   recommended: boolean;
   winner: boolean;
@@ -57,6 +58,7 @@ export type ListingField = {
   status: string;
   display: string | null;
   blockedBy: string[];
+  source: { docType: string; issuer: string; docDate: string; page: number | null } | null;
 };
 
 export type Development = {
@@ -129,6 +131,7 @@ export function getFactChecks(): Development[] {
             tier: n(f.authority_tier),
             page: n(f.page),
             quote: s(f.quote) || null,
+            scope: s(f.scope) || s((f.qualifier as Raw | undefined)?.scope),
             status: s(f.status),
             recommended: id === s(c.recommended_fact_id),
             winner: winning ? id === winning : false,
@@ -148,12 +151,19 @@ export function getFactChecks(): Development[] {
 
     const l = listings[key];
     const prop = (l?.property ?? {}) as Raw;
-    const fields = Object.entries((l?.fields ?? {}) as Record<string, Raw>).map<ListingField>(([field, v]) => ({
-      field,
-      status: s(v.verification_status),
-      display: v.display == null ? null : s(v.display),
-      blockedBy: ((v.blocked_by ?? []) as unknown[]).map(s),
-    }));
+    const fields = Object.entries((l?.fields ?? {}) as Record<string, Raw>).map<ListingField>(([field, v]) => {
+      const items = ((v.items ?? []) as Raw[]).map((i) => s(i.text).replace(/\s+/g, " ").trim()).filter(Boolean);
+      const cit = (v.citation ?? null) as Raw | null;
+      return {
+        field,
+        status: s(v.verification_status),
+        display: v.display != null ? s(v.display) : items.length ? [...new Set(items)].join(", ") : null,
+        blockedBy: ((v.blocked_by ?? []) as unknown[]).map(s),
+        source: cit
+          ? { docType: s(cit.doc_type), issuer: s(cit.issuer), docDate: s(cit.doc_date), page: n(cit.page) }
+          : null,
+      };
+    });
     const addr = (prop.address ?? {}) as Raw;
 
     return {

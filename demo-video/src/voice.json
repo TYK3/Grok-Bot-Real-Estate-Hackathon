@@ -1,0 +1,3317 @@
+{
+ "hook": {
+  "frames": 628,
+  "segs": [
+   {
+    "v": "narrator",
+    "text": "This is Kelso Villa, a real house in East London. And these are three documents about it. The April brochure says seven hundred thousand pounds, with six parking spaces. The October brochure says six hundred thousand. And the surveyor only counted five spaces. So... which one's right?",
+    "src": "voice/hook_0.mp3",
+    "hash": "49d8cc048e95",
+    "from": 14,
+    "dur": 594,
+    "words": [
+     {
+      "w": "this",
+      "f": 17
+     },
+     {
+      "w": "is",
+      "f": 26
+     },
+     {
+      "w": "kelso",
+      "f": 31
+     },
+     {
+      "w": "villa",
+      "f": 42
+     },
+     {
+      "w": "a",
+      "f": 59
+     },
+     {
+      "w": "real",
+      "f": 63
+     },
+     {
+      "w": "house",
+      "f": 73
+     },
+     {
+      "w": "in",
+      "f": 84
+     },
+     {
+      "w": "east",
+      "f": 88
+     },
+     {
+      "w": "london",
+      "f": 97
+     },
+     {
+      "w": "and",
+      "f": 125
+     },
+     {
+      "w": "these",
+      "f": 133
+     },
+     {
+      "w": "are",
+      "f": 139
+     },
+     {
+      "w": "three",
+      "f": 143
+     },
+     {
+      "w": "documents",
+      "f": 153
+     },
+     {
+      "w": "about",
+      "f": 169
+     },
+     {
+      "w": "it",
+      "f": 177
+     },
+     {
+      "w": "the",
+      "f": 196
+     },
+     {
+      "w": "april",
+      "f": 204
+     },
+     {
+      "w": "brochure",
+      "f": 214
+     },
+     {
+      "w": "says",
+      "f": 230
+     },
+     {
+      "w": "seven",
+      "f": 242
+     },
+     {
+      "w": "hundred",
+      "f": 252
+     },
+     {
+      "w": "thousand",
+      "f": 264
+     },
+     {
+      "w": "pounds",
+      "f": 275
+     },
+     {
+      "w": "with",
+      "f": 298
+     },
+     {
+      "w": "six",
+      "f": 305
+     },
+     {
+      "w": "parking",
+      "f": 319
+     },
+     {
+      "w": "spaces",
+      "f": 331
+     },
+     {
+      "w": "the",
+      "f": 362
+     },
+     {
+      "w": "october",
+      "f": 368
+     },
+     {
+      "w": "brochure",
+      "f": 383
+     },
+     {
+      "w": "says",
+      "f": 398
+     },
+     {
+      "w": "six",
+      "f": 410
+     },
+     {
+      "w": "hundred",
+      "f": 422
+     },
+     {
+      "w": "thousand",
+      "f": 433
+     },
+     {
+      "w": "and",
+      "f": 462
+     },
+     {
+      "w": "the",
+      "f": 469
+     },
+     {
+      "w": "surveyor",
+      "f": 471
+     },
+     {
+      "w": "only",
+      "f": 491
+     },
+     {
+      "w": "counted",
+      "f": 500
+     },
+     {
+      "w": "five",
+      "f": 511
+     },
+     {
+      "w": "spaces",
+      "f": 520
+     },
+     {
+      "w": "so",
+      "f": 552
+     },
+     {
+      "w": "which",
+      "f": 580
+     },
+     {
+      "w": "ones",
+      "f": 587
+     },
+     {
+      "w": "right",
+      "f": 594
+     }
+    ]
+   }
+  ]
+ },
+ "problem": {
+  "frames": 353,
+  "segs": [
+   {
+    "v": "narrator",
+    "text": "Ask a typical listing chatbot, and it just repeats whichever number it found first. Wrong price. Wrong parking. And it can't tell you where either one came from.",
+    "src": "voice/problem_0.mp3",
+    "hash": "2a27a2cb383b",
+    "from": 14,
+    "dur": 318,
+    "words": [
+     {
+      "w": "ask",
+      "f": 17
+     },
+     {
+      "w": "a",
+      "f": 31
+     },
+     {
+      "w": "typical",
+      "f": 34
+     },
+     {
+      "w": "listing",
+      "f": 48
+     },
+     {
+      "w": "chatbot",
+      "f": 59
+     },
+     {
+      "w": "and",
+      "f": 87
+     },
+     {
+      "w": "it",
+      "f": 94
+     },
+     {
+      "w": "just",
+      "f": 97
+     },
+     {
+      "w": "repeats",
+      "f": 106
+     },
+     {
+      "w": "whichever",
+      "f": 118
+     },
+     {
+      "w": "number",
+      "f": 133
+     },
+     {
+      "w": "it",
+      "f": 142
+     },
+     {
+      "w": "found",
+      "f": 145
+     },
+     {
+      "w": "first",
+      "f": 156
+     },
+     {
+      "w": "wrong",
+      "f": 183
+     },
+     {
+      "w": "price",
+      "f": 194
+     },
+     {
+      "w": "wrong",
+      "f": 223
+     },
+     {
+      "w": "parking",
+      "f": 232
+     },
+     {
+      "w": "and",
+      "f": 261
+     },
+     {
+      "w": "it",
+      "f": 271
+     },
+     {
+      "w": "cant",
+      "f": 274
+     },
+     {
+      "w": "tell",
+      "f": 282
+     },
+     {
+      "w": "you",
+      "f": 287
+     },
+     {
+      "w": "where",
+      "f": 290
+     },
+     {
+      "w": "either",
+      "f": 295
+     },
+     {
+      "w": "one",
+      "f": 303
+     },
+     {
+      "w": "came",
+      "f": 309
+     },
+     {
+      "w": "from",
+      "f": 317
+     }
+    ]
+   }
+  ]
+ },
+ "reveal": {
+  "frames": 510,
+  "segs": [
+   {
+    "v": "narrator",
+    "text": "That's the problem Ground Truth solves. Every fact about a home comes with its receipt: the document, the page, and the exact words. It works on two sides. The agency, checking the facts. And the renter, who just wants a straight answer.",
+    "src": "voice/reveal_0.mp3",
+    "hash": "3e206bb7f974",
+    "from": 14,
+    "dur": 476,
+    "words": [
+     {
+      "w": "thats",
+      "f": 17
+     },
+     {
+      "w": "the",
+      "f": 27
+     },
+     {
+      "w": "problem",
+      "f": 31
+     },
+     {
+      "w": "ground",
+      "f": 43
+     },
+     {
+      "w": "truth",
+      "f": 53
+     },
+     {
+      "w": "solves",
+      "f": 62
+     },
+     {
+      "w": "every",
+      "f": 90
+     },
+     {
+      "w": "fact",
+      "f": 102
+     },
+     {
+      "w": "about",
+      "f": 113
+     },
+     {
+      "w": "a",
+      "f": 120
+     },
+     {
+      "w": "home",
+      "f": 121
+     },
+     {
+      "w": "comes",
+      "f": 131
+     },
+     {
+      "w": "with",
+      "f": 142
+     },
+     {
+      "w": "its",
+      "f": 146
+     },
+     {
+      "w": "receipt",
+      "f": 150
+     },
+     {
+      "w": "the",
+      "f": 177
+     },
+     {
+      "w": "document",
+      "f": 180
+     },
+     {
+      "w": "the",
+      "f": 205
+     },
+     {
+      "w": "page",
+      "f": 208
+     },
+     {
+      "w": "and",
+      "f": 227
+     },
+     {
+      "w": "the",
+      "f": 235
+     },
+     {
+      "w": "exact",
+      "f": 237
+     },
+     {
+      "w": "words",
+      "f": 251
+     },
+     {
+      "w": "it",
+      "f": 278
+     },
+     {
+      "w": "works",
+      "f": 284
+     },
+     {
+      "w": "on",
+      "f": 293
+     },
+     {
+      "w": "two",
+      "f": 300
+     },
+     {
+      "w": "sides",
+      "f": 305
+     },
+     {
+      "w": "the",
+      "f": 335
+     },
+     {
+      "w": "agency",
+      "f": 341
+     },
+     {
+      "w": "checking",
+      "f": 363
+     },
+     {
+      "w": "the",
+      "f": 374
+     },
+     {
+      "w": "facts",
+      "f": 377
+     },
+     {
+      "w": "and",
+      "f": 404
+     },
+     {
+      "w": "the",
+      "f": 412
+     },
+     {
+      "w": "renter",
+      "f": 414
+     },
+     {
+      "w": "who",
+      "f": 438
+     },
+     {
+      "w": "just",
+      "f": 443
+     },
+     {
+      "w": "wants",
+      "f": 452
+     },
+     {
+      "w": "a",
+      "f": 458
+     },
+     {
+      "w": "straight",
+      "f": 460
+     },
+     {
+      "w": "answer",
+      "f": 471
+     }
+    ]
+   }
+  ]
+ },
+ "part1": {
+  "frames": 81,
+  "segs": [
+   {
+    "v": "narrator",
+    "text": "Let's start with the agency.",
+    "src": "voice/part1_0.mp3",
+    "hash": "4b2ef2bdbcbc",
+    "from": 14,
+    "dur": 47,
+    "words": [
+     {
+      "w": "lets",
+      "f": 17
+     },
+     {
+      "w": "start",
+      "f": 26
+     },
+     {
+      "w": "with",
+      "f": 32
+     },
+     {
+      "w": "the",
+      "f": 35
+     },
+     {
+      "w": "agency",
+      "f": 38
+     }
+    ]
+   }
+  ]
+ },
+ "upload": {
+  "frames": 383,
+  "segs": [
+   {
+    "v": "narrator",
+    "text": "A reviewer opens the workbench and drops in everything they've got. Brochures, surveys, price instructions. Even scanned ones, which it reads with OCR, right in the browser.",
+    "src": "voice/upload_0.mp3",
+    "hash": "459a5c8f7cd1",
+    "from": 14,
+    "dur": 348,
+    "words": [
+     {
+      "w": "a",
+      "f": 17
+     },
+     {
+      "w": "reviewer",
+      "f": 23
+     },
+     {
+      "w": "opens",
+      "f": 39
+     },
+     {
+      "w": "the",
+      "f": 48
+     },
+     {
+      "w": "workbench",
+      "f": 52
+     },
+     {
+      "w": "and",
+      "f": 68
+     },
+     {
+      "w": "drops",
+      "f": 74
+     },
+     {
+      "w": "in",
+      "f": 87
+     },
+     {
+      "w": "everything",
+      "f": 99
+     },
+     {
+      "w": "theyve",
+      "f": 114
+     },
+     {
+      "w": "got",
+      "f": 121
+     },
+     {
+      "w": "brochures",
+      "f": 143
+     },
+     {
+      "w": "surveys",
+      "f": 175
+     },
+     {
+      "w": "price",
+      "f": 198
+     },
+     {
+      "w": "instructions",
+      "f": 209
+     },
+     {
+      "w": "even",
+      "f": 245
+     },
+     {
+      "w": "scanned",
+      "f": 256
+     },
+     {
+      "w": "ones",
+      "f": 266
+     },
+     {
+      "w": "which",
+      "f": 279
+     },
+     {
+      "w": "it",
+      "f": 286
+     },
+     {
+      "w": "reads",
+      "f": 290
+     },
+     {
+      "w": "with",
+      "f": 298
+     },
+     {
+      "w": "ocr",
+      "f": 302
+     },
+     {
+      "w": "right",
+      "f": 329
+     },
+     {
+      "w": "in",
+      "f": 337
+     },
+     {
+      "w": "the",
+      "f": 340
+     },
+     {
+      "w": "browser",
+      "f": 343
+     }
+    ]
+   }
+  ]
+ },
+ "compare": {
+  "frames": 672,
+  "segs": [
+   {
+    "v": "narrator",
+    "text": "Within seconds it's pulled out seventy-eight facts, and found ten places where the documents disagree. Six of those need a person. Every fact keeps its receipt: who issued it, the date, the page, and the exact quote. Here's the price. April on one side, October on the other. No more digging through PDFs.",
+    "src": "voice/compare_0.mp3",
+    "hash": "0d3214c9c2ee",
+    "from": 14,
+    "dur": 638,
+    "words": [
+     {
+      "w": "within",
+      "f": 17
+     },
+     {
+      "w": "seconds",
+      "f": 30
+     },
+     {
+      "w": "its",
+      "f": 45
+     },
+     {
+      "w": "pulled",
+      "f": 51
+     },
+     {
+      "w": "out",
+      "f": 60
+     },
+     {
+      "w": "seventyeight",
+      "f": 65
+     },
+     {
+      "w": "facts",
+      "f": 83
+     },
+     {
+      "w": "and",
+      "f": 106
+     },
+     {
+      "w": "found",
+      "f": 112
+     },
+     {
+      "w": "ten",
+      "f": 122
+     },
+     {
+      "w": "places",
+      "f": 130
+     },
+     {
+      "w": "where",
+      "f": 149
+     },
+     {
+      "w": "the",
+      "f": 155
+     },
+     {
+      "w": "documents",
+      "f": 159
+     },
+     {
+      "w": "disagree",
+      "f": 178
+     },
+     {
+      "w": "six",
+      "f": 209
+     },
+     {
+      "w": "of",
+      "f": 221
+     },
+     {
+      "w": "those",
+      "f": 224
+     },
+     {
+      "w": "need",
+      "f": 231
+     },
+     {
+      "w": "a",
+      "f": 235
+     },
+     {
+      "w": "person",
+      "f": 237
+     },
+     {
+      "w": "every",
+      "f": 265
+     },
+     {
+      "w": "fact",
+      "f": 277
+     },
+     {
+      "w": "keeps",
+      "f": 290
+     },
+     {
+      "w": "its",
+      "f": 298
+     },
+     {
+      "w": "receipt",
+      "f": 302
+     },
+     {
+      "w": "who",
+      "f": 329
+     },
+     {
+      "w": "issued",
+      "f": 334
+     },
+     {
+      "w": "it",
+      "f": 345
+     },
+     {
+      "w": "the",
+      "f": 359
+     },
+     {
+      "w": "date",
+      "f": 363
+     },
+     {
+      "w": "the",
+      "f": 381
+     },
+     {
+      "w": "page",
+      "f": 384
+     },
+     {
+      "w": "and",
+      "f": 403
+     },
+     {
+      "w": "the",
+      "f": 409
+     },
+     {
+      "w": "exact",
+      "f": 411
+     },
+     {
+      "w": "quote",
+      "f": 425
+     },
+     {
+      "w": "heres",
+      "f": 450
+     },
+     {
+      "w": "the",
+      "f": 462
+     },
+     {
+      "w": "price",
+      "f": 466
+     },
+     {
+      "w": "april",
+      "f": 493
+     },
+     {
+      "w": "on",
+      "f": 506
+     },
+     {
+      "w": "one",
+      "f": 512
+     },
+     {
+      "w": "side",
+      "f": 520
+     },
+     {
+      "w": "october",
+      "f": 544
+     },
+     {
+      "w": "on",
+      "f": 562
+     },
+     {
+      "w": "the",
+      "f": 566
+     },
+     {
+      "w": "other",
+      "f": 569
+     },
+     {
+      "w": "no",
+      "f": 592
+     },
+     {
+      "w": "more",
+      "f": 600
+     },
+     {
+      "w": "digging",
+      "f": 607
+     },
+     {
+      "w": "through",
+      "f": 618
+     },
+     {
+      "w": "pdfs",
+      "f": 624
+     }
+    ]
+   }
+  ]
+ },
+ "classify": {
+  "frames": 793,
+  "segs": [
+   {
+    "v": "narrator",
+    "text": "It also works out why they disagree. A newer brochure replacing an older one is just an update. Five spaces against six is a real conflict. Sometimes a brochure even contradicts itself. April prints a hundred and eighty-five square metres next to two thousand seven hundred square feet, and those don't match. And the energy rating is a B in the marketing, but a C on the official register.",
+    "src": "voice/classify_0.mp3",
+    "hash": "6fa2f3804fab",
+    "from": 14,
+    "dur": 759,
+    "words": [
+     {
+      "w": "it",
+      "f": 17
+     },
+     {
+      "w": "also",
+      "f": 23
+     },
+     {
+      "w": "works",
+      "f": 34
+     },
+     {
+      "w": "out",
+      "f": 43
+     },
+     {
+      "w": "why",
+      "f": 48
+     },
+     {
+      "w": "they",
+      "f": 53
+     },
+     {
+      "w": "disagree",
+      "f": 57
+     },
+     {
+      "w": "a",
+      "f": 87
+     },
+     {
+      "w": "newer",
+      "f": 91
+     },
+     {
+      "w": "brochure",
+      "f": 102
+     },
+     {
+      "w": "replacing",
+      "f": 118
+     },
+     {
+      "w": "an",
+      "f": 136
+     },
+     {
+      "w": "older",
+      "f": 140
+     },
+     {
+      "w": "one",
+      "f": 149
+     },
+     {
+      "w": "is",
+      "f": 158
+     },
+     {
+      "w": "just",
+      "f": 165
+     },
+     {
+      "w": "an",
+      "f": 175
+     },
+     {
+      "w": "update",
+      "f": 178
+     },
+     {
+      "w": "five",
+      "f": 204
+     },
+     {
+      "w": "spaces",
+      "f": 216
+     },
+     {
+      "w": "against",
+      "f": 229
+     },
+     {
+      "w": "six",
+      "f": 240
+     },
+     {
+      "w": "is",
+      "f": 253
+     },
+     {
+      "w": "a",
+      "f": 258
+     },
+     {
+      "w": "real",
+      "f": 261
+     },
+     {
+      "w": "conflict",
+      "f": 271
+     },
+     {
+      "w": "sometimes",
+      "f": 301
+     },
+     {
+      "w": "a",
+      "f": 319
+     },
+     {
+      "w": "brochure",
+      "f": 321
+     },
+     {
+      "w": "even",
+      "f": 339
+     },
+     {
+      "w": "contradicts",
+      "f": 347
+     },
+     {
+      "w": "itself",
+      "f": 366
+     },
+     {
+      "w": "april",
+      "f": 395
+     },
+     {
+      "w": "prints",
+      "f": 408
+     },
+     {
+      "w": "a",
+      "f": 416
+     },
+     {
+      "w": "hundred",
+      "f": 418
+     },
+     {
+      "w": "and",
+      "f": 431
+     },
+     {
+      "w": "eightyfive",
+      "f": 441
+     },
+     {
+      "w": "square",
+      "f": 456
+     },
+     {
+      "w": "metres",
+      "f": 468
+     },
+     {
+      "w": "next",
+      "f": 484
+     },
+     {
+      "w": "to",
+      "f": 496
+     },
+     {
+      "w": "two",
+      "f": 500
+     },
+     {
+      "w": "thousand",
+      "f": 507
+     },
+     {
+      "w": "seven",
+      "f": 521
+     },
+     {
+      "w": "hundred",
+      "f": 532
+     },
+     {
+      "w": "square",
+      "f": 544
+     },
+     {
+      "w": "feet",
+      "f": 556
+     },
+     {
+      "w": "and",
+      "f": 578
+     },
+     {
+      "w": "those",
+      "f": 587
+     },
+     {
+      "w": "dont",
+      "f": 595
+     },
+     {
+      "w": "match",
+      "f": 602
+     },
+     {
+      "w": "and",
+      "f": 629
+     },
+     {
+      "w": "the",
+      "f": 635
+     },
+     {
+      "w": "energy",
+      "f": 638
+     },
+     {
+      "w": "rating",
+      "f": 650
+     },
+     {
+      "w": "is",
+      "f": 662
+     },
+     {
+      "w": "a",
+      "f": 668
+     },
+     {
+      "w": "b",
+      "f": 672
+     },
+     {
+      "w": "in",
+      "f": 677
+     },
+     {
+      "w": "the",
+      "f": 680
+     },
+     {
+      "w": "marketing",
+      "f": 682
+     },
+     {
+      "w": "but",
+      "f": 704
+     },
+     {
+      "w": "a",
+      "f": 715
+     },
+     {
+      "w": "c",
+      "f": 720
+     },
+     {
+      "w": "on",
+      "f": 730
+     },
+     {
+      "w": "the",
+      "f": 734
+     },
+     {
+      "w": "official",
+      "f": 737
+     },
+     {
+      "w": "register",
+      "f": 752
+     }
+    ]
+   }
+  ]
+ },
+ "decide": {
+  "frames": 555,
+  "segs": [
+   {
+    "v": "narrator",
+    "text": "So the engine makes a recommendation. Here, it's October's price, because it's the newer brochure from the same agent. But it never decides alone. A person confirms it, picks a different source, or puts it on hold. Nothing important goes live without someone signing off.",
+    "src": "voice/decide_0.mp3",
+    "hash": "91c3fee50106",
+    "from": 14,
+    "dur": 521,
+    "words": [
+     {
+      "w": "so",
+      "f": 17
+     },
+     {
+      "w": "the",
+      "f": 25
+     },
+     {
+      "w": "engine",
+      "f": 29
+     },
+     {
+      "w": "makes",
+      "f": 43
+     },
+     {
+      "w": "a",
+      "f": 51
+     },
+     {
+      "w": "recommendation",
+      "f": 53
+     },
+     {
+      "w": "here",
+      "f": 92
+     },
+     {
+      "w": "its",
+      "f": 111
+     },
+     {
+      "w": "octobers",
+      "f": 115
+     },
+     {
+      "w": "price",
+      "f": 133
+     },
+     {
+      "w": "because",
+      "f": 150
+     },
+     {
+      "w": "its",
+      "f": 160
+     },
+     {
+      "w": "the",
+      "f": 164
+     },
+     {
+      "w": "newer",
+      "f": 168
+     },
+     {
+      "w": "brochure",
+      "f": 180
+     },
+     {
+      "w": "from",
+      "f": 195
+     },
+     {
+      "w": "the",
+      "f": 201
+     },
+     {
+      "w": "same",
+      "f": 203
+     },
+     {
+      "w": "agent",
+      "f": 215
+     },
+     {
+      "w": "but",
+      "f": 242
+     },
+     {
+      "w": "it",
+      "f": 252
+     },
+     {
+      "w": "never",
+      "f": 256
+     },
+     {
+      "w": "decides",
+      "f": 266
+     },
+     {
+      "w": "alone",
+      "f": 278
+     },
+     {
+      "w": "a",
+      "f": 304
+     },
+     {
+      "w": "person",
+      "f": 309
+     },
+     {
+      "w": "confirms",
+      "f": 321
+     },
+     {
+      "w": "it",
+      "f": 336
+     },
+     {
+      "w": "picks",
+      "f": 350
+     },
+     {
+      "w": "a",
+      "f": 358
+     },
+     {
+      "w": "different",
+      "f": 361
+     },
+     {
+      "w": "source",
+      "f": 372
+     },
+     {
+      "w": "or",
+      "f": 387
+     },
+     {
+      "w": "puts",
+      "f": 397
+     },
+     {
+      "w": "it",
+      "f": 404
+     },
+     {
+      "w": "on",
+      "f": 406
+     },
+     {
+      "w": "hold",
+      "f": 411
+     },
+     {
+      "w": "nothing",
+      "f": 436
+     },
+     {
+      "w": "important",
+      "f": 450
+     },
+     {
+      "w": "goes",
+      "f": 465
+     },
+     {
+      "w": "live",
+      "f": 474
+     },
+     {
+      "w": "without",
+      "f": 488
+     },
+     {
+      "w": "someone",
+      "f": 498
+     },
+     {
+      "w": "signing",
+      "f": 509
+     },
+     {
+      "w": "off",
+      "f": 520
+     }
+    ]
+   }
+  ]
+ },
+ "changelog": {
+  "frames": 566,
+  "segs": [
+   {
+    "v": "narrator",
+    "text": "Once it's confirmed, it's published as one versioned record per home, in Supabase, with a full audit trail. The public fact checks page shows what's on the listing now, what's still being checked, like the parking, and what changed: the before, the after, and who checked it.",
+    "src": "voice/changelog_0.mp3",
+    "hash": "16d87ca4e810",
+    "from": 14,
+    "dur": 531,
+    "words": [
+     {
+      "w": "once",
+      "f": 17
+     },
+     {
+      "w": "its",
+      "f": 27
+     },
+     {
+      "w": "confirmed",
+      "f": 31
+     },
+     {
+      "w": "its",
+      "f": 63
+     },
+     {
+      "w": "published",
+      "f": 68
+     },
+     {
+      "w": "as",
+      "f": 87
+     },
+     {
+      "w": "one",
+      "f": 93
+     },
+     {
+      "w": "versioned",
+      "f": 101
+     },
+     {
+      "w": "record",
+      "f": 114
+     },
+     {
+      "w": "per",
+      "f": 126
+     },
+     {
+      "w": "home",
+      "f": 131
+     },
+     {
+      "w": "in",
+      "f": 155
+     },
+     {
+      "w": "supabase",
+      "f": 159
+     },
+     {
+      "w": "with",
+      "f": 187
+     },
+     {
+      "w": "a",
+      "f": 193
+     },
+     {
+      "w": "full",
+      "f": 195
+     },
+     {
+      "w": "audit",
+      "f": 208
+     },
+     {
+      "w": "trail",
+      "f": 216
+     },
+     {
+      "w": "the",
+      "f": 242
+     },
+     {
+      "w": "public",
+      "f": 247
+     },
+     {
+      "w": "fact",
+      "f": 260
+     },
+     {
+      "w": "checks",
+      "f": 269
+     },
+     {
+      "w": "page",
+      "f": 279
+     },
+     {
+      "w": "shows",
+      "f": 289
+     },
+     {
+      "w": "whats",
+      "f": 302
+     },
+     {
+      "w": "on",
+      "f": 308
+     },
+     {
+      "w": "the",
+      "f": 311
+     },
+     {
+      "w": "listing",
+      "f": 314
+     },
+     {
+      "w": "now",
+      "f": 326
+     },
+     {
+      "w": "whats",
+      "f": 345
+     },
+     {
+      "w": "still",
+      "f": 353
+     },
+     {
+      "w": "being",
+      "f": 361
+     },
+     {
+      "w": "checked",
+      "f": 368
+     },
+     {
+      "w": "like",
+      "f": 390
+     },
+     {
+      "w": "the",
+      "f": 397
+     },
+     {
+      "w": "parking",
+      "f": 400
+     },
+     {
+      "w": "and",
+      "f": 423
+     },
+     {
+      "w": "what",
+      "f": 430
+     },
+     {
+      "w": "changed",
+      "f": 436
+     },
+     {
+      "w": "the",
+      "f": 462
+     },
+     {
+      "w": "before",
+      "f": 465
+     },
+     {
+      "w": "the",
+      "f": 492
+     },
+     {
+      "w": "after",
+      "f": 495
+     },
+     {
+      "w": "and",
+      "f": 514
+     },
+     {
+      "w": "who",
+      "f": 520
+     },
+     {
+      "w": "checked",
+      "f": 524
+     },
+     {
+      "w": "it",
+      "f": 534
+     }
+    ]
+   }
+  ]
+ },
+ "pipeline": {
+  "frames": 314,
+  "segs": [
+   {
+    "v": "narrator",
+    "text": "And that one record feeds two things. The listing website, and the voice agent. They both read from the same place, so they can't tell you different stories.",
+    "src": "voice/pipeline_0.mp3",
+    "hash": "e901f0c00623",
+    "from": 14,
+    "dur": 280,
+    "words": [
+     {
+      "w": "and",
+      "f": 17
+     },
+     {
+      "w": "that",
+      "f": 25
+     },
+     {
+      "w": "one",
+      "f": 32
+     },
+     {
+      "w": "record",
+      "f": 38
+     },
+     {
+      "w": "feeds",
+      "f": 50
+     },
+     {
+      "w": "two",
+      "f": 60
+     },
+     {
+      "w": "things",
+      "f": 65
+     },
+     {
+      "w": "the",
+      "f": 94
+     },
+     {
+      "w": "listing",
+      "f": 99
+     },
+     {
+      "w": "website",
+      "f": 111
+     },
+     {
+      "w": "and",
+      "f": 131
+     },
+     {
+      "w": "the",
+      "f": 137
+     },
+     {
+      "w": "voice",
+      "f": 140
+     },
+     {
+      "w": "agent",
+      "f": 150
+     },
+     {
+      "w": "they",
+      "f": 178
+     },
+     {
+      "w": "both",
+      "f": 186
+     },
+     {
+      "w": "read",
+      "f": 196
+     },
+     {
+      "w": "from",
+      "f": 204
+     },
+     {
+      "w": "the",
+      "f": 208
+     },
+     {
+      "w": "same",
+      "f": 211
+     },
+     {
+      "w": "place",
+      "f": 221
+     },
+     {
+      "w": "so",
+      "f": 237
+     },
+     {
+      "w": "they",
+      "f": 241
+     },
+     {
+      "w": "cant",
+      "f": 246
+     },
+     {
+      "w": "tell",
+      "f": 254
+     },
+     {
+      "w": "you",
+      "f": 259
+     },
+     {
+      "w": "different",
+      "f": 262
+     },
+     {
+      "w": "stories",
+      "f": 271
+     }
+    ]
+   }
+  ]
+ },
+ "part2": {
+  "frames": 81,
+  "segs": [
+   {
+    "v": "narrator",
+    "text": "Now, the renter.",
+    "src": "voice/part2_0.mp3",
+    "hash": "7a59fdbfd49b",
+    "from": 14,
+    "dur": 46,
+    "words": [
+     {
+      "w": "now",
+      "f": 17
+     },
+     {
+      "w": "the",
+      "f": 38
+     },
+     {
+      "w": "renter",
+      "f": 42
+     }
+    ]
+   }
+  ]
+ },
+ "explore": {
+  "frames": 332,
+  "segs": [
+   {
+    "v": "narrator",
+    "text": "Say you're looking for somewhere to live. You can browse fifty-eight homes across East London, filter by price and bedrooms, and see everything on a live map.",
+    "src": "voice/explore_0.mp3",
+    "hash": "9b9f1df1e8a0",
+    "from": 14,
+    "dur": 297,
+    "words": [
+     {
+      "w": "say",
+      "f": 17
+     },
+     {
+      "w": "youre",
+      "f": 27
+     },
+     {
+      "w": "looking",
+      "f": 31
+     },
+     {
+      "w": "for",
+      "f": 39
+     },
+     {
+      "w": "somewhere",
+      "f": 44
+     },
+     {
+      "w": "to",
+      "f": 54
+     },
+     {
+      "w": "live",
+      "f": 57
+     },
+     {
+      "w": "you",
+      "f": 82
+     },
+     {
+      "w": "can",
+      "f": 88
+     },
+     {
+      "w": "browse",
+      "f": 93
+     },
+     {
+      "w": "fiftyeight",
+      "f": 104
+     },
+     {
+      "w": "homes",
+      "f": 119
+     },
+     {
+      "w": "across",
+      "f": 130
+     },
+     {
+      "w": "east",
+      "f": 143
+     },
+     {
+      "w": "london",
+      "f": 152
+     },
+     {
+      "w": "filter",
+      "f": 178
+     },
+     {
+      "w": "by",
+      "f": 192
+     },
+     {
+      "w": "price",
+      "f": 196
+     },
+     {
+      "w": "and",
+      "f": 210
+     },
+     {
+      "w": "bedrooms",
+      "f": 217
+     },
+     {
+      "w": "and",
+      "f": 243
+     },
+     {
+      "w": "see",
+      "f": 252
+     },
+     {
+      "w": "everything",
+      "f": 261
+     },
+     {
+      "w": "on",
+      "f": 280
+     },
+     {
+      "w": "a",
+      "f": 284
+     },
+     {
+      "w": "live",
+      "f": 286
+     },
+     {
+      "w": "map",
+      "f": 297
+     }
+    ]
+   }
+  ]
+ },
+ "property": {
+  "frames": 459,
+  "segs": [
+   {
+    "v": "narrator",
+    "text": "Open Kelso Villa, and you'll only see facts that have been verified. Tap the price, and you get the document, the date, and the page it came from. The parking's still disputed, so it simply says under review, instead of guessing.",
+    "src": "voice/property_0.mp3",
+    "hash": "816f33e41b91",
+    "from": 14,
+    "dur": 424,
+    "words": [
+     {
+      "w": "open",
+      "f": 17
+     },
+     {
+      "w": "kelso",
+      "f": 28
+     },
+     {
+      "w": "villa",
+      "f": 39
+     },
+     {
+      "w": "and",
+      "f": 56
+     },
+     {
+      "w": "youll",
+      "f": 62
+     },
+     {
+      "w": "only",
+      "f": 69
+     },
+     {
+      "w": "see",
+      "f": 79
+     },
+     {
+      "w": "facts",
+      "f": 86
+     },
+     {
+      "w": "that",
+      "f": 98
+     },
+     {
+      "w": "have",
+      "f": 102
+     },
+     {
+      "w": "been",
+      "f": 106
+     },
+     {
+      "w": "verified",
+      "f": 111
+     },
+     {
+      "w": "tap",
+      "f": 143
+     },
+     {
+      "w": "the",
+      "f": 154
+     },
+     {
+      "w": "price",
+      "f": 157
+     },
+     {
+      "w": "and",
+      "f": 171
+     },
+     {
+      "w": "you",
+      "f": 176
+     },
+     {
+      "w": "get",
+      "f": 178
+     },
+     {
+      "w": "the",
+      "f": 184
+     },
+     {
+      "w": "document",
+      "f": 187
+     },
+     {
+      "w": "the",
+      "f": 212
+     },
+     {
+      "w": "date",
+      "f": 215
+     },
+     {
+      "w": "and",
+      "f": 230
+     },
+     {
+      "w": "the",
+      "f": 237
+     },
+     {
+      "w": "page",
+      "f": 239
+     },
+     {
+      "w": "it",
+      "f": 252
+     },
+     {
+      "w": "came",
+      "f": 255
+     },
+     {
+      "w": "from",
+      "f": 263
+     },
+     {
+      "w": "the",
+      "f": 285
+     },
+     {
+      "w": "parkings",
+      "f": 291
+     },
+     {
+      "w": "still",
+      "f": 305
+     },
+     {
+      "w": "disputed",
+      "f": 314
+     },
+     {
+      "w": "so",
+      "f": 339
+     },
+     {
+      "w": "it",
+      "f": 345
+     },
+     {
+      "w": "simply",
+      "f": 349
+     },
+     {
+      "w": "says",
+      "f": 361
+     },
+     {
+      "w": "under",
+      "f": 370
+     },
+     {
+      "w": "review",
+      "f": 378
+     },
+     {
+      "w": "instead",
+      "f": 401
+     },
+     {
+      "w": "of",
+      "f": 415
+     },
+     {
+      "w": "guessing",
+      "f": 418
+     }
+    ]
+   }
+  ]
+ },
+ "call": {
+  "frames": 1164,
+  "segs": [
+   {
+    "v": "narrator",
+    "text": "Or you can just talk to Haven, our voice agent. It runs on x A I from end to end: the speech recognition, Grok, and the voice. Let's ask about the parking.",
+    "src": "voice/call_0.mp3",
+    "hash": "4a9cd5b78b06",
+    "from": 14,
+    "dur": 348,
+    "words": [
+     {
+      "w": "or",
+      "f": 17
+     },
+     {
+      "w": "you",
+      "f": 27
+     },
+     {
+      "w": "can",
+      "f": 30
+     },
+     {
+      "w": "just",
+      "f": 35
+     },
+     {
+      "w": "talk",
+      "f": 41
+     },
+     {
+      "w": "to",
+      "f": 47
+     },
+     {
+      "w": "haven",
+      "f": 50
+     },
+     {
+      "w": "our",
+      "f": 72
+     },
+     {
+      "w": "voice",
+      "f": 76
+     },
+     {
+      "w": "agent",
+      "f": 84
+     },
+     {
+      "w": "it",
+      "f": 112
+     },
+     {
+      "w": "runs",
+      "f": 119
+     },
+     {
+      "w": "on",
+      "f": 127
+     },
+     {
+      "w": "x",
+      "f": 137
+     },
+     {
+      "w": "a",
+      "f": 147
+     },
+     {
+      "w": "i",
+      "f": 155
+     },
+     {
+      "w": "from",
+      "f": 163
+     },
+     {
+      "w": "end",
+      "f": 176
+     },
+     {
+      "w": "to",
+      "f": 183
+     },
+     {
+      "w": "end",
+      "f": 186
+     },
+     {
+      "w": "the",
+      "f": 210
+     },
+     {
+      "w": "speech",
+      "f": 213
+     },
+     {
+      "w": "recognition",
+      "f": 226
+     },
+     {
+      "w": "grok",
+      "f": 259
+     },
+     {
+      "w": "and",
+      "f": 277
+     },
+     {
+      "w": "the",
+      "f": 284
+     },
+     {
+      "w": "voice",
+      "f": 287
+     },
+     {
+      "w": "lets",
+      "f": 315
+     },
+     {
+      "w": "ask",
+      "f": 323
+     },
+     {
+      "w": "about",
+      "f": 332
+     },
+     {
+      "w": "the",
+      "f": 338
+     },
+     {
+      "w": "parking",
+      "f": 341
+     }
+    ]
+   },
+   {
+    "v": "caller",
+    "text": "Hi. How many parking spaces are there?",
+    "src": "voice/call_1.mp3",
+    "hash": "b7ace74305c9",
+    "from": 371,
+    "dur": 103,
+    "words": [
+     {
+      "w": "hi",
+      "f": 374
+     },
+     {
+      "w": "how",
+      "f": 416
+     },
+     {
+      "w": "many",
+      "f": 424
+     },
+     {
+      "w": "parking",
+      "f": 431
+     },
+     {
+      "w": "spaces",
+      "f": 443
+     },
+     {
+      "w": "are",
+      "f": 457
+     },
+     {
+      "w": "there",
+      "f": 461
+     }
+    ]
+   },
+   {
+    "v": "haven",
+    "text": "The parking allocation is being confirmed at the moment.",
+    "src": "voice/call_2.mp3",
+    "hash": "0c6468d3d58a",
+    "from": 483,
+    "dur": 108,
+    "words": [
+     {
+      "w": "the",
+      "f": 486
+     },
+     {
+      "w": "parking",
+      "f": 492
+     },
+     {
+      "w": "allocation",
+      "f": 506
+     },
+     {
+      "w": "is",
+      "f": 530
+     },
+     {
+      "w": "being",
+      "f": 536
+     },
+     {
+      "w": "confirmed",
+      "f": 543
+     },
+     {
+      "w": "at",
+      "f": 562
+     },
+     {
+      "w": "the",
+      "f": 566
+     },
+     {
+      "w": "moment",
+      "f": 569
+     }
+    ]
+   },
+   {
+    "v": "narrator",
+    "text": "No number it can't back up. Now, the price.",
+    "src": "voice/call_3.mp3",
+    "hash": "c036fb4e936f",
+    "from": 600,
+    "dur": 101,
+    "words": [
+     {
+      "w": "no",
+      "f": 603
+     },
+     {
+      "w": "number",
+      "f": 612
+     },
+     {
+      "w": "it",
+      "f": 622
+     },
+     {
+      "w": "cant",
+      "f": 624
+     },
+     {
+      "w": "back",
+      "f": 631
+     },
+     {
+      "w": "up",
+      "f": 639
+     },
+     {
+      "w": "now",
+      "f": 659
+     },
+     {
+      "w": "the",
+      "f": 678
+     },
+     {
+      "w": "price",
+      "f": 682
+     }
+    ]
+   },
+   {
+    "v": "caller",
+    "text": "What's the asking price, and where does that come from?",
+    "src": "voice/call_4.mp3",
+    "hash": "5ec675f16c1f",
+    "from": 710,
+    "dur": 91,
+    "words": [
+     {
+      "w": "whats",
+      "f": 713
+     },
+     {
+      "w": "the",
+      "f": 722
+     },
+     {
+      "w": "asking",
+      "f": 726
+     },
+     {
+      "w": "price",
+      "f": 738
+     },
+     {
+      "w": "and",
+      "f": 759
+     },
+     {
+      "w": "where",
+      "f": 763
+     },
+     {
+      "w": "does",
+      "f": 769
+     },
+     {
+      "w": "that",
+      "f": 774
+     },
+     {
+      "w": "come",
+      "f": 779
+     },
+     {
+      "w": "from",
+      "f": 786
+     }
+    ]
+   },
+   {
+    "v": "haven",
+    "text": "Six hundred thousand pounds, per the Carter Jonas particulars dated the sixteenth of October, twenty twenty-six. Page two.",
+    "src": "voice/call_5.mp3",
+    "hash": "b78190576f10",
+    "from": 810,
+    "dur": 257,
+    "words": [
+     {
+      "w": "six",
+      "f": 814
+     },
+     {
+      "w": "hundred",
+      "f": 824
+     },
+     {
+      "w": "thousand",
+      "f": 835
+     },
+     {
+      "w": "pounds",
+      "f": 849
+     },
+     {
+      "w": "per",
+      "f": 874
+     },
+     {
+      "w": "the",
+      "f": 879
+     },
+     {
+      "w": "carter",
+      "f": 882
+     },
+     {
+      "w": "jonas",
+      "f": 895
+     },
+     {
+      "w": "particulars",
+      "f": 907
+     },
+     {
+      "w": "dated",
+      "f": 928
+     },
+     {
+      "w": "the",
+      "f": 940
+     },
+     {
+      "w": "sixteenth",
+      "f": 944
+     },
+     {
+      "w": "of",
+      "f": 959
+     },
+     {
+      "w": "october",
+      "f": 962
+     },
+     {
+      "w": "twenty",
+      "f": 987
+     },
+     {
+      "w": "twentysix",
+      "f": 997
+     },
+     {
+      "w": "page",
+      "f": 1035
+     },
+     {
+      "w": "two",
+      "f": 1050
+     }
+    ]
+   },
+   {
+    "v": "narrator",
+    "text": "That's the receipt, said out loud.",
+    "src": "voice/call_6.mp3",
+    "hash": "e39aa5e2c335",
+    "from": 1082,
+    "dur": 61,
+    "words": [
+     {
+      "w": "thats",
+      "f": 1085
+     },
+     {
+      "w": "the",
+      "f": 1095
+     },
+     {
+      "w": "receipt",
+      "f": 1098
+     },
+     {
+      "w": "said",
+      "f": 1116
+     },
+     {
+      "w": "out",
+      "f": 1123
+     },
+     {
+      "w": "loud",
+      "f": 1128
+     }
+    ]
+   }
+  ]
+ },
+ "nearby": {
+  "frames": 528,
+  "segs": [
+   {
+    "v": "narrator",
+    "text": "Haven can search, too.",
+    "src": "voice/nearby_0.mp3",
+    "hash": "8426173b8d69",
+    "from": 14,
+    "dur": 50,
+    "words": [
+     {
+      "w": "haven",
+      "f": 17
+     },
+     {
+      "w": "can",
+      "f": 31
+     },
+     {
+      "w": "search",
+      "f": 36
+     },
+     {
+      "w": "too",
+      "f": 48
+     }
+    ]
+   },
+   {
+    "v": "caller",
+    "text": "Can you find me a two-bed near a park, under two and a half thousand a month?",
+    "src": "voice/nearby_1.mp3",
+    "hash": "2abc67d583e0",
+    "from": 72,
+    "dur": 133,
+    "words": [
+     {
+      "w": "can",
+      "f": 75
+     },
+     {
+      "w": "you",
+      "f": 81
+     },
+     {
+      "w": "find",
+      "f": 84
+     },
+     {
+      "w": "me",
+      "f": 94
+     },
+     {
+      "w": "a",
+      "f": 98
+     },
+     {
+      "w": "twobed",
+      "f": 100
+     },
+     {
+      "w": "near",
+      "f": 112
+     },
+     {
+      "w": "a",
+      "f": 119
+     },
+     {
+      "w": "park",
+      "f": 122
+     },
+     {
+      "w": "under",
+      "f": 140
+     },
+     {
+      "w": "two",
+      "f": 146
+     },
+     {
+      "w": "and",
+      "f": 157
+     },
+     {
+      "w": "a",
+      "f": 161
+     },
+     {
+      "w": "half",
+      "f": 163
+     },
+     {
+      "w": "thousand",
+      "f": 173
+     },
+     {
+      "w": "a",
+      "f": 186
+     },
+     {
+      "w": "month",
+      "f": 187
+     }
+    ]
+   },
+   {
+    "v": "narrator",
+    "text": "It checks every listing against hundreds of parks, shops and stations from Open Street Map, ranks them by walking time, and pins them on the map while you talk.",
+    "src": "voice/nearby_2.mp3",
+    "hash": "1182a8b7da3a",
+    "from": 214,
+    "dur": 293,
+    "words": [
+     {
+      "w": "it",
+      "f": 217
+     },
+     {
+      "w": "checks",
+      "f": 224
+     },
+     {
+      "w": "every",
+      "f": 237
+     },
+     {
+      "w": "listing",
+      "f": 244
+     },
+     {
+      "w": "against",
+      "f": 257
+     },
+     {
+      "w": "hundreds",
+      "f": 267
+     },
+     {
+      "w": "of",
+      "f": 281
+     },
+     {
+      "w": "parks",
+      "f": 284
+     },
+     {
+      "w": "shops",
+      "f": 306
+     },
+     {
+      "w": "and",
+      "f": 318
+     },
+     {
+      "w": "stations",
+      "f": 324
+     },
+     {
+      "w": "from",
+      "f": 340
+     },
+     {
+      "w": "open",
+      "f": 348
+     },
+     {
+      "w": "street",
+      "f": 365
+     },
+     {
+      "w": "map",
+      "f": 398
+     },
+     {
+      "w": "ranks",
+      "f": 404
+     },
+     {
+      "w": "them",
+      "f": 421
+     },
+     {
+      "w": "by",
+      "f": 442
+     },
+     {
+      "w": "walking",
+      "f": 448
+     },
+     {
+      "w": "time",
+      "f": 464
+     },
+     {
+      "w": "and",
+      "f": 471
+     },
+     {
+      "w": "pins",
+      "f": 481
+     },
+     {
+      "w": "them",
+      "f": 486
+     },
+     {
+      "w": "on",
+      "f": 489
+     },
+     {
+      "w": "the",
+      "f": 489
+     },
+     {
+      "w": "map",
+      "f": 489
+     },
+     {
+      "w": "while",
+      "f": 489
+     },
+     {
+      "w": "you",
+      "f": 489
+     },
+     {
+      "w": "talk",
+      "f": 489
+     }
+    ]
+   }
+  ]
+ },
+ "book": {
+  "frames": 626,
+  "segs": [
+   {
+    "v": "narrator",
+    "text": "Found one you like? Book a viewing, or put a hold on it, on the same call.",
+    "src": "voice/book_0.mp3",
+    "hash": "c4cd9a2036f8",
+    "from": 14,
+    "dur": 141,
+    "words": [
+     {
+      "w": "found",
+      "f": 17
+     },
+     {
+      "w": "one",
+      "f": 27
+     },
+     {
+      "w": "you",
+      "f": 31
+     },
+     {
+      "w": "like",
+      "f": 34
+     },
+     {
+      "w": "book",
+      "f": 57
+     },
+     {
+      "w": "a",
+      "f": 65
+     },
+     {
+      "w": "viewing",
+      "f": 68
+     },
+     {
+      "w": "or",
+      "f": 84
+     },
+     {
+      "w": "put",
+      "f": 94
+     },
+     {
+      "w": "a",
+      "f": 100
+     },
+     {
+      "w": "hold",
+      "f": 101
+     },
+     {
+      "w": "on",
+      "f": 110
+     },
+     {
+      "w": "it",
+      "f": 115
+     },
+     {
+      "w": "on",
+      "f": 122
+     },
+     {
+      "w": "the",
+      "f": 126
+     },
+     {
+      "w": "same",
+      "f": 129
+     },
+     {
+      "w": "call",
+      "f": 139
+     }
+    ]
+   },
+   {
+    "v": "caller",
+    "text": "Can I view the first one on Saturday morning?",
+    "src": "voice/book_1.mp3",
+    "hash": "ecc9c29ebb1c",
+    "from": 164,
+    "dur": 77,
+    "words": [
+     {
+      "w": "can",
+      "f": 167
+     },
+     {
+      "w": "i",
+      "f": 173
+     },
+     {
+      "w": "view",
+      "f": 175
+     },
+     {
+      "w": "the",
+      "f": 182
+     },
+     {
+      "w": "first",
+      "f": 185
+     },
+     {
+      "w": "one",
+      "f": 196
+     },
+     {
+      "w": "on",
+      "f": 202
+     },
+     {
+      "w": "saturday",
+      "f": 206
+     },
+     {
+      "w": "morning",
+      "f": 219
+     }
+    ]
+   },
+   {
+    "v": "haven",
+    "text": "Of course. You're booked in for Saturday at ten thirty.",
+    "src": "voice/book_2.mp3",
+    "hash": "218ba0bd57a6",
+    "from": 250,
+    "dur": 122,
+    "words": [
+     {
+      "w": "of",
+      "f": 253
+     },
+     {
+      "w": "course",
+      "f": 260
+     },
+     {
+      "w": "youre",
+      "f": 290
+     },
+     {
+      "w": "booked",
+      "f": 296
+     },
+     {
+      "w": "in",
+      "f": 305
+     },
+     {
+      "w": "for",
+      "f": 312
+     },
+     {
+      "w": "saturday",
+      "f": 316
+     },
+     {
+      "w": "at",
+      "f": 336
+     },
+     {
+      "w": "ten",
+      "f": 343
+     },
+     {
+      "w": "thirty",
+      "f": 352
+     }
+    ]
+   },
+   {
+    "v": "narrator",
+    "text": "It never asks for card details. And every booking shows up on the market dashboard, so the team sees it straight away.",
+    "src": "voice/book_3.mp3",
+    "hash": "446c48c4efbd",
+    "from": 381,
+    "dur": 224,
+    "words": [
+     {
+      "w": "it",
+      "f": 384
+     },
+     {
+      "w": "never",
+      "f": 391
+     },
+     {
+      "w": "asks",
+      "f": 403
+     },
+     {
+      "w": "for",
+      "f": 414
+     },
+     {
+      "w": "card",
+      "f": 420
+     },
+     {
+      "w": "details",
+      "f": 428
+     },
+     {
+      "w": "and",
+      "f": 459
+     },
+     {
+      "w": "every",
+      "f": 471
+     },
+     {
+      "w": "booking",
+      "f": 479
+     },
+     {
+      "w": "shows",
+      "f": 490
+     },
+     {
+      "w": "up",
+      "f": 500
+     },
+     {
+      "w": "on",
+      "f": 505
+     },
+     {
+      "w": "the",
+      "f": 509
+     },
+     {
+      "w": "market",
+      "f": 511
+     },
+     {
+      "w": "dashboard",
+      "f": 522
+     },
+     {
+      "w": "so",
+      "f": 550
+     },
+     {
+      "w": "the",
+      "f": 554
+     },
+     {
+      "w": "team",
+      "f": 558
+     },
+     {
+      "w": "sees",
+      "f": 568
+     },
+     {
+      "w": "it",
+      "f": 575
+     },
+     {
+      "w": "straight",
+      "f": 579
+     },
+     {
+      "w": "away",
+      "f": 588
+     }
+    ]
+   }
+  ]
+ },
+ "results": {
+  "frames": 491,
+  "segs": [
+   {
+    "v": "narrator",
+    "text": "We tested all of this on the running system. The parking question gets the safe answer, every time. The price always comes with its source. Searching every listing takes a few milliseconds, and Haven usually replies in two to three seconds.",
+    "src": "voice/results_0.mp3",
+    "hash": "ff36615a45f4",
+    "from": 14,
+    "dur": 457,
+    "words": [
+     {
+      "w": "we",
+      "f": 17
+     },
+     {
+      "w": "tested",
+      "f": 23
+     },
+     {
+      "w": "all",
+      "f": 38
+     },
+     {
+      "w": "of",
+      "f": 44
+     },
+     {
+      "w": "this",
+      "f": 47
+     },
+     {
+      "w": "on",
+      "f": 54
+     },
+     {
+      "w": "the",
+      "f": 57
+     },
+     {
+      "w": "running",
+      "f": 60
+     },
+     {
+      "w": "system",
+      "f": 69
+     },
+     {
+      "w": "the",
+      "f": 96
+     },
+     {
+      "w": "parking",
+      "f": 102
+     },
+     {
+      "w": "question",
+      "f": 113
+     },
+     {
+      "w": "gets",
+      "f": 128
+     },
+     {
+      "w": "the",
+      "f": 134
+     },
+     {
+      "w": "safe",
+      "f": 138
+     },
+     {
+      "w": "answer",
+      "f": 148
+     },
+     {
+      "w": "every",
+      "f": 166
+     },
+     {
+      "w": "time",
+      "f": 173
+     },
+     {
+      "w": "the",
+      "f": 198
+     },
+     {
+      "w": "price",
+      "f": 203
+     },
+     {
+      "w": "always",
+      "f": 219
+     },
+     {
+      "w": "comes",
+      "f": 230
+     },
+     {
+      "w": "with",
+      "f": 240
+     },
+     {
+      "w": "its",
+      "f": 243
+     },
+     {
+      "w": "source",
+      "f": 249
+     },
+     {
+      "w": "searching",
+      "f": 277
+     },
+     {
+      "w": "every",
+      "f": 296
+     },
+     {
+      "w": "listing",
+      "f": 304
+     },
+     {
+      "w": "takes",
+      "f": 317
+     },
+     {
+      "w": "a",
+      "f": 325
+     },
+     {
+      "w": "few",
+      "f": 328
+     },
+     {
+      "w": "milliseconds",
+      "f": 336
+     },
+     {
+      "w": "and",
+      "f": 366
+     },
+     {
+      "w": "haven",
+      "f": 376
+     },
+     {
+      "w": "usually",
+      "f": 392
+     },
+     {
+      "w": "replies",
+      "f": 405
+     },
+     {
+      "w": "in",
+      "f": 423
+     },
+     {
+      "w": "two",
+      "f": 429
+     },
+     {
+      "w": "to",
+      "f": 436
+     },
+     {
+      "w": "three",
+      "f": 440
+     },
+     {
+      "w": "seconds",
+      "f": 449
+     }
+    ]
+   }
+  ]
+ },
+ "claim": {
+  "frames": 260,
+  "segs": [
+   {
+    "v": "narrator",
+    "text": "So that's the whole idea. If the documents disagree, nobody says it out loud. Not until a person has checked.",
+    "src": "voice/claim_0.mp3",
+    "hash": "d45966e0df76",
+    "from": 14,
+    "dur": 225,
+    "words": [
+     {
+      "w": "so",
+      "f": 17
+     },
+     {
+      "w": "thats",
+      "f": 27
+     },
+     {
+      "w": "the",
+      "f": 35
+     },
+     {
+      "w": "whole",
+      "f": 39
+     },
+     {
+      "w": "idea",
+      "f": 47
+     },
+     {
+      "w": "if",
+      "f": 73
+     },
+     {
+      "w": "the",
+      "f": 80
+     },
+     {
+      "w": "documents",
+      "f": 84
+     },
+     {
+      "w": "disagree",
+      "f": 100
+     },
+     {
+      "w": "nobody",
+      "f": 130
+     },
+     {
+      "w": "says",
+      "f": 144
+     },
+     {
+      "w": "it",
+      "f": 151
+     },
+     {
+      "w": "out",
+      "f": 154
+     },
+     {
+      "w": "loud",
+      "f": 159
+     },
+     {
+      "w": "not",
+      "f": 184
+     },
+     {
+      "w": "until",
+      "f": 195
+     },
+     {
+      "w": "a",
+      "f": 203
+     },
+     {
+      "w": "person",
+      "f": 206
+     },
+     {
+      "w": "has",
+      "f": 217
+     },
+     {
+      "w": "checked",
+      "f": 223
+     }
+    ]
+   }
+  ]
+ },
+ "end": {
+  "frames": 180,
+  "segs": [
+   {
+    "v": "narrator",
+    "text": "Ground Truth. Every property fact, with its receipt.",
+    "src": "voice/end_0.mp3",
+    "hash": "209d7baf3ad0",
+    "from": 14,
+    "dur": 115,
+    "words": [
+     {
+      "w": "ground",
+      "f": 17
+     },
+     {
+      "w": "truth",
+      "f": 29
+     },
+     {
+      "w": "every",
+      "f": 56
+     },
+     {
+      "w": "property",
+      "f": 67
+     },
+     {
+      "w": "fact",
+      "f": 82
+     },
+     {
+      "w": "with",
+      "f": 97
+     },
+     {
+      "w": "its",
+      "f": 102
+     },
+     {
+      "w": "receipt",
+      "f": 106
+     }
+    ]
+   }
+  ]
+ }
+}

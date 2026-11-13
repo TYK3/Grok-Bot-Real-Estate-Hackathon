@@ -64,3 +64,5 @@ KMS/
 .github/personal-instructions.md
 __pycache__/
 fact_record/extraction_service/.cache/
+.vercel
+.env*

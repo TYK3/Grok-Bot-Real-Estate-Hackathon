@@ -1,5 +1,7 @@
 # Fact Review — Person B (simplified interface)
 
+<p align="center"><img src="../docs/gifs/review.gif" alt="Review workbench: loading Kelso Villa, comparing the parking evidence and confirming the price" width="85%"><br><sub>The workbench in the running app (<code>/review</code>): load a sample, compare two sources, confirm. Recorded by <code>demo-video/gifs/record.mjs</code>.</sub></p>
+
 ## Latest updates — neutral UI + database export
 
 The reviewer interface now uses a **neutral greyscale theme** (`ui/theme-neutral.css`): quiet white/grey surfaces, a dark primary action, subtle selected rows, and a restrained warm warning reserved for document errors. Classifications are identified by words rather than colour. Existing extraction and decision logic is unchanged.
