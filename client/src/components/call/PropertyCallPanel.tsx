@@ -100,7 +100,7 @@ export function PropertyCallPanel({
 
       <div className="space-y-5 p-4">
         <div className="flex items-center justify-between gap-2 rounded-lg border border-[var(--re-line)] bg-[var(--re-surface-2)] px-3 py-2.5">
-          <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[#e95650]">
+          <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--re-warm)]">
             {property.priceHeading ?? "Rent"}
           </span>
           <span className="text-lg font-semibold text-[var(--re-ink)]">
@@ -142,7 +142,7 @@ export function PropertyCallPanel({
             <span
               className={`inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-xs ${
                 hasLive
-                  ? "bg-[var(--re-surface-2)] text-[#e95650]"
+                  ? "bg-[var(--re-surface-2)] text-[var(--re-warm)]"
                   : connected
                     ? "bg-[var(--re-surface-2)] text-[var(--re-muted)]"
                     : "bg-[var(--re-bg)] text-[var(--re-muted)]"
@@ -198,7 +198,7 @@ export function PropertyCallPanel({
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#e95650]">
+    <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--re-warm)]">
       {children}
     </h3>
   );
@@ -243,7 +243,7 @@ function LiveRow({
 }) {
   return (
     <div className="rounded-md border border-[var(--re-line)] bg-[var(--re-bg)] p-3">
-      <p className="flex items-center gap-1.5 text-xs font-medium text-[#e95650]">
+      <p className="flex items-center gap-1.5 text-xs font-medium text-[var(--re-warm)]">
         <span className="[&_svg]:size-3.5">{icon}</span>
         {label}
       </p>

@@ -2,6 +2,7 @@ import asyncio
 import json
 import logging
 import os
+import secrets
 import wave
 from datetime import UTC, datetime
 from typing import Any
@@ -31,7 +32,9 @@ from livekit.agents.stt import SpeechEventType
 from livekit.plugins import openai, silero, xai
 
 import session_store
+from agreements import answer_question, describe_answer
 from amenities import describe_ranking, rank_properties, shortlist_payload
+from pricing import compare_price, describe_comparison
 from properties import (
     PROPERTIES,
     format_property_details,
@@ -188,10 +191,17 @@ class PropertyAgent(Agent):
         )
         if rows:
             # Pin results on the caller's map and open the top one.
+            shortlist = shortlist_payload(rows)
             session_store.save_search(
-                shortlist=shortlist_payload(rows),
+                shortlist=shortlist,
                 focus_id=str(rows[0]["prop"].get("property_id")),
             )
+            session_store.save_stage("map", {
+                "amenity": amenity,
+                "max_price": max_price,
+                "min_bedrooms": min_bedrooms,
+                "results": shortlist,
+            })
         return describe_ranking(amenity, rows)
 
     @function_tool()
@@ -240,8 +250,10 @@ class PropertyAgent(Agent):
         )
         if not pid or not get_property_by_id(pid):
             return "Which property would you like to reserve? I need the listing first."
+        reference = "HV-" + secrets.token_hex(3).upper()
         session_store.save_booking_details({
             "type": "reservation",
+            "reference": reference,
             "property_id": pid,
             "date": move_in_date or todays_date,
             "time": "",
@@ -251,12 +263,69 @@ class PropertyAgent(Agent):
         session_store.save_customer_details(
             {"name": customer_name, "phone": phone, "email": email}
         )
+        prop = get_property_by_id(pid) or {}
+        session_store.save_stage("reservation", {
+            "reference": reference,
+            "property_id": pid,
+            "title": (prop.get("address") or {}).get("display") or pid,
+            "price": prop.get("price"),
+            "customer_name": customer_name,
+            "move_in_date": move_in_date,
+        })
         logger.info("Reservation requested for %s by %s", pid, customer_name)
         return (
-            f"Reservation request recorded for {customer_name} on listing {pid}"
+            f"Reservation request {reference} recorded for {customer_name} on listing {pid}"
             + (f", moving in {move_in_date}" if move_in_date else "")
             + ". Tell them the lettings team will call to confirm and explain the holding deposit."
         )
+
+    @function_tool()
+    async def compare_listing_price(
+        self, context: RunContext, property_id: str | None = None
+    ) -> str:
+        """Compare a listing's rent with similar homes in our catalogue.
+
+        Use when Sam asks whether a price is fair, good value, expensive, or
+        how it compares with the area. Quote the average and the percentage
+        above or below it; the numbers come only from our own listings.
+
+        Args:
+            property_id: The listing to compare; defaults to the one being discussed.
+        """
+        pid = property_id or (
+            str(self._property.get("property_id")) if self._property else None
+        )
+        prop = get_property_by_id(pid) if pid else None
+        if not prop:
+            return "Which listing should I compare? I need the property first."
+        result = await asyncio.to_thread(compare_price, prop, PROPERTIES)
+        if result:
+            session_store.save_stage("price", result)
+        return describe_comparison(result)
+
+    @function_tool()
+    async def answer_agreement_question(
+        self, context: RunContext, question: str, property_id: str | None = None
+    ) -> str:
+        """Answer a question about the tenancy agreement from our standard terms.
+
+        Use for questions about deposits, notice periods, rent increases, pets,
+        repairs, bills, fees, subletting, decorating, check-out or right-to-rent
+        checks. Answer only from the clauses returned, name the clause number,
+        and always finish with the disclaimer. Never use web search for these.
+
+        Args:
+            question: Sam's question in their own words.
+            property_id: Listing to include specific terms for; defaults to the
+                one being discussed.
+        """
+        pid = property_id or (
+            str(self._property.get("property_id")) if self._property else None
+        )
+        prop = get_property_by_id(pid) if pid else None
+        answer = answer_question(question, prop)
+        session_store.save_stage("agreement", answer)
+        return describe_answer(answer)
 
     async def stt_node(self, audio, model_settings):
         """Capture the user's audio per turn and save a WAV snippet the moment
@@ -338,6 +407,11 @@ class PropertyAgent(Agent):
             "status": "confirmed",
         }
         session_store.save_booking_details(booking_data)
+        prop = get_property_by_id(property_id) or {}
+        session_store.save_stage("viewing", {
+            **booking_data,
+            "title": (prop.get("address") or {}).get("display") or property_id,
+        })
         if customer_name and customer_name != "Unknown":
             session_store.save_customer_details({"name": customer_name})
         logger.info("Viewing booked: %s", booking_data)

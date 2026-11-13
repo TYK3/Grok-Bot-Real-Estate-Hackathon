@@ -44,7 +44,7 @@ void main(){
   float haze=S*(.3+.46*d);
   float a=clamp(max(rest,max(rise*.97,haze)),0.,1.);
   vec3 dayA=vec3(.97,.93,.84),dayB=vec3(.79,.78,.71);
-  vec3 nitA=vec3(.40,.45,.57),nitB=vec3(.15,.19,.29);
+  vec3 nitA=vec3(.36,.45,.41),nitB=vec3(.10,.17,.14);
   vec3 c=mix(mix(dayB,dayA,d*1.15),mix(nitB,nitA,d*1.1),K);
   float porch=exp(-dot((uv-vec2(.72,.74))*vec2(1.7,2.6),(uv-vec2(.72,.74))*vec2(1.7,2.6))*3.2);
   c=mix(c,vec3(.86,.55,.27),K*porch*.42*(1.-S));
@@ -275,6 +275,7 @@ export function FogHero({ count, districts }: { count: number; districts: number
           </Link>
           <ul className="links">
             <li><Link href="/explore">Homes</Link></li>
+            <li><Link href="/haven">Haven</Link></li>
             <li><Link href="/explore?view=map">Map</Link></li>
             <li><Link href="/market">Market</Link></li>
             <li><Link href="/facts">Fact checks</Link></li>
@@ -282,7 +283,7 @@ export function FogHero({ count, districts }: { count: number; districts: number
             <li><a href="#how">How it works</a></li>
           </ul>
           <div className="side">
-            <Link href="/market#viewings">Viewings</Link>
+            <Link href="/haven?try=viewing">Viewings</Link>
             <Link className="cta" href="/explore">Find your home</Link>
           </div>
         </header>
@@ -317,7 +318,7 @@ export function FogHero({ count, districts }: { count: number; districts: number
             </button>
           </div>
           <p className="cap">
-            {count} homes to let across {districts} East London postcodes. Compare them, ask our AI agent
+            {count} homes to let across {districts} East London postcodes. Compare them, ask Haven, our AI agent,
             <br />
             about floor plans, commutes and the neighbourhood, then book a viewing by voice.
           </p>

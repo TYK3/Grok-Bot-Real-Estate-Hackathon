@@ -180,14 +180,14 @@ export function CallExperience({ property }: { property: CallProperty }) {
           <div
             role="status"
             aria-live="polite"
-            className="fixed right-4 top-16 z-50 w-[min(calc(100vw-2rem),420px)] rounded-lg border border-[#bde7c9] bg-[var(--re-surface)] p-4 shadow-2xl shadow-[var(--re-ink)]/15 sm:right-6"
+            className="fixed right-4 top-16 z-50 w-[min(calc(100vw-2rem),420px)] rounded-lg border border-[var(--re-line)] bg-[var(--re-surface)] p-4 shadow-2xl shadow-[var(--re-ink)]/15 sm:right-6"
           >
             <div className="flex items-start gap-3">
-              <span className="grid size-11 shrink-0 place-items-center rounded-full bg-[#ecfdf3] text-[#16a34a]">
+              <span className="grid size-11 shrink-0 place-items-center rounded-full bg-[color-mix(in_srgb,var(--re-good)_14%,transparent)] text-[var(--re-good)]">
                 <CalendarCheck className="size-5" />
               </span>
               <div className="min-w-0 flex-1">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#16a34a]">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--re-good)]">
                   Booking confirmed
                 </p>
                 <p className="mt-1 text-sm font-semibold text-[var(--re-ink)]">
@@ -280,7 +280,7 @@ export function CallExperience({ property }: { property: CallProperty }) {
                   </p>
                 </div>
                 <div className="relative grid size-64 place-items-center overflow-hidden rounded-full border border-[var(--re-line)] bg-[var(--re-bg)] shadow-inner">
-                  <div className="absolute inset-3 animate-pulse rounded-full border border-[#e95650]/30" />
+                  <div className="absolute inset-3 animate-pulse rounded-full border border-[var(--re-warm)]/30" />
                   <div className="grid size-28 place-items-center rounded-full bg-[var(--re-ink)] text-[var(--re-bg)]">
                     <PhoneCall className="size-12" />
                   </div>
@@ -289,7 +289,7 @@ export function CallExperience({ property }: { property: CallProperty }) {
                   <button
                     type="button"
                     onClick={() => router.push(`/property/${property.id}`)}
-                    className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[#e95650] px-6 text-sm font-semibold text-white transition-colors hover:bg-[#d94c46]"
+                    className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[var(--re-warm)] px-6 text-sm font-semibold text-white transition-colors hover:bg-[var(--re-warm)]"
                   >
                     {isGeneral ? "Back to home" : "Back to property"}
                   </button>

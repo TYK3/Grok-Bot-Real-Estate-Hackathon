@@ -1,0 +1,94 @@
+{
+  "document": {
+    "id": "hamptons-standard-tenancy-terms",
+    "title": "Hamptons Lettings standard tenancy terms",
+    "version": "2026-11 (sample for the demo)",
+    "note": "A plain-English sample of the terms our lettings follow in England. It is not legal advice; the lettings team confirms the final agreement for each home."
+  },
+  "clauses": [
+    {
+      "id": "1",
+      "title": "Type and length of tenancy",
+      "keywords": ["length", "term", "fixed", "periodic", "rolling", "minimum", "how long", "contract", "months", "year"],
+      "text": "Tenancies are periodic and run month to month from the start date. There is no fixed term, so you are not locked in for six or twelve months."
+    },
+    {
+      "id": "2",
+      "title": "Rent and rent increases",
+      "keywords": ["rent", "payment", "pay", "advance", "increase", "rise", "monthly", "due", "upfront"],
+      "text": "Rent is paid monthly in advance. We ask for no more than one month's rent before the tenancy starts. Rent can rise at most once a year, with at least two months' written notice."
+    },
+    {
+      "id": "3",
+      "title": "Holding deposit",
+      "keywords": ["holding", "reserve", "reservation", "secure", "take it", "hold"],
+      "text": "To reserve a home we may take a holding deposit of up to one week's rent. It is put towards your first month's rent or deposit, or refunded within 15 days if the let does not go ahead for reasons outside your control. It is never taken online by Haven."
+    },
+    {
+      "id": "4",
+      "title": "Security deposit",
+      "keywords": ["deposit", "security", "protected", "protection", "scheme", "return", "back", "weeks"],
+      "text": "The security deposit is capped at five weeks' rent (six weeks if annual rent is £50,000 or more). It is protected in a government-approved deposit scheme within 30 days and you receive the scheme details in writing."
+    },
+    {
+      "id": "5",
+      "title": "Ending the tenancy (you)",
+      "keywords": ["notice", "leave", "move out", "end", "break", "terminate", "quit", "give notice"],
+      "text": "You can end the tenancy by giving at least two months' notice in writing, at any time."
+    },
+    {
+      "id": "6",
+      "title": "Ending the tenancy (landlord)",
+      "keywords": ["evict", "eviction", "landlord end", "asked to leave", "sell", "landlord notice", "no fault"],
+      "text": "The landlord can only end the tenancy on a legal ground, such as selling the home or moving in, and must give the notice the law requires. There are no 'no-fault' evictions."
+    },
+    {
+      "id": "7",
+      "title": "Pets",
+      "keywords": ["pet", "pets", "dog", "cat", "animal"],
+      "text": "You can ask to keep a pet. The landlord will consider every request and will not refuse without a good reason, and may ask you to hold pet insurance."
+    },
+    {
+      "id": "8",
+      "title": "Repairs and maintenance",
+      "keywords": ["repair", "repairs", "maintenance", "broken", "fix", "boiler", "heating", "leak", "damp", "mould", "emergency"],
+      "text": "The landlord looks after the structure, heating, hot water, wiring and plumbing. Report problems promptly; emergencies such as no heat or a major leak are attended within 24 hours."
+    },
+    {
+      "id": "9",
+      "title": "Bills and council tax",
+      "keywords": ["bills", "council tax", "utilities", "electric", "gas", "water", "broadband", "internet", "tv licence", "included"],
+      "text": "Unless the listing says bills are included, you pay council tax, gas, electricity, water, broadband and the TV licence."
+    },
+    {
+      "id": "10",
+      "title": "Sharing, subletting and guests",
+      "keywords": ["sublet", "subletting", "lodger", "guest", "partner", "share", "airbnb", "someone else"],
+      "text": "Guests are welcome. Subletting, taking in a lodger or short-term letting needs the landlord's written consent first."
+    },
+    {
+      "id": "11",
+      "title": "Decorating and alterations",
+      "keywords": ["decorate", "paint", "pictures", "alter", "alteration", "change", "furniture", "hang", "shelves"],
+      "text": "Ask in writing before painting, hanging heavy fixtures or making alterations. Consent will not be unreasonably withheld."
+    },
+    {
+      "id": "12",
+      "title": "Inventory and check-out",
+      "keywords": ["inventory", "check out", "checkout", "damage", "wear and tear", "deduction", "cleaning", "dispute"],
+      "text": "An inventory is agreed at the start. At the end, deductions are made only for damage beyond fair wear and tear or unpaid rent, and any dispute can go to the deposit scheme's free resolution service."
+    },
+    {
+      "id": "13",
+      "title": "Fees",
+      "keywords": ["fee", "fees", "admin", "charge", "charges", "cost", "referencing", "late", "keys"],
+      "text": "There are no admin or referencing fees. The only permitted charges are rent, deposits, interest on rent more than 14 days late, replacing lost keys at cost, and up to £50 for changes you ask for to the agreement."
+    },
+    {
+      "id": "14",
+      "title": "Right to rent and referencing",
+      "keywords": ["right to rent", "id", "passport", "visa", "reference", "references", "guarantor", "credit", "documents", "checks"],
+      "text": "Before the tenancy starts we check your right to rent in the UK and take references. Some tenants may be asked for a guarantor."
+    }
+  ]
+}
