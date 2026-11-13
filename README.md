@@ -284,7 +284,38 @@ pip install -r fact_record/requirements.txt
 python fact_record/extraction_service/server.py
 ```
 
-Apply `supabase/migrations/` to a Supabase project and set the `SUPABASE_*` values below. Without them, the site and agent read the JSON contracts.
+Supabase is optional. Without it, the site and agent read the JSON contracts in `fact_record/contracts`. Connect it when you want reviews saved in the workbench to reach the site and the voice agent.
+
+<details>
+<summary><b>🗄️ Set up Supabase (about 5 minutes)</b></summary>
+
+1. **Create a project** at [supabase.com](https://supabase.com) (the free tier is enough).
+2. **Create the tables.** Open **SQL Editor** in the dashboard and run the two migrations in this order, pasting each file's contents and clicking **Run**:
+   1. `supabase/migrations/20261112000000_fact_record.sql`, which creates the tables and the write functions
+   2. `supabase/migrations/20261112010000_published_fact_state.sql`, which creates the read function used by the site and agent
+
+   If you use the Supabase CLI, `supabase link` followed by `supabase db push` runs both.
+3. **Copy the keys.** In **Project Settings → API**, copy the Project URL, the `anon` public key and the `service_role` secret key.
+4. **Put them in the env files:**
+
+   | File | `SUPABASE_URL` | `SUPABASE_ANON_KEY` | `SUPABASE_SERVICE_ROLE_KEY` |
+   |---|---|---|---|
+   | `.env` (repo root: agent and extraction service) | ✅ | ✅ | ✅ |
+   | `client/.env` (website) | ✅ | ✅ | ❌ never |
+
+   The `service_role` key can write to every table, so keep it out of `client/` and out of git. The `anon` key can only read published facts.
+5. **Restart** the agent, the site and the extraction service so they pick up the new values.
+6. **Check it works:**
+   - `curl http://localhost:8765/health` should return `"supabase": true`. This only confirms the keys are set; the sample load below proves the connection.
+   - To load the bundled sample review, set `SUPABASE_ALLOW_EXAMPLE=true` in `.env`, then run:
+     ```bash
+     python fact_record/extraction_service/supabase_sink.py conflict-resolution-ui/examples/database-handoff.example.json
+     ```
+   - Within about 30 seconds, open `/property/kelso-villa`. The disputed stated floor area shows **Pending verification**, and the reviewed values show their source citation.
+
+After that, the **Save to Supabase** button in the review workbench (`/review`) writes your decisions straight to the database. If Supabase can't be reached, the site and agent fall back to the JSON contracts, so a bad key never takes the demo down.
+
+</details>
 
 **4. Optional: refresh the map data**
 
