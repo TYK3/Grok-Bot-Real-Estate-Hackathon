@@ -18,19 +18,22 @@ const LINKS = [
   { href: "/facts", label: "Fact checks", short: "Facts" },
 ];
 
-/** Floating glass navigation for the inner pages. */
-export function SiteNav() {
+/**
+ * Floating glass navigation, the same on every page. With `overlay` (the
+ * landing page) it takes no space, so the hero runs under it.
+ */
+export function SiteNav({ overlay = false }: { overlay?: boolean }) {
   const pathname = usePathname();
   const [theme, setTheme] = useTheme();
   const { ids } = useShortlist();
 
   return (
-    <header className="sticky top-0 z-[1100] px-3 pt-3 sm:px-6">
+    <header className={cn("sticky top-0 z-[1100] px-3 pt-3 sm:px-6", overlay && "-mb-[68px]")}>
       <nav
-        className="mx-auto flex h-14 max-w-7xl items-center gap-2 rounded-full border px-1.5 pl-4 shadow-[var(--re-shadow)] backdrop-blur-xl sm:px-2"
+        className="mx-auto flex h-14 max-w-7xl items-center gap-2 rounded-full border px-1.5 pl-4 text-[var(--re-ink)] shadow-[var(--re-shadow)] backdrop-blur-xl sm:px-2"
         style={{ background: "var(--re-glass)", borderColor: "var(--re-line)" }}
       >
-        <Link href="/" aria-label="Call Test Guard home" className="mr-1 flex shrink-0 items-center">
+        <Link href="/" aria-label="Ground Truth home" className="mr-1 flex shrink-0 items-center">
           <BrandLogo />
         </Link>
 

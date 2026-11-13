@@ -5,8 +5,6 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Search } from "lucide-react";
 
-import { BrandMark } from "@/components/site/BrandLogo";
-
 import { readTheme, setTheme } from "@/components/site/theme";
 
 const IMG = (file: string, w: number, q: number) =>
@@ -220,9 +218,14 @@ export function FogHero({ count, districts }: { count: number; districts: number
     });
     io.observe(hero);
 
+    // The nav's theme toggle switches the hero too, with the same fog transition.
+    const onTheme = (e: Event) => pickRef.current((e as CustomEvent<string>).detail === "light" ? 0 : 1);
+    window.addEventListener("re-theme-change", onTheme);
+
     return () => {
       cancelAnimationFrame(raf);
       io.disconnect();
+      window.removeEventListener("re-theme-change", onTheme);
       window.removeEventListener("resize", size);
     };
   }, []);
@@ -263,27 +266,8 @@ export function FogHero({ count, districts }: { count: number; districts: number
       <canvas ref={canvasRef} className="fog" aria-hidden="true" />
 
       <div className="ui">
-        <header className="bar">
-          <Link className="logo" href="/" aria-label="Call Test Guard home">
-            <BrandMark />
-            <span>
-              Call Test <i className="re-serif">Guard</i>
-            </span>
-          </Link>
-          <ul className="links">
-            <li><Link href="/explore">Homes</Link></li>
-            <li><Link href="/haven">Haven</Link></li>
-            <li><Link href="/explore?view=map">Map</Link></li>
-            <li><Link href="/market">Market</Link></li>
-            <li><Link href="/facts">Fact checks</Link></li>
-            <li><Link href="/explore?saved=1">Shortlist</Link></li>
-            <li><a href="#how">How it works</a></li>
-          </ul>
-          <div className="side">
-            <Link href="/haven?try=viewing">Viewings</Link>
-            <Link className="cta" href="/explore">Find your home</Link>
-          </div>
-        </header>
+        {/* room for the shared SiteNav, which floats over the hero */}
+        <div className="barspace" aria-hidden="true" />
 
         <h1>
           <span className="l1">Homes that feel right</span>

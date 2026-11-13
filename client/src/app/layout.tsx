@@ -17,9 +17,9 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Call Test Guard · AI lettings with Haven",
+  title: "Ground Truth · AI lettings with Haven",
   description:
-    "Call Test Guard: browse fact-checked rentals and talk to Haven, the AI lettings agent, about any listing.",
+    "Ground Truth: browse fact-checked rentals and talk to Haven, the AI lettings agent, about any listing.",
 };
 
 // Applies the saved Morning (light) / Night (dark) choice before first paint.

@@ -1,5 +1,7 @@
 # Extraction service
 
+<p align="center"><img src="../../docs/gifs/review.gif" alt="Review workbench comparing Kelso Villa facts from the sample documents" width="80%"><br><sub>What this service feeds: facts extracted from the Kelso Villa documents, compared and confirmed in the review workbench.</sub></p>
+
 `python fact_record/extraction_service/server.py` runs a local HTTP service on :8765 for the conflict-resolution workbench. `POST /extract` takes multipart PDFs (`files`) and returns facts in `conflict-resolution-ui/schema/extracted_fact.schema.json` format, with `documents[]` keyed by filename and sha256. CORS is open.
 
 Requirements: `pip install -r fact_record/requirements.txt` and the `tesseract` binary on PATH. Env: `EXTRACTOR_PORT` (8765), `EXTRACTOR_MODE` (auto|rules|llm|hybrid), `EXTRACTOR_CACHE`.
