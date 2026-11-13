@@ -225,6 +225,7 @@
 .fog-hero .fog { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .fog-hero .ui { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; align-items: center; pointer-events: none; }
 .fog-hero .ui a, .fog-hero .ui button { pointer-events: auto; }
+.fog-hero .barspace { flex: none; height: 76px; }
 .fog-hero .bar { width: 100%; display: flex; align-items: center; padding: calc(22 * var(--u)) calc(38 * var(--u)) 0; color: var(--nav); }
 .fog-hero .logo { display: flex; align-items: center; gap: calc(10 * var(--u)); font-size: calc(25 * var(--u)); font-weight: 500; letter-spacing: -0.025em; color: var(--ink); flex: 1 1 0; }
 .fog-hero .logo svg { width: calc(36 * var(--u)); height: calc(36 * var(--u)); flex: none; }

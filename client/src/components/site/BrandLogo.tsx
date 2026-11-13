@@ -3,8 +3,8 @@ import { useId } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Call Test Guard mark: a shield (guard) holding a check (test), with two
- * call waves breaking out of its shoulder (call).
+ * Ground Truth mark: a shield holding a check (a verified fact), with two
+ * voice waves breaking out of its shoulder (Haven, the voice agent).
  */
 export function BrandMark({ className }: { className?: string }) {
   const id = useId().replace(/:/g, "");
@@ -33,7 +33,7 @@ export function BrandLogo({ className, compact = false }: { className?: string; 
     <span className={cn("inline-flex items-center gap-2", className)}>
       <BrandMark />
       <span className={cn("whitespace-nowrap text-[17px] font-medium tracking-tight", compact && "hidden min-[380px]:inline")}>
-        Call Test <span className="re-serif text-[19px] italic text-[var(--re-accent)]">Guard</span>
+        Ground <span className="re-serif text-[19px] italic text-[var(--re-accent)]">Truth</span>
       </span>
     </span>
   );

@@ -1,5 +1,7 @@
 # Fact record contracts
 
+<p align="center"><img src="../../docs/gifs/property.gif" alt="Kelso Villa listing built from contract 05: tapping the price shows its source" width="49%"> <img src="../../docs/gifs/facts.gif" alt="Fact checks page built from the contracts: open contradictions and corrections" width="49%"><br><sub>Contract 05 on the site: the Kelso Villa listing (left) and the public fact checks page (right).</sub></p>
+
 ## Two platforms
 
 **1. Agency review platform (NEW, does not exist yet).** Used by the sales agency. They upload or see the
