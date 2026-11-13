@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { ArrowRight, BadgeCheck, ChevronDown, Clock3, FileText, Layers, ScanSearch, Wrench } from "lucide-react";
+import { ArrowRight, ArrowUpRight, BadgeCheck, ChevronDown, Clock3, FileText, Layers, ScanSearch, Wrench } from "lucide-react";
 
 import { Segmented } from "@/components/explore/ExploreView";
 import type { CheckFact, Contradiction, Development, ListingField } from "@/lib/fact-checks";
@@ -170,6 +170,16 @@ export function FactChecksView({ developments, reviewUrl }: { developments: Deve
             </span>
           </p>
         </div>
+        <a
+          href={reviewUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="re-btn re-btn-primary mt-5 w-fit gap-2"
+        >
+          <ScanSearch className="size-4" />
+          {openCount(dev) ? `Review ${openCount(dev)} open contradiction${openCount(dev) === 1 ? "" : "s"}` : "Open the review workbench"}
+          <ArrowUpRight className="size-4" />
+        </a>
       </header>
 
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_300px]">
@@ -182,7 +192,7 @@ export function FactChecksView({ developments, reviewUrl }: { developments: Deve
               hint="The documents disagree and nobody has signed off yet, so these are not shown on the listing."
             >
               {open.map((c) => (
-                <PendingCard key={c.id} c={c} />
+                <PendingCard key={c.id} c={c} reviewUrl={reviewUrl} />
               ))}
             </Section>
           ) : null}
@@ -228,9 +238,15 @@ export function FactChecksView({ developments, reviewUrl }: { developments: Deve
             </ul>
           </section>
 
-          <a href={reviewUrl} target="_blank" rel="noreferrer" className="text-center text-[13px] text-[var(--re-muted)] underline-offset-4 hover:underline">
-            For agents: open the review workbench →
-          </a>
+          <section className="re-card p-5">
+            <h2 className="text-base font-medium">Review workbench</h2>
+            <p className="mt-1 text-[13px] leading-relaxed text-[var(--re-muted)]">
+              For agents: go through every contradiction with its source documents, quotes and authority, and decide which value is published.
+            </p>
+            <a href={reviewUrl} target="_blank" rel="noreferrer" className="re-btn re-btn-ink mt-4 w-full gap-2 text-sm">
+              Open the workbench <ArrowUpRight className="size-4" />
+            </a>
+          </section>
         </aside>
       </div>
     </div>
@@ -413,7 +429,7 @@ function ScopedCard({ c }: { c: Contradiction }) {
   );
 }
 
-function PendingCard({ c }: { c: Contradiction }) {
+function PendingCard({ c, reviewUrl }: { c: Contradiction; reviewUrl: string }) {
   const groups = groupByValue(c.facts);
   return (
     <li
@@ -439,6 +455,14 @@ function PendingCard({ c }: { c: Contradiction }) {
         ))}
       </ul>
       <Quotes facts={c.facts} />
+      <a
+        href={reviewUrl}
+        target="_blank"
+        rel="noreferrer"
+        className="re-btn re-btn-ghost mt-4 h-10 w-full gap-2 text-sm sm:w-fit"
+      >
+        Check the documents in the workbench <ArrowUpRight className="size-4" />
+      </a>
     </li>
   );
 }
