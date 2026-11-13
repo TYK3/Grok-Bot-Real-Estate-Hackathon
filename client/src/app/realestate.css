@@ -320,3 +320,18 @@
 /* OpenStreetMap tiles, softened to sit with the palette */
 .re-map .leaflet-tile-pane { filter: grayscale(0.55) sepia(0.12) brightness(1.03) contrast(0.92); }
 :root[data-theme="dark"] .re-map .leaflet-tile-pane { filter: grayscale(0.6) invert(1) hue-rotate(195deg) brightness(0.85) contrast(0.88); }
+
+/* Haven's character (components/haven/HavenAvatar.tsx) */
+.haven-avatar { overflow: visible; }
+.haven-avatar .haven-float { animation: haven-float 4.2s ease-in-out infinite; transform-box: view-box; transform-origin: 32px 54px; }
+.haven-avatar .haven-eyes { animation: haven-blink 4.6s infinite; transform-box: view-box; transform-origin: 32px 32.5px; }
+.haven-avatar .haven-beacon { animation: haven-beacon 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.haven-avatar .haven-dots circle { animation: haven-dot 0.9s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.haven-avatar .haven-dots circle:nth-child(2) { animation-delay: 0.15s; }
+.haven-avatar .haven-dots circle:nth-child(3) { animation-delay: 0.3s; }
+.haven-avatar.is-thinking .haven-dots circle { animation-duration: 1.4s; }
+.haven-avatar.is-listening .haven-beacon { animation-duration: 1.2s; }
+@keyframes haven-float { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-1.5px) rotate(-2deg); } }
+@keyframes haven-blink { 0%, 44%, 48%, 100% { transform: scaleY(1); } 46% { transform: scaleY(0.1); } }
+@keyframes haven-beacon { 0%, 100% { transform: scale(.8); opacity: .5; } 50% { transform: scale(1.35); opacity: 1; } }
+@keyframes haven-dot { 0%, 100% { transform: translateY(0); opacity: .55; } 40% { transform: translateY(-2.2px); opacity: 1; } }

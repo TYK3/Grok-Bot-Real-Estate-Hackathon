@@ -218,7 +218,7 @@ export function LandingSections({ listings: all }: { listings: ListingSummary[] 
 
       <footer className="border-t" style={{ borderColor: "var(--re-line)" }}>
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-8 text-sm text-[var(--re-muted)] sm:flex-row sm:justify-between sm:px-6 lg:px-8">
-          <span>Hamptons AI Lettings · Canary Wharf &amp; Docklands</span>
+          <span>Call Test Guard · AI lettings for Canary Wharf &amp; Docklands</span>
           <span>Listings data from the current catalogue; figures update automatically.</span>
         </div>
       </footer>

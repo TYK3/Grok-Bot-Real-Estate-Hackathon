@@ -17,9 +17,9 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Hamptons Lettings — Voice Assistant",
+  title: "Call Test Guard · AI lettings with Haven",
   description:
-    "Browse Hamptons rental properties and talk to Haven, the AI lettings agent, about any listing.",
+    "Call Test Guard: browse fact-checked rentals and talk to Haven, the AI lettings agent, about any listing.",
 };
 
 // Applies the saved Morning (light) / Night (dark) choice before first paint.

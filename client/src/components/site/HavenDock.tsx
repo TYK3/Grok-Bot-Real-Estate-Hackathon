@@ -6,6 +6,7 @@ import { MotionConfig, motion } from "framer-motion";
 import { BarChart3, Heart, Home, ShieldCheck } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { HavenAvatar } from "@/components/haven/HavenAvatar";
 import { useShortlist } from "./shortlist";
 
 /** Where "Ask Haven" should go from the current page, keeping its context. */
@@ -58,8 +59,8 @@ export function HavenDock({ children }: { children: React.ReactNode }) {
                 animate={{ scale: [1, 1.25], opacity: [0.6, 0] }}
                 transition={{ duration: 2.2, repeat: Infinity, ease: "easeOut" }}
               />
-              <span className="re-serif relative grid size-11 place-items-center rounded-full text-2xl italic" style={{ background: "var(--re-pill-strong)", color: "var(--re-accent-ink)" }}>
-                H
+              <span className="relative grid size-11 place-items-center rounded-full" style={{ background: "#1a2e25", boxShadow: "inset 0 0 0 1.5px var(--re-accent)" }}>
+                <HavenAvatar size={36} track />
               </span>
             </span>
             <span className="text-sm leading-tight">
@@ -79,8 +80,8 @@ export function HavenDock({ children }: { children: React.ReactNode }) {
               if (!t) {
                 return (
                   <Link key="haven" href={href} aria-label="Ask Haven" className="flex flex-col items-center">
-                    <span className="re-serif -mt-7 grid size-14 place-items-center rounded-full text-3xl italic" style={{ background: "var(--re-pill-strong)", color: "var(--re-accent-ink)", boxShadow: "0 12px 30px -10px var(--re-pill-glow)", outline: "4px solid var(--re-bg)" }}>
-                      H
+                    <span className="-mt-7 grid size-14 place-items-center rounded-full" style={{ background: "#1a2e25", boxShadow: "inset 0 0 0 2px var(--re-accent), 0 12px 30px -10px var(--re-pill-glow)", outline: "4px solid var(--re-bg)" }}>
+                      <HavenAvatar size={44} />
                     </span>
                     <span className="mt-0.5 text-[10px] font-semibold">Haven</span>
                   </Link>

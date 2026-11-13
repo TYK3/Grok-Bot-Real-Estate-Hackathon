@@ -8,7 +8,7 @@ import { getListingSummaries } from "@/lib/listings-server";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Haven · AI lettings agent",
+  title: "Haven · Call Test Guard",
   description: "Talk to Haven: find homes near what matters, check prices, ask about the agreement, book viewings and reserve.",
 };
 
