@@ -10,11 +10,12 @@ import {
   Banknote,
   CalendarDays,
   Landmark,
+  MapPin,
 } from "lucide-react";
 
 import { PropertyGallery } from "@/components/PropertyGallery";
 import { PropertyImage } from "@/components/PropertyImage";
-import { SiteHeader } from "@/components/SiteHeader";
+import { SiteNav } from "@/components/site/SiteNav";
 import { VerifiedFacts, VerifiedFactsBadge } from "@/components/VerifiedFacts";
 import { getPropertyById } from "@/lib/properties";
 import { isVerifiedListing, propertyPhotos } from "@/lib/property-types";
@@ -51,15 +52,23 @@ export default async function PropertyDetailPage({
 
   return (
     <main className="min-h-screen bg-[#f7f6f3] pb-28 text-[#13294b]">
-      <SiteHeader>
+      <SiteNav />
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 pt-5 sm:px-6 lg:px-8">
         <Link
-          href="/"
+          href="/explore"
           className="inline-flex items-center gap-1.5 text-sm text-[#697586] transition-colors hover:text-[#e95650]"
         >
           <ArrowLeft className="size-4" />
-          All properties
+          All homes
         </Link>
-      </SiteHeader>
+        <Link
+          href="/call/general"
+          className="inline-flex h-9 items-center gap-1.5 rounded-md bg-[#e95650] px-3 text-sm font-semibold text-white transition-colors hover:bg-[#d94c46]"
+        >
+          <MapPin className="size-3.5" />
+          Find homes near…
+        </Link>
+      </div>
 
       <div className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
