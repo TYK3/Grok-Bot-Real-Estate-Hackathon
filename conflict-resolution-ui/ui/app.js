@@ -48,6 +48,7 @@ const state = {
   editingKey: null, warnings: [],
   pendingFiles: [], // File objects staged on the landing page (multi-doc)
   parsing: false,
+  tab: 'review', // 'review' | 'board' | 'data'
 };
 let noticeTimeout;
 
@@ -925,10 +926,112 @@ function renderResolve(){
   host.querySelector('#btn-escalate')?.addEventListener('click',onEscalate);
   host.querySelector('#btn-edit-value')?.addEventListener('click',openEdit);
 }
-function render(){renderHeader();renderSummary();renderQueue();renderDocLibrary();renderEvidence();renderResolve();}
+/* ── Board and Data views ─────────────────────────────────────────────── */
+function lastHumanDecision(rec){
+  return [...(rec.audit||[])].reverse().find(a=>a.accepted_by&&a.accepted_by!=='engine'&&a.accepted_by!=='rules-engine')||null;
+}
+function boardColumn(rec){
+  if(isContext(rec))return 'auto';
+  if(isHumanDone(rec))return 'done';
+  if(rec.document_error||rec.status==='conflicting'||rec.blocked)return 'decide';
+  return 'signoff';
+}
+function primaryValue(rec){
+  return isContext(rec)?'Values kept separately':rec.document_error?'Invalid combined total':(rec.winning_display||'Review evidence');
+}
+function sourceCount(rec){return new Set((rec.candidates||[]).map(c=>c.source?.doc_id).filter(Boolean)).size;}
+function renderBoard(){
+  const host=$('tab-board');if(!host||host.hidden)return;
+  const cols=[
+    ['decide','Needs a decision','Sources disagree or a document is wrong. Nothing is published.'],
+    ['signoff','Ready to sign off','The rules picked a value. A person confirms it.'],
+    ['auto','Auto-organised','Different scopes or bases, kept side by side.'],
+    ['done','Approved','Signed off and published to the fact record.'],
+  ];
+  const records=activePropertyRecords();
+  host.innerHTML=cols.map(([key,title,hint])=>{
+    const items=records.filter(r=>boardColumn(r)===key);
+    const cards=items.map(rec=>{
+      const last=lastHumanDecision(rec);
+      return `<button type="button" class="board-card" data-board-key="${esc(recordKey(rec))}">
+        <span class="board-card-top"><span class="board-field">${esc(caseTitle(rec))}</span>${kindTag(rec)}</span>
+        <span class="board-value">${esc(primaryValue(rec))}</span>
+        <span class="board-meta">${sourceCount(rec)} source${sourceCount(rec)===1?'':'s'}${last?` · ${esc(last.accepted_by)} · ${esc(formatWhen(last.accepted_at).replace(' (London)',''))}`:''}</span>
+      </button>`;
+    }).join('');
+    return `<section class="board-col board-${key}">
+      <header><h3>${esc(title)} <span class="board-count">${items.length}</span></h3><p>${esc(hint)}</p></header>
+      <div class="board-list">${cards||'<p class="board-empty">Nothing here.</p>'}</div>
+    </section>`;
+  }).join('');
+}
+function renderData(){
+  const host=$('tab-data');if(!host||host.hidden)return;
+  const records=activePropertyRecords();
+  const facts=state.facts.filter(f=>!state.propertyId||f.property_id===state.propertyId);
+  const docs=new Map();
+  for(const f of facts){const s=f.source||{};if(s.doc_id&&!docs.has(s.doc_id))docs.set(s.doc_id,{...s,count:0});if(s.doc_id)docs.get(s.doc_id).count++;}
+  const recRows=records.map(rec=>{
+    const last=lastHumanDecision(rec);
+    return `<tr data-board-key="${esc(recordKey(rec))}" class="row-link">
+      <td><b>${esc(caseTitle(rec))}</b></td><td>${statusTag(rec)}</td><td>${kindTag(rec)}</td>
+      <td>${esc(primaryValue(rec))}</td><td class="num">${sourceCount(rec)}</td>
+      <td>${last?`${esc(last.accepted_by)}<br><small>${esc(formatWhen(last.accepted_at))}</small>${last.note?`<br><small class="muted">${esc(plain(last.note))}</small>`:''}`
+        :`<span class="muted">${isContext(rec)?'Automatic · kept separately':rec.status==='verified'?'Automatic · sources agree':'Waiting for a reviewer'}</span>`}</td>
+    </tr>`;
+  }).join('');
+  const factRows=facts.map(f=>{
+    const s=f.source||{};
+    let value;try{value=displayValue(f);}catch{value=String(f.value??'');}
+    const quote=plain(f.quote||'');
+    return `<tr data-search="${esc(`${fieldName(f)} ${value} ${s.title||''} ${quote}`.toLowerCase())}">
+      <td>${esc(fieldName(f))}</td><td><b>${esc(value)}</b></td>
+      <td>${esc(s.title||s.doc_id||'')}<br><small class="muted">${esc((s.doc_type||'').replaceAll('_',' '))}</small></td>
+      <td class="num">${esc(f.page??'')}</td><td class="quote-cell" title="${esc(quote)}">${esc(quote.length>140?quote.slice(0,140)+'…':quote)}</td>
+    </tr>`;
+  }).join('');
+  const docRows=[...docs.values()].map(d=>`<tr><td><b>${esc(d.title||d.doc_id)}</b>${d.synthetic?' <span class="tag">synthetic</span>':''}</td><td>${esc((d.doc_type||'').replaceAll('_',' '))}</td><td>${esc(d.published_date||'')}</td><td class="num">${d.count}</td></tr>`).join('');
+  host.innerHTML=`
+    <section class="data-block"><header><h3>Differences <span class="board-count">${records.length}</span></h3><p>Every contradiction the rules found for this property. Click a row to open it in Review.</p></header>
+      <div class="table-wrap"><table><thead><tr><th>Field</th><th>Status</th><th>Type</th><th>Value to publish</th><th class="num">Sources</th><th>Last decision</th></tr></thead><tbody>${recRows||'<tr><td colspan="6" class="muted">No differences.</td></tr>'}</tbody></table></div></section>
+    <section class="data-block"><header><h3>Source documents <span class="board-count">${docs.size}</span></h3></header>
+      <div class="table-wrap"><table><thead><tr><th>Document</th><th>Type</th><th>Date</th><th class="num">Facts</th></tr></thead><tbody>${docRows||'<tr><td colspan="4" class="muted">No documents.</td></tr>'}</tbody></table></div></section>
+    <section class="data-block"><header class="data-head"><div><h3>Extracted facts <span class="board-count" id="fact-count">${facts.length}</span></h3><p>Raw evidence as extracted. Nothing here is edited by a review.</p></div>
+      <input type="search" id="fact-search" placeholder="Filter facts…" aria-label="Filter extracted facts"></header>
+      <div class="table-wrap"><table><thead><tr><th>Field</th><th>Value</th><th>Source</th><th class="num">Page</th><th>Quote</th></tr></thead><tbody id="fact-rows">${factRows||'<tr><td colspan="5" class="muted">No facts.</td></tr>'}</tbody></table></div></section>`;
+}
+function renderTabs(){
+  for(const b of document.querySelectorAll('.view-tab'))b.setAttribute('aria-selected',String(b.dataset.tab===state.tab));
+  const show={review:'tab-review',board:'tab-board',data:'tab-data'};
+  for(const [tab,id] of Object.entries(show)){const n=$(id);if(n)n.hidden=state.tab!==tab;}
+}
+function openInReview(key){
+  const rec=state.records.find(r=>recordKey(r)===key);if(!rec)return;
+  state.tab='review';state.stage='all';selectRecord(rec);
+  $('tab-review')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function render(){renderHeader();renderSummary();renderTabs();renderQueue();renderDocLibrary();renderEvidence();renderResolve();renderBoard();renderData();}
 
 function wire(){
   $('btn-ingest')?.addEventListener('click',()=>$('file-input').click());
+  document.querySelectorAll('.view-tab').forEach(b=>b.addEventListener('click',()=>{state.tab=b.dataset.tab;render();}));
+  for(const id of ['tab-board','tab-data']){
+    $(id)?.addEventListener('click',e=>{const el=e.target.closest('[data-board-key]');if(el)openInReview(el.dataset.boardKey);});
+  }
+  $('tab-data')?.addEventListener('input',e=>{
+    if(e.target.id!=='fact-search')return;
+    const q=e.target.value.trim().toLowerCase();let shown=0;
+    for(const tr of document.querySelectorAll('#fact-rows tr[data-search]')){const on=!q||tr.dataset.search.includes(q);tr.hidden=!on;if(on)shown++;}
+    const c=$('fact-count');if(c)c.textContent=String(shown);
+  });
+  $('btn-theme')?.addEventListener('click',()=>{
+    const next=document.documentElement.dataset.theme==='light'?'dark':'light';
+    document.documentElement.dataset.theme=next;
+    try{localStorage.setItem('re-theme',next);}catch{/* private mode */}
+  });
+  // The "back to site" link only makes sense when served by the Next app at /review.
+  if(!location.pathname.startsWith('/review/'))$('link-site')?.setAttribute('hidden','');
   $('btn-choose-files')?.addEventListener('click',(e)=>{e.stopPropagation();$('file-input').click();});
   $('btn-parse')?.addEventListener('click',async (e)=>{
     e.stopPropagation();

@@ -53,7 +53,7 @@ def _fetch_data_url(url: str, max_size: int, quality: int) -> str | None:
         img.save(buf, format="JPEG", quality=quality)
         b64 = base64.b64encode(buf.getvalue()).decode("utf-8")
         return f"data:image/jpeg;base64,{b64}"
-    except Exception as exc:  # noqa: BLE001 - best effort, skip failures
+    except Exception as exc:
         print(f"    ! failed {url}: {exc}")
         return None
 

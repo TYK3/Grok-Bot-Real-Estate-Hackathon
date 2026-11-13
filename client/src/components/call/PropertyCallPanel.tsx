@@ -80,14 +80,14 @@ export function PropertyCallPanel({
   const hasLive = hasBooking || hasCustomer;
 
   return (
-    <aside className="min-h-0 overflow-hidden rounded-lg border border-[#d9dee5] bg-white shadow-sm lg:max-h-[calc(100dvh-8rem)] lg:overflow-y-auto">
+    <aside className="min-h-0 overflow-hidden rounded-lg border border-[var(--re-line)] bg-[var(--re-surface)] shadow-sm lg:max-h-[calc(100dvh-8rem)] lg:overflow-y-auto">
       <div className="relative">
         <PropertyImage
           src={property.image}
           alt={property.title}
           className="aspect-[16/9] w-full"
         />
-        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#13294b]/95 via-[#13294b]/70 to-transparent p-4 pt-10 text-white">
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[var(--re-ink)]/95 via-[var(--re-ink)]/70 to-transparent p-4 pt-10 text-white">
           <h2 className="font-heading line-clamp-2 text-2xl leading-tight">
             {property.title}
           </h2>
@@ -99,16 +99,16 @@ export function PropertyCallPanel({
       </div>
 
       <div className="space-y-5 p-4">
-        <div className="flex items-center justify-between gap-2 rounded-lg border border-[#f1c7c4] bg-[#fff5f4] px-3 py-2.5">
+        <div className="flex items-center justify-between gap-2 rounded-lg border border-[var(--re-line)] bg-[var(--re-surface-2)] px-3 py-2.5">
           <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[#e95650]">
             {property.priceHeading ?? "Rent"}
           </span>
-          <span className="text-lg font-semibold text-[#13294b]">
+          <span className="text-lg font-semibold text-[var(--re-ink)]">
             {property.price}
           </span>
         </div>
 
-        <div className="flex items-center border-y border-[#e4e7eb] py-3">
+        <div className="flex items-center border-y border-[var(--re-line)] py-3">
           <Stat icon={<BedDouble />} label="Beds" value={property.beds} />
           <Stat icon={<Bath />} label="Baths" value={property.baths} />
           <Stat icon={<Sofa />} label="Reception" value={property.receptions} />
@@ -127,7 +127,7 @@ export function PropertyCallPanel({
               {property.features.map((f) => (
                 <span
                   key={f}
-                  className="rounded-full border border-[#d9dee5] bg-[#f7f6f3] px-2.5 py-1 text-xs text-[#4f5f70]"
+                  className="rounded-full border border-[var(--re-line)] bg-[var(--re-bg)] px-2.5 py-1 text-xs text-[var(--re-muted)]"
                 >
                   {f}
                 </span>
@@ -142,10 +142,10 @@ export function PropertyCallPanel({
             <span
               className={`inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-xs ${
                 hasLive
-                  ? "bg-[#fff5f4] text-[#e95650]"
+                  ? "bg-[var(--re-surface-2)] text-[#e95650]"
                   : connected
-                    ? "bg-[#eef0f2] text-[#697586]"
-                    : "bg-[#f7f6f3] text-[#8a95a3]"
+                    ? "bg-[var(--re-surface-2)] text-[var(--re-muted)]"
+                    : "bg-[var(--re-bg)] text-[var(--re-muted)]"
               }`}
             >
               {hasLive ? (
@@ -185,7 +185,7 @@ export function PropertyCallPanel({
               ) : null}
             </div>
           ) : (
-            <div className="mt-2 rounded-md border border-dashed border-[#cdd3da] p-4 text-sm leading-relaxed text-[#697586]">
+            <div className="mt-2 rounded-md border border-dashed border-[var(--re-surface-2)] p-4 text-sm leading-relaxed text-[var(--re-muted)]">
               Details you share with the agent — your contact info and any viewing
               you book — will appear here during the call.
             </div>
@@ -218,14 +218,14 @@ function Stat({
   return (
     <div
       className={`flex flex-1 flex-col items-center px-1 text-center ${
-        last ? "" : "border-r border-[#e4e7eb]"
+        last ? "" : "border-r border-[var(--re-line)]"
       }`}
     >
-      <span className="flex items-center gap-1 text-[10px] uppercase tracking-wide text-[#8a95a3]">
-        <span className="text-[#697586] [&_svg]:size-3">{icon}</span>
+      <span className="flex items-center gap-1 text-[10px] uppercase tracking-wide text-[var(--re-muted)]">
+        <span className="text-[var(--re-muted)] [&_svg]:size-3">{icon}</span>
         {label}
       </span>
-      <span className="mt-0.5 truncate whitespace-nowrap text-sm font-semibold text-[#13294b]">
+      <span className="mt-0.5 truncate whitespace-nowrap text-sm font-semibold text-[var(--re-ink)]">
         {value}
       </span>
     </div>
@@ -242,12 +242,12 @@ function LiveRow({
   value: string;
 }) {
   return (
-    <div className="rounded-md border border-[#d9dee5] bg-[#f7f6f3] p-3">
+    <div className="rounded-md border border-[var(--re-line)] bg-[var(--re-bg)] p-3">
       <p className="flex items-center gap-1.5 text-xs font-medium text-[#e95650]">
         <span className="[&_svg]:size-3.5">{icon}</span>
         {label}
       </p>
-      <p className="mt-1 text-sm leading-relaxed text-[#13294b]">{value}</p>
+      <p className="mt-1 text-sm leading-relaxed text-[var(--re-ink)]">{value}</p>
     </div>
   );
 }

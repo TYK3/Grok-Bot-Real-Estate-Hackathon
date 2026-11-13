@@ -13,7 +13,7 @@ export function PropertyImage({
   imgClassName?: string;
 }) {
   return (
-    <div className={cn("relative overflow-hidden bg-[#eef0f2]", className)}>
+    <div className={cn("relative overflow-hidden bg-[var(--re-surface-2)]", className)}>
       {src ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -23,7 +23,7 @@ export function PropertyImage({
           className={cn("h-full w-full object-cover", imgClassName)}
         />
       ) : (
-        <div className="flex h-full w-full items-center justify-center text-[#8a95a3]">
+        <div className="flex h-full w-full items-center justify-center text-[var(--re-muted)]">
           <ImageOff className="size-8" />
         </div>
       )}
