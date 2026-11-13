@@ -45,14 +45,14 @@ export function GeneralSearchPanel({ snapshot }: { snapshot: CallSnapshot }) {
       <div className="min-h-0 flex-1 overflow-y-auto rounded-lg border border-[var(--re-line)] bg-[var(--re-surface)] p-4 shadow-sm">
         {focus ? (
           <div className="border-b border-[var(--re-line)] pb-4">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#e95650]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--re-warm)]">
               Now showing
             </p>
             <h2 className="font-heading mt-1 text-2xl leading-tight text-[var(--re-ink)]">
               {focus.title}
             </h2>
             <p className="mt-1 flex items-center gap-1 text-sm text-[var(--re-muted)]">
-              <MapPin className="size-3.5 shrink-0 text-[#e95650]" />
+              <MapPin className="size-3.5 shrink-0 text-[var(--re-warm)]" />
               {focus.address}
             </p>
             <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-[var(--re-ink)]">

@@ -104,3 +104,14 @@ def save_search(shortlist: list[dict[str, Any]] | None = None, focus_id: str | N
             current["focus_id"] = focus_id
         current["updated_at"] = _now()
         _write_json(path, current)
+
+
+STAGE_FILENAME = "stage.json"
+
+
+def save_stage(kind: str, data: dict[str, Any]) -> None:
+    """What Haven is showing right now: map, price, agreement, viewing or
+    reservation. The Haven page polls it to switch its live stage panel."""
+    path = os.path.join(_session_dir(), STAGE_FILENAME)
+    with _lock:
+        _write_json(path, {"kind": kind, "data": data, "updated_at": _now()})

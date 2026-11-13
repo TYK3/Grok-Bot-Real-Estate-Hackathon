@@ -79,12 +79,12 @@ export function CallStage({
         >
           {!showChat ? (
             <>
-              <div className="absolute inset-8 rounded-full border border-[#16a34a]/15" />
-              <div className="absolute inset-12 animate-ping rounded-full bg-[#16a34a]/10" />
+              <div className="absolute inset-8 rounded-full border border-[var(--re-good)]/15" />
+              <div className="absolute inset-12 animate-ping rounded-full bg-[var(--re-good)]/10" />
             </>
           ) : null}
           <div
-            className={`relative z-10 grid place-items-center rounded-full bg-[#16a34a] text-white shadow-xl shadow-[#16a34a]/25 ${
+            className={`relative z-10 grid place-items-center rounded-full bg-[var(--re-good)] text-white shadow-xl shadow-[var(--re-good)]/25 ${
               showChat ? "size-20" : "size-28"
             }`}
           >
@@ -95,7 +95,7 @@ export function CallStage({
               state={state}
               barCount={5}
               trackRef={audioTrack}
-              className="flex h-10 items-center justify-center gap-1.5 [&_.lk-audio-bar]:w-2 [&_.lk-audio-bar]:rounded-full [&_.lk-audio-bar]:bg-[var(--re-surface-2)] [&_.lk-audio-bar[data-lk-highlighted=true]]:bg-[#16a34a]"
+              className="flex h-10 items-center justify-center gap-1.5 [&_.lk-audio-bar]:w-2 [&_.lk-audio-bar]:rounded-full [&_.lk-audio-bar]:bg-[var(--re-surface-2)] [&_.lk-audio-bar[data-lk-highlighted=true]]:bg-[var(--re-good)]"
               options={{ minHeight: 8, maxHeight: 36 }}
             />
           </div>
@@ -143,7 +143,7 @@ export function CallStage({
         <Button
           size="lg"
           variant="destructive"
-          className="size-14 rounded-full bg-[#e95650] text-white shadow-lg shadow-[#e95650]/20 transition-all hover:bg-[#d94c46] hover:shadow-xl"
+          className="size-14 rounded-full bg-[var(--re-warm)] text-white shadow-lg shadow-[var(--re-warm)]/20 transition-all hover:bg-[var(--re-warm)] hover:shadow-xl"
           onClick={onEndCall}
           aria-label="End call"
         >

@@ -12,6 +12,7 @@ import { useTheme } from "./theme";
 const LINKS = [
   { href: "/", label: "Home", short: undefined as string | undefined },
   { href: "/explore", label: "Homes", short: undefined },
+  { href: "/haven", label: "Haven", short: undefined },
   { href: "/market", label: "Market", short: undefined },
   { href: "/facts", label: "Fact checks", short: "Facts" },
 ];
@@ -25,17 +26,17 @@ export function SiteNav() {
   return (
     <header className="sticky top-0 z-[1100] px-3 pt-3 sm:px-6">
       <nav
-        className="mx-auto flex h-14 max-w-7xl items-center gap-2 rounded-full border px-1.5 pl-3 shadow sm:px-2 sm:pl-4-[var(--re-shadow)] backdrop-blur-xl"
+        className="mx-auto flex h-14 max-w-7xl items-center gap-2 rounded-full border px-1.5 pl-4 shadow-[var(--re-shadow)] backdrop-blur-xl sm:px-2"
         style={{ background: "var(--re-glass)", borderColor: "var(--re-line)" }}
       >
         <Link href="/" aria-label="Hamptons home" className="mr-1 flex shrink-0 items-center gap-2 text-[17px] font-medium tracking-tight">
           <svg viewBox="0 0 40 40" className="size-6" aria-hidden>
             <path d="M20 5 4 18.5h4.2V35h9.3v-9.6h5V35h9.3V18.5H36Z" fill="var(--re-accent)" />
           </svg>
-          <span className="hidden sm:inline">Hamptons</span>
+          <span>Hamptons</span>
         </Link>
 
-        <div className="flex items-center">
+        <div className="hidden items-center md:flex">
           {LINKS.map((l) => {
             const active = l.href === "/" ? pathname === "/" : pathname.startsWith(l.href);
             return (
@@ -52,7 +53,7 @@ export function SiteNav() {
                   <motion.span
                     layoutId="nav-pill"
                     className="absolute inset-0 rounded-full"
-                    style={{ background: "linear-gradient(160deg,#f7f8dc,#e2ee9f 90%)" }}
+                    style={{ background: "var(--re-pill)" }}
                     transition={{ type: "spring", stiffness: 420, damping: 34 }}
                   />
                 ) : null}
@@ -74,7 +75,7 @@ export function SiteNav() {
         <div className="ml-auto flex items-center gap-1.5">
           <Link
             href="/explore?saved=1"
-            className="relative inline-flex size-10 items-center justify-center rounded-full transition-colors hover:bg-[var(--re-surface-2)]"
+            className="relative hidden size-10 items-center justify-center rounded-full transition-colors hover:bg-[var(--re-surface-2)] md:inline-flex"
             aria-label={`Shortlist, ${ids.length} saved`}
           >
             <Heart className="size-[18px]" />
@@ -99,12 +100,12 @@ export function SiteNav() {
           >
             <motion.span
               className="absolute top-1 size-8 rounded-full"
-              style={{ background: "linear-gradient(160deg,#f7f8dc,#e2ee9f 90%)" }}
+              style={{ background: "var(--re-pill)" }}
               animate={{ left: theme === "dark" ? 36 : 4 }}
               transition={{ type: "spring", stiffness: 500, damping: 32 }}
             />
-            <Sun className="relative z-10 ml-[7px] size-[18px]" style={{ color: theme === "light" ? "#1c2316" : "var(--re-muted)" }} />
-            <Moon className="relative z-10 ml-auto mr-[7px] size-[18px]" style={{ color: theme === "dark" ? "#1c2316" : "var(--re-muted)" }} />
+            <Sun className="relative z-10 ml-[7px] size-[18px]" style={{ color: theme === "light" ? "#2b2210" : "var(--re-muted)" }} />
+            <Moon className="relative z-10 ml-auto mr-[7px] size-[18px]" style={{ color: theme === "dark" ? "#2b2210" : "var(--re-muted)" }} />
           </button>
         </div>
       </nav>

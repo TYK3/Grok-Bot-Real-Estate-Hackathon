@@ -6,6 +6,7 @@ import { AnimatePresence, animate, motion, useInView } from "framer-motion";
 import { ArrowLeft, ArrowRight, BarChart3, CalendarCheck, Compass, Mic } from "lucide-react";
 
 import { HomeCard } from "@/components/site/HomeCard";
+import { MvpSlider } from "./MvpSlider";
 import { useShortlist } from "@/components/site/shortlist";
 import type { ListingSummary } from "@/lib/listing-summary";
 import { money } from "@/lib/listing-summary";
@@ -132,7 +133,7 @@ export function LandingSections({ listings: all }: { listings: ListingSummary[] 
             href="/explore"
             className="re-card group flex w-[60vw] max-w-[240px] shrink-0 snap-start flex-col items-center justify-center gap-3 text-center"
           >
-            <span className="inline-flex size-14 items-center justify-center rounded-full transition-transform group-hover:scale-110" style={{ background: "var(--re-accent-soft)", color: "#1c2316" }}>
+            <span className="inline-flex size-14 items-center justify-center rounded-full transition-transform group-hover:scale-110" style={{ background: "var(--re-accent-soft)", color: "#2b2210" }}>
               <ArrowRight className="size-5" />
             </span>
             <span className="text-lg font-medium">See all {all.length} homes</span>
@@ -179,10 +180,10 @@ export function LandingSections({ listings: all }: { listings: ListingSummary[] 
             },
             {
               icon: <Mic className="size-5" />,
-              title: "Ask the AI agent",
+              title: "Ask Haven, our AI agent",
               body: "Talk through the floor plan, commute, bills and the area. It answers from verified listing facts.",
-              href: "/call/general",
-              cta: "Start a call",
+              href: "/haven",
+              cta: "Talk to Haven",
               voice: true,
             },
             {
@@ -196,7 +197,7 @@ export function LandingSections({ listings: all }: { listings: ListingSummary[] 
             <Reveal key={s.title} delay={i * 0.08}>
               <div className="re-card re-spot group flex h-full flex-col p-6" onPointerMove={spot}>
                 <div className="flex items-center justify-between">
-                  <span className="inline-flex size-11 items-center justify-center rounded-full" style={{ background: "var(--re-accent-soft)", color: "#1c2316" }}>
+                  <span className="inline-flex size-11 items-center justify-center rounded-full" style={{ background: "var(--re-accent-soft)", color: "#2b2210" }}>
                     {s.icon}
                   </span>
                   <span className="re-serif text-4xl text-[var(--re-muted)]">0{i + 1}</span>
@@ -212,6 +213,8 @@ export function LandingSections({ listings: all }: { listings: ListingSummary[] 
           ))}
         </div>
       </section>
+
+      <MvpSlider />
 
       <footer className="border-t" style={{ borderColor: "var(--re-line)" }}>
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-8 text-sm text-[var(--re-muted)] sm:flex-row sm:justify-between sm:px-6 lg:px-8">
@@ -294,7 +297,7 @@ function BedBars({ groups, max }: { groups: { b: number; label: string; n: numbe
               style={{
                 background:
                   hover === g.b
-                    ? "linear-gradient(180deg,#f7f8dc,#c9dd72)"
+                    ? "var(--re-pill-strong)"
                     : "linear-gradient(180deg,color-mix(in srgb,var(--re-accent) 85%,transparent),color-mix(in srgb,var(--re-accent) 35%,transparent))",
               }}
             />
