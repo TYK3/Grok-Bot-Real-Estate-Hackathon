@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Instrument_Sans, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import "./realestate.css";
+import { HavenDock } from "@/components/site/HavenDock";
 
 const instrument = Instrument_Sans({
   subsets: ["latin"],
@@ -16,9 +17,9 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Hamptons Lettings — Voice Assistant",
+  title: "Ground Truth · AI lettings with Haven",
   description:
-    "Browse Hamptons rental properties and talk to an AI lettings agent about any listing.",
+    "Ground Truth: browse fact-checked rentals and talk to Haven, the AI lettings agent, about any listing.",
 };
 
 // Applies the saved Morning (light) / Night (dark) choice before first paint.
@@ -39,7 +40,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
-        {children}
+        <HavenDock>{children}</HavenDock>
       </body>
     </html>
   );

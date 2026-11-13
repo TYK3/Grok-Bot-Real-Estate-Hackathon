@@ -415,14 +415,14 @@ export function Segmented({
             onClick={() => onChange(o.key)}
             className={cn(
               "relative inline-flex h-full items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 text-sm font-medium transition-colors",
-              on ? "text-[#1c2316]" : "text-[var(--re-muted)] hover:text-[var(--re-ink)]",
+              on ? "text-[#2b2210]" : "text-[var(--re-muted)] hover:text-[var(--re-ink)]",
             )}
           >
             {on ? (
               <motion.span
                 layoutId={`seg-${id}`}
                 className="absolute inset-0 rounded-full"
-                style={{ background: "linear-gradient(160deg,#f7f8dc,#e2ee9f 90%)", boxShadow: "inset 0 0 12px rgba(255,255,255,.6)" }}
+                style={{ background: "var(--re-pill)", boxShadow: "inset 0 0 12px rgba(255,255,255,.6)" }}
                 transition={{ type: "spring", stiffness: 450, damping: 34 }}
               />
             ) : null}
@@ -561,7 +561,7 @@ function CompareSheet({ homes, onClose }: { homes: ListingSummary[]; onClose: ()
                       <td key={h.id} className="border-t py-3" style={{ borderColor: "var(--re-line)" }}>
                         <span
                           className={cn("inline-flex rounded-full", best && "px-2.5 py-0.5 font-semibold")}
-                          style={best ? { background: "var(--re-accent-soft)", color: "#1c2316" } : undefined}
+                          style={best ? { background: "var(--re-accent-soft)", color: "#2b2210" } : undefined}
                         >
                           {r.render(h)}
                         </span>
@@ -574,7 +574,7 @@ function CompareSheet({ homes, onClose }: { homes: ListingSummary[]; onClose: ()
                 <td />
                 {homes.map((h) => (
                   <td key={h.id} className="pt-4">
-                    <Link href={`/call/${encodeURIComponent(h.id)}`} className="re-btn re-btn-primary h-10 w-full text-sm">
+                    <Link href={`/haven?listing=${encodeURIComponent(h.id)}`} className="re-btn re-btn-primary h-10 w-full text-sm">
                       <Mic className="size-4" /> Ask about it
                     </Link>
                   </td>

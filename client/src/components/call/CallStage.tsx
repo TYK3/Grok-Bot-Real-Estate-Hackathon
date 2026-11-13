@@ -62,29 +62,29 @@ export function CallStage({
 
   return (
     <div
-      className={`flex h-[calc(100dvh-8rem)] w-full max-w-2xl flex-col items-center overflow-hidden rounded-lg border border-[#d9dee5] bg-white px-5 py-6 shadow-sm ${
+      className={`flex h-[calc(100dvh-8rem)] w-full max-w-2xl flex-col items-center overflow-hidden rounded-lg border border-[var(--re-line)] bg-[var(--re-surface)] px-5 py-6 shadow-sm ${
         showChat ? "gap-4" : "justify-center gap-8"
       }`}
     >
       <div className="shrink-0 space-y-1 text-center">
         <h1 className="font-heading text-3xl leading-tight">{title}</h1>
-        <p className="text-[#697586]">{connectedLabel}</p>
+        <p className="text-[var(--re-muted)]">{connectedLabel}</p>
       </div>
 
       <div className="flex flex-col items-center gap-4">
         <div
-          className={`relative grid place-items-center overflow-hidden rounded-full border border-[#d9dee5] bg-[#f7f6f3] shadow-inner ${
+          className={`relative grid place-items-center overflow-hidden rounded-full border border-[var(--re-line)] bg-[var(--re-bg)] shadow-inner ${
             showChat ? "size-40" : "size-64"
           }`}
         >
           {!showChat ? (
             <>
-              <div className="absolute inset-8 rounded-full border border-[#16a34a]/15" />
-              <div className="absolute inset-12 animate-ping rounded-full bg-[#16a34a]/10" />
+              <div className="absolute inset-8 rounded-full border border-[var(--re-good)]/15" />
+              <div className="absolute inset-12 animate-ping rounded-full bg-[var(--re-good)]/10" />
             </>
           ) : null}
           <div
-            className={`relative z-10 grid place-items-center rounded-full bg-[#16a34a] text-white shadow-xl shadow-[#16a34a]/25 ${
+            className={`relative z-10 grid place-items-center rounded-full bg-[var(--re-good)] text-white shadow-xl shadow-[var(--re-good)]/25 ${
               showChat ? "size-20" : "size-28"
             }`}
           >
@@ -95,20 +95,20 @@ export function CallStage({
               state={state}
               barCount={5}
               trackRef={audioTrack}
-              className="flex h-10 items-center justify-center gap-1.5 [&_.lk-audio-bar]:w-2 [&_.lk-audio-bar]:rounded-full [&_.lk-audio-bar]:bg-[#cdd3da] [&_.lk-audio-bar[data-lk-highlighted=true]]:bg-[#16a34a]"
+              className="flex h-10 items-center justify-center gap-1.5 [&_.lk-audio-bar]:w-2 [&_.lk-audio-bar]:rounded-full [&_.lk-audio-bar]:bg-[var(--re-surface-2)] [&_.lk-audio-bar[data-lk-highlighted=true]]:bg-[var(--re-good)]"
               options={{ minHeight: 8, maxHeight: 36 }}
             />
           </div>
         </div>
-        <p className="text-sm font-medium text-[#697586]">
+        <p className="text-sm font-medium text-[var(--re-muted)]">
           {STATE_LABELS[state] ?? state}
         </p>
       </div>
 
       {showChat ? (
-        <div className="min-h-0 w-full flex-1 overflow-y-auto rounded-lg border border-[#d9dee5] bg-[#f7f6f3] p-3">
+        <div className="min-h-0 w-full flex-1 overflow-y-auto rounded-lg border border-[var(--re-line)] bg-[var(--re-bg)] p-3">
           {lines.length === 0 ? (
-            <p className="py-6 text-center text-sm text-[#8a95a3]">
+            <p className="py-6 text-center text-sm text-[var(--re-muted)]">
               The conversation transcript will appear here.
             </p>
           ) : (
@@ -120,14 +120,14 @@ export function CallStage({
                     line.role === "user" ? "items-end" : "items-start"
                   }`}
                 >
-                  <span className="text-[10px] uppercase tracking-wide text-[#8a95a3]">
+                  <span className="text-[10px] uppercase tracking-wide text-[var(--re-muted)]">
                     {line.role === "user" ? "You" : "Agent"}
                   </span>
                   <p
                     className={`max-w-[85%] rounded-xl px-3 py-2 text-sm leading-relaxed ${
                       line.role === "user"
-                        ? "bg-[#13294b] text-white"
-                        : "border border-[#d9dee5] bg-white text-[#13294b]"
+                        ? "bg-[var(--re-ink)] text-[var(--re-bg)]"
+                        : "border border-[var(--re-line)] bg-[var(--re-surface)] text-[var(--re-ink)]"
                     }`}
                   >
                     {line.text}
@@ -143,7 +143,7 @@ export function CallStage({
         <Button
           size="lg"
           variant="destructive"
-          className="size-14 rounded-full bg-[#e95650] text-white shadow-lg shadow-[#e95650]/20 transition-all hover:bg-[#d94c46] hover:shadow-xl"
+          className="size-14 rounded-full bg-[var(--re-warm)] text-white shadow-lg shadow-[var(--re-warm)]/20 transition-all hover:bg-[var(--re-warm)] hover:shadow-xl"
           onClick={onEndCall}
           aria-label="End call"
         >

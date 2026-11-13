@@ -1,4 +1,5 @@
 import { FogHero } from "@/components/landing/FogHero";
+import { SiteNav } from "@/components/site/SiteNav";
 import { LandingSections } from "@/components/landing/LandingSections";
 import { getListingSummaries } from "@/lib/listings-server";
 
@@ -11,6 +12,7 @@ export default async function Home() {
 
   return (
     <>
+      <SiteNav overlay />
       <FogHero count={lets.length} districts={districts} />
       <LandingSections listings={listings} />
     </>

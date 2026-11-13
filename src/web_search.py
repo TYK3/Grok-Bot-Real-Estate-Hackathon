@@ -61,7 +61,7 @@ async def perplexity_search(
             search_context_size=search_context_size,
             country= DEFAULT_COUNTRY,
         )
-    except Exception as exc:  # noqa: BLE001 - surface a usable message to the LLM
+    except Exception as exc:
         logger.exception("Perplexity search failed for query %r", effective_query)
         return f"Web search failed: {exc}"
 

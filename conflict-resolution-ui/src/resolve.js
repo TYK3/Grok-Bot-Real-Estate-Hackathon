@@ -1,5 +1,5 @@
 /**
- * Verified Fact Record — contradiction classification and resolution engine.
+ * Ground Truth — contradiction classification and resolution engine.
  *
  * Shared ES module: runs in Node (CLI + `node --test`) and in the browser
  * (the review UI imports this same file). No dependencies.

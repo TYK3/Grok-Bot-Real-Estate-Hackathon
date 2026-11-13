@@ -39,7 +39,7 @@ export async function GET(
   const dir = path.join(SESSIONS_DIR, sessionId);
   if (!fs.existsSync(dir)) {
     return NextResponse.json(
-      { exists: false, booking: null, customer: null, summary: null },
+      { exists: false, booking: null, customer: null, summary: null, stage: null },
       { headers: { "Cache-Control": "no-store" } },
     );
   }
@@ -48,9 +48,10 @@ export async function GET(
   const customer = readJson(path.join(dir, "customer.json"));
   const summary = readText(path.join(dir, "call_summary.txt"));
   const search = readJson(path.join(dir, "search.json"));
+  const stage = readJson(path.join(dir, "stage.json"));
 
   return NextResponse.json(
-    { exists: true, booking, customer, summary, search },
+    { exists: true, booking, customer, summary, search, stage },
     { headers: { "Cache-Control": "no-store" } },
   );
 }

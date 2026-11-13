@@ -1,0 +1,17 @@
+# Upload only what the website needs: the Next.js app plus the data it reads.
+/*
+!/client
+!/conflict-resolution-ui
+!/fact_record
+!/work
+
+# Never upload secrets, installs or local build output.
+**/.env
+**/.env.*
+!**/.env.example
+**/node_modules
+**/__pycache__
+client/.next
+client/.next.bak-*
+client/tsconfig.tsbuildinfo
+fact_record/.cache

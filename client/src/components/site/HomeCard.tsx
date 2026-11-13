@@ -81,12 +81,12 @@ export function HomeCard({
           </Link>
 
           <div className="pointer-events-none absolute left-3 top-3 flex flex-wrap gap-1.5">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#14202f]">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#17261f]">
               <span className="size-2 rounded-full" style={{ background: typeColor(listing.type) }} />
               {listing.type}
             </span>
             {listing.verified ? (
-              <span className="inline-flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#1c2316]">
+              <span className="inline-flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#2b2210]">
                 <ShieldCheck className="size-3" /> Fact-checked
               </span>
             ) : null}
@@ -146,8 +146,8 @@ export function HomeCard({
               <Link href={href} className="re-btn re-btn-ghost h-10 flex-1 px-3 text-sm">
                 Details <ArrowUpRight className="size-3.5" />
               </Link>
-              <Link href={`/call/${encodeURIComponent(listing.id)}`} className="re-btn re-btn-primary h-10 flex-1 px-3 text-sm">
-                <Mic className="size-3.5" /> Ask agent
+              <Link href={`/haven?listing=${encodeURIComponent(listing.id)}`} className="re-btn re-btn-primary h-10 flex-1 px-3 text-sm">
+                <Mic className="size-3.5" /> Ask Haven
               </Link>
             </div>
           ) : null}
@@ -177,7 +177,7 @@ function IconToggle({
       title={label}
       className={cn(
         "inline-flex size-9 items-center justify-center rounded-full backdrop-blur-md transition-all hover:scale-110",
-        on ? "bg-[#e2ee9f] text-[#1c2316]" : "bg-black/35 text-white hover:bg-black/55",
+        on ? "bg-[var(--re-accent-soft)] text-[var(--re-accent-ink)]" : "bg-black/35 text-white hover:bg-black/55",
       )}
     >
       {children}

@@ -1,0 +1,273 @@
+{
+  "edge": {
+    "narrator": {
+      "voice": "en-US-AvaNeural",
+      "rate": "-3%"
+    },
+    "haven": {
+      "voice": "en-GB-SoniaNeural",
+      "rate": "-2%"
+    },
+    "caller": {
+      "voice": "en-GB-RyanNeural",
+      "rate": "+0%"
+    }
+  },
+  "voices": {
+    "narrator": {
+      "name": "Lily",
+      "settings": {
+        "stability": 0.42,
+        "similarity_boost": 0.8,
+        "style": 0.18,
+        "use_speaker_boost": true,
+        "speed": 1.0
+      }
+    },
+    "haven": {
+      "name": "Matilda",
+      "settings": {
+        "stability": 0.5,
+        "similarity_boost": 0.8,
+        "style": 0.1,
+        "use_speaker_boost": true,
+        "speed": 1.0
+      }
+    },
+    "caller": {
+      "name": "George",
+      "settings": {
+        "stability": 0.45,
+        "similarity_boost": 0.8,
+        "style": 0.2,
+        "use_speaker_boost": true,
+        "speed": 1.0
+      }
+    }
+  },
+  "model": "eleven_multilingual_v2",
+  "lead": 0.45,
+  "gap": 0.3,
+  "tail": 0.7,
+  "scenes": [
+    {
+      "id": "hook",
+      "segs": [
+        {
+          "v": "narrator",
+          "text": "This is Kelso Villa, a real house in East London. And these are three documents about it. The April brochure says seven hundred thousand pounds, with six parking spaces. The October brochure says six hundred thousand. And the surveyor only counted five spaces. So... which one's right?"
+        }
+      ]
+    },
+    {
+      "id": "problem",
+      "segs": [
+        {
+          "v": "narrator",
+          "text": "Ask a typical listing chatbot, and it just repeats whichever number it found first. Wrong price. Wrong parking. And it can't tell you where either one came from."
+        }
+      ]
+    },
+    {
+      "id": "reveal",
+      "segs": [
+        {
+          "v": "narrator",
+          "text": "That's the problem Ground Truth solves. Every fact about a home comes with its receipt: the document, the page, and the exact words. It works on two sides. The agency, checking the facts. And the renter, who just wants a straight answer."
+        }
+      ]
+    },
+    {
+      "id": "part1",
+      "min": 2.6,
+      "segs": [
+        {
+          "v": "narrator",
+          "text": "Let's start with the agency."
+        }
+      ]
+    },
+    {
+      "id": "upload",
+      "segs": [
+        {
+          "v": "narrator",
+          "text": "A reviewer opens the workbench and drops in everything they've got. Brochures, surveys, price instructions. Even scanned ones, which it reads with OCR, right in the browser."
+        }
+      ]
+    },
+    {
+      "id": "compare",
+      "segs": [
+        {
+          "v": "narrator",
+          "text": "Within seconds it's pulled out seventy-eight facts, and found ten places where the documents disagree. Six of those need a person. Every fact keeps its receipt: who issued it, the date, the page, and the exact quote. Here's the price. April on one side, October on the other. No more digging through PDFs."
+        }
+      ]
+    },
+    {
+      "id": "classify",
+      "segs": [
+        {
+          "v": "narrator",
+          "text": "It also works out why they disagree. A newer brochure replacing an older one is just an update. Five spaces against six is a real conflict. Sometimes a brochure even contradicts itself. April prints a hundred and eighty-five square metres next to two thousand seven hundred square feet, and those don't match. And the energy rating is a B in the marketing, but a C on the official register."
+        }
+      ]
+    },
+    {
+      "id": "decide",
+      "segs": [
+        {
+          "v": "narrator",
+          "text": "So the engine makes a recommendation. Here, it's October's price, because it's the newer brochure from the same agent. But it never decides alone. A person confirms it, picks a different source, or puts it on hold. Nothing important goes live without someone signing off."
+        }
+      ]
+    },
+    {
+      "id": "changelog",
+      "segs": [
+        {
+          "v": "narrator",
+          "text": "Once it's confirmed, it's published as one versioned record per home, in Supabase, with a full audit trail. The public fact checks page shows what's on the listing now, what's still being checked, like the parking, and what changed: the before, the after, and who checked it."
+        }
+      ]
+    },
+    {
+      "id": "pipeline",
+      "segs": [
+        {
+          "v": "narrator",
+          "text": "And that one record feeds two things. The listing website, and the voice agent. They both read from the same place, so they can't tell you different stories."
+        }
+      ]
+    },
+    {
+      "id": "part2",
+      "min": 2.6,
+      "segs": [
+        {
+          "v": "narrator",
+          "text": "Now, the renter."
+        }
+      ]
+    },
+    {
+      "id": "explore",
+      "segs": [
+        {
+          "v": "narrator",
+          "text": "Say you're looking for somewhere to live. You can browse fifty-eight homes across East London, filter by price and bedrooms, and see everything on a live map."
+        }
+      ]
+    },
+    {
+      "id": "property",
+      "segs": [
+        {
+          "v": "narrator",
+          "text": "Open Kelso Villa, and you'll only see facts that have been verified. Tap the price, and you get the document, the date, and the page it came from. The parking's still disputed, so it simply says under review, instead of guessing."
+        }
+      ]
+    },
+    {
+      "id": "call",
+      "segs": [
+        {
+          "v": "narrator",
+          "text": "Or you can just talk to Haven, our voice agent. It runs on x A I from end to end: the speech recognition, Grok, and the voice. Let's ask about the parking."
+        },
+        {
+          "v": "caller",
+          "text": "Hi. How many parking spaces are there?"
+        },
+        {
+          "v": "haven",
+          "text": "The parking allocation is being confirmed at the moment."
+        },
+        {
+          "v": "narrator",
+          "text": "No number it can't back up. Now, the price."
+        },
+        {
+          "v": "caller",
+          "text": "What's the asking price, and where does that come from?"
+        },
+        {
+          "v": "haven",
+          "text": "Six hundred thousand pounds, per the Carter Jonas particulars dated the sixteenth of October, twenty twenty-six. Page two."
+        },
+        {
+          "v": "narrator",
+          "text": "That's the receipt, said out loud.",
+          "gap": 0.5
+        }
+      ]
+    },
+    {
+      "id": "nearby",
+      "segs": [
+        {
+          "v": "narrator",
+          "text": "Haven can search, too."
+        },
+        {
+          "v": "caller",
+          "text": "Can you find me a two-bed near a park, under two and a half thousand a month?"
+        },
+        {
+          "v": "narrator",
+          "text": "It checks every listing against hundreds of parks, shops and stations from Open Street Map, ranks them by walking time, and pins them on the map while you talk."
+        }
+      ]
+    },
+    {
+      "id": "book",
+      "segs": [
+        {
+          "v": "narrator",
+          "text": "Found one you like? Book a viewing, or put a hold on it, on the same call."
+        },
+        {
+          "v": "caller",
+          "text": "Can I view the first one on Saturday morning?"
+        },
+        {
+          "v": "haven",
+          "text": "Of course. You're booked in for Saturday at ten thirty."
+        },
+        {
+          "v": "narrator",
+          "text": "It never asks for card details. And every booking shows up on the market dashboard, so the team sees it straight away."
+        }
+      ]
+    },
+    {
+      "id": "results",
+      "segs": [
+        {
+          "v": "narrator",
+          "text": "We tested all of this on the running system. The parking question gets the safe answer, every time. The price always comes with its source. Searching every listing takes a few milliseconds, and Haven usually replies in two to three seconds."
+        }
+      ]
+    },
+    {
+      "id": "claim",
+      "segs": [
+        {
+          "v": "narrator",
+          "text": "So that's the whole idea. If the documents disagree, nobody says it out loud. Not until a person has checked."
+        }
+      ]
+    },
+    {
+      "id": "end",
+      "min": 6,
+      "segs": [
+        {
+          "v": "narrator",
+          "text": "Ground Truth. Every property fact, with its receipt."
+        }
+      ]
+    }
+  ]
+}
