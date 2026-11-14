@@ -2,7 +2,7 @@
 
 <p align="center">
   <b>Drop in the brochures. Get one verified record per home, a listing that never shows a disputed number, and a Grok voice agent that cites the page.</b><br>
-  <sub>Grok Bot Real Estate Hackathon · London · Track 2: Documents · built 12 November 2026</sub>
+  <sub>🏆 2nd Runner-Up · Grok Bot Real Estate Hackathon · London · Track 2: Documents · built 12 November 2026</sub>
 </p>
 
 <p align="center">
